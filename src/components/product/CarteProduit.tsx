@@ -27,6 +27,11 @@ export default function CarteProduit({ produit }: CarteProduitProps) {
         ) : (
           <div className="text-5xl opacity-20">⚙️</div>
         )}
+        {(produit.discount ?? 0) > 0 && (
+          <span className="absolute top-2 left-2 bg-[#F97316] text-white text-xs font-bold px-2 py-0.5 rounded-md">
+            -{produit.discount} DT
+          </span>
+        )}
       </div>
 
       {/* Contenu */}
@@ -43,9 +48,16 @@ export default function CarteProduit({ produit }: CarteProduitProps) {
           {produit.prix_min ? (
             <div>
               <p className="text-xs text-[#64748B]">À partir de</p>
-              <p className="font-heading text-[#F97316] font-bold text-lg leading-none">
-                {produit.prix_min} DT
-              </p>
+              <div className="flex items-baseline gap-2">
+                <p className="font-heading text-[#F97316] font-bold text-lg leading-none">
+                  {produit.prix_min} DT
+                </p>
+                {produit.prix_max && produit.prix_max > produit.prix_min && (
+                  <p className="text-xs text-[#94A3B8] line-through leading-none">
+                    {produit.prix_max} DT
+                  </p>
+                )}
+              </div>
             </div>
           ) : (
             <p className="text-xs text-[#64748B]">Prix non disponible</p>
