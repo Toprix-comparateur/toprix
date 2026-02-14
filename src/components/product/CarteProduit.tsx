@@ -63,6 +63,13 @@ export default function CarteProduit({ produit }: CarteProduitProps) {
           {produit.nom}
         </p>
 
+        {/* Stock */}
+        {produit.en_stock !== undefined && (
+          <p className={`text-xs font-semibold mt-1 ${produit.en_stock ? 'text-green-600' : 'text-red-400'}`}>
+            {produit.en_stock ? '● En stock' : '○ Rupture de stock'}
+          </p>
+        )}
+
         {/* Prix */}
         <div className="flex items-end justify-between mt-3 pt-3 border-t border-[#E2E8F0]">
           {produit.prix_min ? (
