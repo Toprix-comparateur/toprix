@@ -3,7 +3,7 @@ import { getProduit } from '@/lib/api/produits'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ChevronRight, ExternalLink, Tag, Wrench } from 'lucide-react'
+import { ChevronRight, ExternalLink, Tag, Wrench, CheckCircle, XCircle } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
@@ -104,44 +104,54 @@ export default async function ProduitDetailPage({ params }: Props) {
               </p>
             )}
 
-            {/* Tableau comparaison boutiques (placeholder) */}
-            <div>
-              <h2 className="font-heading text-[#0F172A] text-base font-semibold mb-3">
-                Comparer les offres
-              </h2>
-              <div className="border border-[#E2E8F0] rounded-2xl overflow-hidden">
-                <div className="grid grid-cols-3 bg-[#F8FAFC] px-4 py-2.5 text-xs font-semibold text-[#64748B] uppercase tracking-wide">
-                  <span>Boutique</span>
-                  <span className="text-center">Prix</span>
-                  <span className="text-right">Action</span>
-                </div>
-                {/* Placeholder lignes boutiques */}
-                {[
-                  { boutique: 'AutoPieces.tn', prix: produit.prix_min ?? 0 },
-                  { boutique: 'PiecesAuto.tn', prix: (produit.prix_min ?? 0) + 5 },
-                  { boutique: 'CarParts.tn',   prix: (produit.prix_min ?? 0) + 12 },
-                ].map((offre, i) => (
-                  <div
-                    key={offre.boutique}
-                    className={`grid grid-cols-3 items-center px-4 py-3 text-sm ${i < 2 ? 'border-b border-[#E2E8F0]' : ''}`}
-                  >
-                    <span className="font-medium text-[#1E293B]">{offre.boutique}</span>
-                    <span className={`text-center font-bold ${i === 0 ? 'text-[#F97316]' : 'text-[#1E293B]'}`}>
-                      {offre.prix} DT
-                      {i === 0 && <span className="ml-1 text-xs font-normal text-[#F97316]">✓ Meilleur</span>}
-                    </span>
-                    <div className="flex justify-end">
-                      <a
-                        href="#"
-                        className="inline-flex items-center gap-1 text-xs bg-[#F97316] hover:bg-[#EA6C0A] text-white px-3 py-1.5 rounded-lg transition-colors"
-                      >
-                        Voir <ExternalLink size={10} />
-                      </a>
-                    </div>
+            {/* Tableau comparaison boutiques */}
+            {produit.offres && produit.offres.length > 0 && (
+              <div>
+                <h2 className="font-heading text-[#0F172A] text-base font-semibold mb-3">
+                  Comparer les offres
+                </h2>
+                <div className="border border-[#E2E8F0] rounded-2xl overflow-hidden">
+                  <div className="grid grid-cols-3 bg-[#F8FAFC] px-4 py-2.5 text-xs font-semibold text-[#64748B] uppercase tracking-wide">
+                    <span>Boutique</span>
+                    <span className="text-center">Prix</span>
+                    <span className="text-right">Action</span>
                   </div>
-                ))}
+                  {produit.offres.map((offre, i) => (
+                    <div
+                      key={offre.boutique}
+                      className={`grid grid-cols-3 items-center px-4 py-3 text-sm ${i < produit.offres!.length - 1 ? 'border-b border-[#E2E8F0]' : ''}`}
+                    >
+                      <div>
+                        <span className="font-medium text-[#1E293B]">{offre.boutique}</span>
+                        {offre.stock && (
+                          <p className="text-xs text-[#64748B] mt-0.5 flex items-center gap-1">
+                            {offre.stock === 'En stock'
+                              ? <><CheckCircle size={10} className="text-green-500" /> En stock</>
+                              : <><XCircle size={10} className="text-red-400" /> {offre.stock}</>}
+                          </p>
+                        )}
+                      </div>
+                      <span className={`text-center font-bold ${i === 0 ? 'text-[#F97316]' : 'text-[#1E293B]'}`}>
+                        {offre.prix} DT
+                        {i === 0 && produit.offres!.length > 1 && (
+                          <span className="ml-1 text-xs font-normal text-[#F97316]">✓ Meilleur</span>
+                        )}
+                      </span>
+                      <div className="flex justify-end">
+                        <a
+                          href={offre.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-xs bg-[#F97316] hover:bg-[#EA6C0A] text-white px-3 py-1.5 rounded-lg transition-colors"
+                        >
+                          Voir <ExternalLink size={10} />
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

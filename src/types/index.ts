@@ -1,15 +1,30 @@
 // Types globaux Toprix
 
+export interface OffreBoutique {
+  boutique: string
+  prix: number
+  stock: string
+  url: string
+  image?: string
+}
+
 export interface Produit {
   id: string
-  slug: string
+  slug: string | null
   nom: string
   marque: string
   prix_min?: number
   prix_max?: number
   image?: string
   categorie: string
+  categorie_nom?: string
   description?: string
+  en_stock?: boolean
+  discount?: number
+  reference?: string
+  boutique?: string
+  url_boutique?: string
+  offres?: OffreBoutique[]
 }
 
 export interface Categorie {
