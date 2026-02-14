@@ -3,7 +3,10 @@ import { getProduit } from '@/lib/api/produits'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ChevronRight, ExternalLink, Tag, Wrench, CheckCircle, XCircle } from 'lucide-react'
+import {
+  ChevronRight, ExternalLink, Tag, Wrench,
+  CheckCircle, XCircle, Hash, Store, Barcode,
+} from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
@@ -21,22 +24,44 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
+const STORE_COLORS: Record<string, string> = {
+  mytek:      'bg-blue-50 text-blue-600 border-blue-100',
+  tunisianet: 'bg-green-50 text-green-600 border-green-100',
+  spacenet:   'bg-purple-50 text-purple-600 border-purple-100',
+}
+
 export default async function ProduitDetailPage({ params }: Props) {
   const { slug } = await params
   let produit = null
   try { produit = await getProduit(slug) } catch { notFound() }
   if (!produit) notFound()
 
+  const hasDiscount = (produit.discount ?? 0) > 0
+  const hasOldPrice = !!(produit.prix_max && produit.prix_min && produit.prix_max > produit.prix_min)
+  const storeKey = (produit.boutique ?? '').toLowerCase()
+  const storeClass = STORE_COLORS[storeKey] ?? 'bg-slate-50 text-slate-500 border-slate-100'
+
   return (
     <div>
-      {/* Hero dark slim */}
+      {/* Breadcrumb */}
       <section className="bg-[#0F172A] py-5 px-4">
         <div className="max-w-7xl mx-auto">
           <nav className="flex items-center gap-1.5 text-xs text-slate-500">
             <Link href="/" className="hover:text-slate-300 transition-colors">Accueil</Link>
             <ChevronRight size={12} />
-            <Link href="/categories" className="hover:text-slate-300 transition-colors">Catégories</Link>
-            <ChevronRight size={12} />
+            {produit.categorie ? (
+              <>
+                <Link href={`/categories/${produit.categorie}`} className="hover:text-slate-300 transition-colors">
+                  {produit.categorie_nom || produit.categorie}
+                </Link>
+                <ChevronRight size={12} />
+              </>
+            ) : (
+              <>
+                <Link href="/categories" className="hover:text-slate-300 transition-colors">Catégories</Link>
+                <ChevronRight size={12} />
+              </>
+            )}
             <span className="text-slate-300 truncate max-w-xs">{produit.nom}</span>
           </nav>
         </div>
@@ -46,66 +71,126 @@ export default async function ProduitDetailPage({ params }: Props) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
 
           {/* Image */}
-          <div className="relative h-72 md:h-96 bg-[#F8FAFC] rounded-2xl border border-[#E2E8F0] overflow-hidden flex items-center justify-center">
-            {produit.image ? (
-              <Image
-                src={produit.image}
-                alt={produit.nom}
-                fill
-                className="object-contain p-8"
-                priority
-              />
-            ) : (
-              <div className="flex flex-col items-center gap-3 text-slate-200">
-                <Wrench size={48} />
-                <p className="text-sm text-slate-400">Image non disponible</p>
-              </div>
-            )}
+          <div className="relative">
+            <div className="relative h-72 md:h-96 bg-[#F8FAFC] rounded-2xl border border-[#E2E8F0] overflow-hidden flex items-center justify-center">
+              {produit.image ? (
+                <Image
+                  src={produit.image}
+                  alt={produit.nom}
+                  fill
+                  className="object-contain p-8"
+                  priority
+                />
+              ) : (
+                <div className="flex flex-col items-center gap-3 text-slate-200">
+                  <Wrench size={48} />
+                  <p className="text-sm text-slate-400">Image non disponible</p>
+                </div>
+              )}
+              {hasDiscount && (
+                <span className="absolute top-3 left-3 bg-[#F97316] text-white text-sm font-bold px-3 py-1 rounded-lg">
+                  -{produit.discount} DT
+                </span>
+              )}
+            </div>
           </div>
 
           {/* Infos */}
-          <div className="space-y-6">
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="inline-flex items-center gap-1.5 bg-[#F97316]/10 text-[#F97316] text-xs font-semibold px-2.5 py-1 rounded-full">
-                  <Tag size={10} />
-                  {produit.marque}
-                </span>
+          <div className="space-y-5">
+
+            {/* Badges haut */}
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 bg-[#F97316]/10 text-[#F97316] text-xs font-semibold px-2.5 py-1 rounded-full">
+                <Tag size={10} />
+                {produit.marque}
+              </span>
+              {produit.categorie && (
                 <span className="text-xs text-[#64748B] bg-[#F8FAFC] px-2.5 py-1 rounded-full border border-[#E2E8F0]">
-                  {produit.categorie}
+                  {produit.categorie_nom || produit.categorie}
                 </span>
-              </div>
-              <h1 className="font-heading text-[#0F172A] text-2xl md:text-3xl font-bold leading-tight">
-                {produit.nom}
-              </h1>
+              )}
+              {produit.boutique && (
+                <span className={`text-xs font-semibold px-2.5 py-1 rounded-full border inline-flex items-center gap-1 ${storeClass}`}>
+                  <Store size={10} />
+                  {produit.boutique}
+                </span>
+              )}
+              {produit.en_stock !== undefined && (
+                <span className={`text-xs font-semibold px-2.5 py-1 rounded-full inline-flex items-center gap-1 ${produit.en_stock ? 'bg-green-50 text-green-600 border border-green-100' : 'bg-red-50 text-red-500 border border-red-100'}`}>
+                  {produit.en_stock
+                    ? <><CheckCircle size={10} /> En stock</>
+                    : <><XCircle size={10} /> Rupture</>}
+                </span>
+              )}
             </div>
+
+            {/* Titre */}
+            <h1 className="font-heading text-[#0F172A] text-2xl md:text-3xl font-bold leading-tight">
+              {produit.nom}
+            </h1>
+
+            {/* SKU / Référence */}
+            {produit.reference && (
+              <div className="flex items-center gap-2 text-sm text-[#64748B]">
+                <Barcode size={15} className="shrink-0 text-[#94A3B8]" />
+                <span>SKU :</span>
+                <code className="font-mono bg-[#F8FAFC] border border-[#E2E8F0] px-2 py-0.5 rounded text-[#1E293B] text-xs tracking-wider">
+                  {produit.reference}
+                </code>
+                <Hash size={12} className="text-[#CBD5E1]" />
+                <span className="text-xs text-[#94A3B8]">{produit.id}</span>
+              </div>
+            )}
 
             {/* Prix */}
             {produit.prix_min && (
               <div className="bg-[#0F172A] rounded-2xl p-5">
-                <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Meilleur prix constaté</p>
-                <div className="flex items-end gap-3">
-                  <p className="font-heading text-[#F97316] text-4xl font-bold">
-                    {produit.prix_min} DT
-                  </p>
-                  {produit.prix_max && produit.prix_max !== produit.prix_min && (
-                    <p className="text-slate-500 text-lg mb-1 line-through">
+                <p className="text-slate-400 text-xs uppercase tracking-wider mb-2">Prix</p>
+                <div className="flex items-end gap-3 flex-wrap">
+                  {hasOldPrice && (
+                    <p className="text-slate-500 text-xl line-through">
                       {produit.prix_max} DT
                     </p>
                   )}
+                  <p className="font-heading text-[#F97316] text-4xl font-bold">
+                    {produit.prix_min} DT
+                  </p>
                 </div>
+                {hasDiscount && (
+                  <p className="text-green-400 text-sm font-semibold mt-2">
+                    Économie : {produit.discount} DT
+                  </p>
+                )}
               </div>
             )}
 
-            {/* Description */}
-            {produit.description && (
-              <p className="text-[#64748B] text-sm leading-relaxed border-l-2 border-[#F97316]/30 pl-4">
-                {produit.description}
-              </p>
+            {/* Lien direct boutique (produit per-store) */}
+            {produit.url_boutique && (
+              <a
+                href={produit.url_boutique}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-[#F97316] hover:bg-[#EA6C0A] text-white text-sm font-semibold px-5 py-3 rounded-xl transition-colors"
+              >
+                Voir sur {produit.boutique || 'le site'}
+                <ExternalLink size={14} />
+              </a>
             )}
 
-            {/* Tableau comparaison boutiques */}
-            {produit.offres && produit.offres.length > 0 && (
+            {/* Description / Fiche technique */}
+            {produit.description && (
+              <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-4">
+                <p className="text-xs font-semibold text-[#64748B] uppercase tracking-wide mb-2">
+                  Fiche technique
+                </p>
+                <p className="text-[#475569] text-sm leading-relaxed whitespace-pre-line">
+                  {produit.description}
+                </p>
+              </div>
+            )}
+
+            {/* Tableau comparaison boutiques (produit comparatif multi-stores) */}
+            {produit.offres && produit.offres.length > 0 && !produit.url_boutique && (
               <div>
                 <h2 className="font-heading text-[#0F172A] text-base font-semibold mb-3">
                   Comparer les offres
