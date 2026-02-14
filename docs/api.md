@@ -216,7 +216,7 @@ const produit  = await getProduit('iphone-15-pro')
     "page": 1,
     "total_pages": 5,
     "total_items": 48,
-    "par_page": 10
+    "par_page": 20
   }
 }
 ```

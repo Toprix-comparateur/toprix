@@ -51,14 +51,26 @@ description: 'Comparez les prix des smartphones, laptops...'
 
 **Fichier** : `src/app/(public)/rechercher/page.tsx`
 
-**searchParams** : `q` (terme), `page`, `categorie`
+**searchParams** : `q` (terme), `page`, `categorie`, `marque`
 
 **États** :
 - **Vide** (sans `q`) : icône + message d'invite
 - **Chargement** : rendu serveur transparent
-- **Résultats** : compteur + grille `CarteProduit` (4 colonnes xl)
+- **Résultats** : compteur + panneau filtre + grille `CarteProduit` (4 colonnes xl) + pagination
 - **Aucun résultat** : message + bordure dashed
 - **Erreur API** : bandeau rouge
+
+**Filtre** (SSR pur — `<details>`/`<summary>`, sans JavaScript) :
+- Toggle cliquable → champs texte `categorie` et `marque`
+- Soumet une `<form method="get">` → URL `?q=…&categorie=…&marque=…`
+- S'ouvre automatiquement quand des filtres sont actifs
+- Badges actifs avec suppression individuelle (× par filtre) et "Effacer tout"
+
+**Pagination** :
+- 20 produits par page (défini côté backend `PAGE_SIZE = 20`)
+- Numéros de page avec ellipsis (`1 … 4 5 6 … 12`)
+- Boutons Précédent / Suivant désactivés aux extrêmes
+- Tous les params (`q`, `categorie`, `marque`) sont préservés dans chaque lien
 
 ---
 
