@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Toprix - Comparateur de pièces automobiles',
   description: 'Trouvez et comparez les meilleurs prix pour vos pièces automobiles en Tunisie.',
