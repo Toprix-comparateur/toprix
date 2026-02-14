@@ -72,9 +72,9 @@ description: 'Comparez les prix des smartphones, laptops...'
 3. Badges Marque + Catégorie
 4. H1 + boîte prix dark orange
 5. Description en bordure gauche orange
-6. **Tableau "Comparer les offres"** : boutique / prix / lien externe
+6. **Tableau "Comparer les offres"** : boutique / prix (meilleur en orange) / stock (vert/rouge) / lien direct boutique
 
-> ⚠️ Le tableau de comparaison utilise actuellement des données **placeholder**. Il sera connecté à l'API backend lors de l'étape 2.
+Le tableau utilise les vraies offres de `produit.offres[]`. Chaque offre a un lien `target="_blank"` vers la boutique.
 
 **`generateMetadata`** : `${nom} - ${marque}`
 
@@ -168,7 +168,7 @@ CTA inline en bas pour référencer une boutique (`/ajouter`).
 - **Gauche** : liste des avantages + 2 cards (Boutique / Produit manquant)
 - **Droite** : formulaire avec radio cards type de demande, champs boutique + contact
 
-> ⚠️ Le formulaire est actuellement **non connecté** au backend. La soumission ne fait rien. Connecter à `POST /api/v1/demandes/` lors de l'étape backend.
+> Le formulaire est à connecter à `POST /api/v1/demandes/` (endpoint disponible sur le backend).
 
 ---
 

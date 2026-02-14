@@ -42,20 +42,40 @@ const data = await fetchAPI<Produit[]>('/produits/')
 
 ## Types TypeScript — `src/types/index.ts`
 
+### `OffreBoutique`
+```typescript
+interface OffreBoutique {
+  boutique: string
+  prix: number
+  stock: string
+  url: string
+  image?: string
+}
+```
+
 ### `Produit`
 ```typescript
 interface Produit {
   id: string
-  slug: string
+  slug: string | null   // null pour les produits per-store
   nom: string
   marque: string
   prix_min?: number
   prix_max?: number
   image?: string
   categorie: string
+  categorie_nom?: string
   description?: string
+  en_stock?: boolean
+  discount?: number
+  reference?: string
+  boutique?: string       // nom de la boutique source
+  url_boutique?: string   // lien direct boutique
+  offres?: OffreBoutique[]
 }
 ```
+
+> **Note :** Quand `slug` est `null`, le frontend utilise `id` (ObjectId) pour la navigation vers `/produit/[id]`.
 
 ### `Categorie`
 ```typescript

@@ -171,6 +171,23 @@ try {
 
 ---
 
+## `next.config.ts` — Domaines images autorisés
+
+`next/image` bloque par défaut les images externes. Les domaines autorisés :
+
+```typescript
+images: {
+  remotePatterns: [
+    { protocol: 'https', hostname: 'www.tunisianet.com.tn' },
+    { protocol: 'https', hostname: 'www.mytek.tn' },
+    { protocol: 'https', hostname: 'spacenet.tn' },
+    { protocol: 'https', hostname: 'api.toprix.tn' },   // images blog
+  ],
+}
+```
+
+---
+
 ## Performances
 
 | Optimisation | Implémentation |
