@@ -22,6 +22,7 @@ export default function Header() {
             <span className="font-heading text-[#F97316] text-xl font-700 tracking-tight">
               rix
             </span>
+            <span className="text-xs self-start mt-0.5">🇹🇳</span>
           </Link>
 
           {/* Navigation desktop */}
