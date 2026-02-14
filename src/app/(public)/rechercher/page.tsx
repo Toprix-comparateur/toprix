@@ -1,35 +1,38 @@
 import type { Metadata } from 'next'
-import { Search, SlidersHorizontal } from 'lucide-react'
+import type React from 'react'
+import { Search, SlidersHorizontal, X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { getProduits } from '@/lib/api/produits'
 import CarteProduit from '@/components/product/CarteProduit'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Rechercher une pièce automobile',
-  description: 'Recherchez et comparez les prix des pièces automobiles.',
+  title: 'Rechercher',
+  description: 'Recherchez et comparez les prix des produits high-tech en Tunisie.',
 }
 
 interface Props {
-  searchParams: Promise<{ q?: string; page?: string; categorie?: string }>
+  searchParams: Promise<{ q?: string; page?: string; categorie?: string; marque?: string }>
 }
 
 export default async function RechercherPage({ searchParams }: Props) {
   const params = await searchParams
-  const { q = '', page = '1', categorie } = params
+  const { q = '', page = '1', categorie = '', marque = '' } = params
 
   let produits = null
   let erreur = null
 
   if (q) {
     try {
-      produits = await getProduits({ q, page: Number(page), categorie })
+      produits = await getProduits({ q, page: Number(page), categorie, marque })
     } catch {
       erreur = 'Impossible de charger les résultats.'
     }
   }
 
   const nbResultats = produits?.meta?.total_items ?? produits?.data.length ?? 0
+  const hasFilters = !!(categorie || marque)
+  const nbFiltresActifs = [categorie, marque].filter(Boolean).length
 
   return (
     <div>
@@ -44,7 +47,7 @@ export default async function RechercherPage({ searchParams }: Props) {
                 type="text"
                 name="q"
                 defaultValue={q}
-                placeholder="Ex : filtre à huile, disque de frein..."
+                placeholder="Ex : PC portable, iPhone, casque..."
                 autoFocus
                 className="w-full py-4 text-sm text-slate-800 placeholder:text-slate-400 outline-none bg-transparent"
               />
@@ -67,7 +70,7 @@ export default async function RechercherPage({ searchParams }: Props) {
               <Search size={28} className="text-slate-300" />
             </div>
             <p className="font-heading text-[#0F172A] text-xl font-semibold mb-2">Que recherchez-vous ?</p>
-            <p className="text-[#64748B] text-sm">Entrez le nom d'une pièce pour comparer les prix.</p>
+            <p className="text-[#64748B] text-sm">Entrez le nom d'un produit pour comparer les prix.</p>
           </div>
         )}
 
@@ -77,30 +80,194 @@ export default async function RechercherPage({ searchParams }: Props) {
 
         {produits && (
           <div>
-            <div className="flex items-center justify-between mb-6">
+            {/* En-tête résultats */}
+            <div className="flex items-center justify-between mb-4">
               <div>
                 <h1 className="font-heading text-[#0F172A] text-xl font-bold">
-                  {nbResultats > 0 ? `${nbResultats} résultat${nbResultats > 1 ? 's' : ''} pour "${q}"` : `Aucun résultat pour "${q}"`}
+                  {nbResultats > 0
+                    ? `${nbResultats} résultat${nbResultats > 1 ? 's' : ''} pour "${q}"`
+                    : `Aucun résultat pour "${q}"`}
                 </h1>
                 {nbResultats > 0 && (
                   <p className="text-[#64748B] text-sm mt-0.5">Comparez les prix parmi toutes les boutiques</p>
                 )}
               </div>
-              <button className="hidden sm:flex items-center gap-2 border border-[#E2E8F0] text-[#64748B] text-sm px-4 py-2 rounded-lg hover:border-slate-300 transition-colors">
-                <SlidersHorizontal size={14} />
-                Filtrer
-              </button>
             </div>
 
+            {/* Panneau filtre (details/summary = toggle CSS pur, SSR-compatible) */}
+            <details className="mb-6" {...(hasFilters ? { open: true } : {})}>
+              <summary className="list-none cursor-pointer inline-flex items-center gap-2 border border-[#E2E8F0] text-[#64748B] text-sm px-4 py-2 rounded-lg hover:border-[#F97316]/40 hover:text-[#1E293B] transition-colors select-none">
+                <SlidersHorizontal size={14} />
+                Filtrer
+                {hasFilters && (
+                  <span className="ml-0.5 bg-[#F97316] text-white text-xs font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                    {nbFiltresActifs}
+                  </span>
+                )}
+              </summary>
+
+              {/* Formulaire GET — soumet les filtres comme params URL */}
+              <form
+                method="get"
+                className="mt-3 p-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl flex flex-wrap items-end gap-3"
+              >
+                {/* Préserve la recherche */}
+                <input type="hidden" name="q" value={q} />
+
+                <div className="flex flex-col gap-1">
+                  <label htmlFor="filter-cat" className="text-xs font-semibold text-[#64748B] uppercase tracking-wide">
+                    Catégorie
+                  </label>
+                  <input
+                    id="filter-cat"
+                    type="text"
+                    name="categorie"
+                    defaultValue={categorie}
+                    placeholder="Ex : smartphones, laptops…"
+                    className="border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm text-[#1E293B] outline-none focus:border-[#F97316] bg-white transition-colors min-w-[200px]"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1">
+                  <label htmlFor="filter-marque" className="text-xs font-semibold text-[#64748B] uppercase tracking-wide">
+                    Marque
+                  </label>
+                  <input
+                    id="filter-marque"
+                    type="text"
+                    name="marque"
+                    defaultValue={marque}
+                    placeholder="Ex : Samsung, HP, Sony…"
+                    className="border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm text-[#1E293B] outline-none focus:border-[#F97316] bg-white transition-colors min-w-[200px]"
+                  />
+                </div>
+
+                <div className="flex items-center gap-2 pb-0.5">
+                  <button
+                    type="submit"
+                    className="bg-[#F97316] hover:bg-[#EA6C0A] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+                  >
+                    Appliquer
+                  </button>
+                  {hasFilters && (
+                    <a
+                      href={`?q=${encodeURIComponent(q)}`}
+                      className="inline-flex items-center gap-1.5 text-sm text-[#64748B] hover:text-[#1E293B] px-3 py-2 rounded-lg border border-[#E2E8F0] hover:border-slate-300 transition-colors bg-white"
+                    >
+                      <X size={13} />
+                      Effacer
+                    </a>
+                  )}
+                </div>
+              </form>
+
+              {/* Badges filtres actifs */}
+              {hasFilters && (
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {categorie && (
+                    <span className="inline-flex items-center gap-1.5 bg-[#F97316]/10 text-[#F97316] text-xs font-semibold px-2.5 py-1 rounded-full">
+                      Catégorie : {categorie}
+                      <a
+                        href={`?q=${encodeURIComponent(q)}${marque ? `&marque=${encodeURIComponent(marque)}` : ''}`}
+                        className="hover:opacity-70 transition-opacity"
+                        aria-label="Supprimer filtre catégorie"
+                      >
+                        <X size={10} />
+                      </a>
+                    </span>
+                  )}
+                  {marque && (
+                    <span className="inline-flex items-center gap-1.5 bg-[#F97316]/10 text-[#F97316] text-xs font-semibold px-2.5 py-1 rounded-full">
+                      Marque : {marque}
+                      <a
+                        href={`?q=${encodeURIComponent(q)}${categorie ? `&categorie=${encodeURIComponent(categorie)}` : ''}`}
+                        className="hover:opacity-70 transition-opacity"
+                        aria-label="Supprimer filtre marque"
+                      >
+                        <X size={10} />
+                      </a>
+                    </span>
+                  )}
+                </div>
+              )}
+            </details>
+
             {produits.data.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-                {produits.data.map((p) => (
-                  <CarteProduit key={p.id} produit={p} />
-                ))}
-              </div>
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                  {produits.data.map((p) => (
+                    <CarteProduit key={p.id} produit={p} />
+                  ))}
+                </div>
+
+                {/* Pagination */}
+                {produits.meta && produits.meta.total_pages > 1 && (() => {
+                  const currentPage = produits.meta!.page
+                  const totalPages = produits.meta!.total_pages
+                  const buildUrl = (p: number) => {
+                    const sp = new URLSearchParams({ q })
+                    if (p > 1) sp.set('page', String(p))
+                    if (categorie) sp.set('categorie', categorie)
+                    if (marque) sp.set('marque', marque)
+                    return `?${sp.toString()}`
+                  }
+                  const pages = Array.from({ length: totalPages }, (_, i) => i + 1)
+                    .filter(p => p === 1 || p === totalPages || Math.abs(p - currentPage) <= 2)
+                  return (
+                    <nav className="mt-10 flex items-center justify-center gap-1.5" aria-label="Pagination">
+                      {/* Précédent */}
+                      {currentPage > 1 ? (
+                        <a
+                          href={buildUrl(currentPage - 1)}
+                          className="inline-flex items-center gap-1 px-3 py-2 text-sm border border-[#E2E8F0] rounded-lg text-[#64748B] hover:border-[#F97316]/40 hover:text-[#F97316] transition-colors"
+                        >
+                          <ChevronLeft size={14} /> Préc.
+                        </a>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 px-3 py-2 text-sm border border-[#E2E8F0] rounded-lg text-slate-300 cursor-not-allowed">
+                          <ChevronLeft size={14} /> Préc.
+                        </span>
+                      )}
+
+                      {/* Numéros de page avec ellipsis */}
+                      {pages.reduce<React.ReactNode[]>((acc, p, i, arr) => {
+                        if (i > 0 && p - arr[i - 1] > 1) {
+                          acc.push(<span key={`ellipsis-${p}`} className="px-2 text-slate-400 text-sm">…</span>)
+                        }
+                        acc.push(
+                          p === currentPage ? (
+                            <span key={p} className="inline-flex items-center justify-center w-9 h-9 text-sm font-semibold bg-[#F97316] text-white rounded-lg">
+                              {p}
+                            </span>
+                          ) : (
+                            <a key={p} href={buildUrl(p)} className="inline-flex items-center justify-center w-9 h-9 text-sm border border-[#E2E8F0] rounded-lg text-[#64748B] hover:border-[#F97316]/40 hover:text-[#F97316] transition-colors">
+                              {p}
+                            </a>
+                          )
+                        )
+                        return acc
+                      }, [])}
+
+                      {/* Suivant */}
+                      {currentPage < totalPages ? (
+                        <a
+                          href={buildUrl(currentPage + 1)}
+                          className="inline-flex items-center gap-1 px-3 py-2 text-sm border border-[#E2E8F0] rounded-lg text-[#64748B] hover:border-[#F97316]/40 hover:text-[#F97316] transition-colors"
+                        >
+                          Suiv. <ChevronRight size={14} />
+                        </a>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 px-3 py-2 text-sm border border-[#E2E8F0] rounded-lg text-slate-300 cursor-not-allowed">
+                          Suiv. <ChevronRight size={14} />
+                        </span>
+                      )}
+                    </nav>
+                  )
+                })()}
+              </>
             ) : (
               <div className="text-center py-16 border border-dashed border-[#E2E8F0] rounded-2xl">
-                <p className="text-[#64748B] text-sm">Essayez avec un autre terme de recherche.</p>
+                <p className="text-[#64748B] text-sm">Essayez avec un autre terme ou modifiez les filtres.</p>
               </div>
             )}
           </div>
