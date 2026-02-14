@@ -1,38 +1,69 @@
 import Link from 'next/link'
+import { Search, Menu } from 'lucide-react'
+
+const LIENS_NAV = [
+  { href: '/categories', label: 'Catégories' },
+  { href: '/marques',    label: 'Marques'    },
+  { href: '/blog',       label: 'Blog'       },
+  { href: '/boutiques',  label: 'Boutiques'  },
+]
 
 export default function Header() {
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
+    <header className="bg-[#0F172A] sticky top-0 z-50 border-b border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="text-2xl font-bold text-blue-600">
-            Toprix
+
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-1 shrink-0">
+            <span className="font-heading text-white text-xl font-700 tracking-tight">
+              Top
+            </span>
+            <span className="font-heading text-[#F97316] text-xl font-700 tracking-tight">
+              rix
+            </span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700">
-            <Link href="/categories" className="hover:text-blue-600 transition-colors">
-              Catégories
-            </Link>
-            <Link href="/marques" className="hover:text-blue-600 transition-colors">
-              Marques
-            </Link>
-            <Link href="/blog" className="hover:text-blue-600 transition-colors">
-              Blog
-            </Link>
-            <Link href="/boutiques" className="hover:text-blue-600 transition-colors">
-              Boutiques
-            </Link>
+          {/* Navigation desktop */}
+          <nav className="hidden md:flex items-center gap-8">
+            {LIENS_NAV.map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                className="nav-link text-sm font-medium text-slate-300 hover:text-white transition-colors"
+              >
+                {label}
+              </Link>
+            ))}
           </nav>
 
-          <Link
-            href="/rechercher"
-            className="flex items-center gap-2 bg-gray-100 rounded-full px-4 py-2 text-sm text-gray-500 hover:bg-gray-200 transition-colors"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            Rechercher...
-          </Link>
+          {/* Actions droite */}
+          <div className="flex items-center gap-3">
+            <Link
+              href="/rechercher"
+              aria-label="Rechercher"
+              className="flex items-center gap-2 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 rounded-lg px-3 py-2 text-sm transition-all"
+            >
+              <Search size={15} strokeWidth={2} />
+              <span className="hidden sm:inline">Rechercher</span>
+            </Link>
+
+            <Link
+              href="/ajouter"
+              className="hidden sm:inline-flex bg-[#F97316] hover:bg-[#EA6C0A] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+            >
+              + Ajouter
+            </Link>
+
+            {/* Mobile menu icon */}
+            <button
+              className="md:hidden text-slate-300 hover:text-white p-1"
+              aria-label="Menu"
+            >
+              <Menu size={22} />
+            </button>
+          </div>
+
         </div>
       </div>
     </header>

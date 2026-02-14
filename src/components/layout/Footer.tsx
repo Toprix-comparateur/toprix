@@ -1,43 +1,78 @@
 import Link from 'next/link'
 
+const LIENS = {
+  navigation: [
+    { href: '/categories', label: 'Catégories'  },
+    { href: '/marques',    label: 'Marques'     },
+    { href: '/boutiques',  label: 'Boutiques'   },
+    { href: '/rechercher', label: 'Rechercher'  },
+  ],
+  informations: [
+    { href: '/blog',     label: 'Blog & guides' },
+    { href: '/a-propos', label: 'À propos'      },
+    { href: '/contact',  label: 'Contact'       },
+    { href: '/ajouter',  label: 'Ajouter une boutique' },
+  ],
+}
+
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-gray-400 mt-auto">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div>
-            <p className="text-white text-lg font-bold mb-2">Toprix</p>
-            <p className="text-sm">Comparateur de pièces automobiles en Tunisie.</p>
+    <footer className="bg-[#0F172A]">
+
+      {/* Séparateur orange */}
+      <div className="h-0.5 bg-gradient-to-r from-transparent via-[#F97316] to-transparent opacity-60" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+
+          {/* Marque */}
+          <div className="md:col-span-2">
+            <Link href="/" className="flex items-center gap-0.5 mb-4">
+              <span className="font-heading text-white text-2xl font-bold tracking-tight">Top</span>
+              <span className="font-heading text-[#F97316] text-2xl font-bold tracking-tight">rix</span>
+            </Link>
+            <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
+              Le premier comparateur de pièces automobiles en Tunisie. Trouvez la meilleure offre en quelques secondes.
+            </p>
           </div>
 
+          {/* Navigation */}
           <div>
-            <p className="text-white font-semibold mb-3">Navigation</p>
-            <ul className="space-y-2 text-sm">
-              <li><Link href="/categories" className="hover:text-white transition-colors">Catégories</Link></li>
-              <li><Link href="/marques" className="hover:text-white transition-colors">Marques</Link></li>
-              <li><Link href="/boutiques" className="hover:text-white transition-colors">Boutiques</Link></li>
+            <p className="text-white text-sm font-semibold mb-4 uppercase tracking-wider">Navigation</p>
+            <ul className="space-y-2.5">
+              {LIENS.navigation.map(({ href, label }) => (
+                <li key={href}>
+                  <Link href={href} className="text-slate-400 text-sm hover:text-[#F97316] transition-colors">
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
+          {/* Informations */}
           <div>
-            <p className="text-white font-semibold mb-3">Informations</p>
-            <ul className="space-y-2 text-sm">
-              <li><Link href="/blog" className="hover:text-white transition-colors">Blog</Link></li>
-              <li><Link href="/a-propos" className="hover:text-white transition-colors">À propos</Link></li>
-              <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <p className="text-white font-semibold mb-3">Ajouter</p>
-            <ul className="space-y-2 text-sm">
-              <li><Link href="/ajouter" className="hover:text-white transition-colors">Proposer une boutique</Link></li>
+            <p className="text-white text-sm font-semibold mb-4 uppercase tracking-wider">Informations</p>
+            <ul className="space-y-2.5">
+              {LIENS.informations.map(({ href, label }) => (
+                <li key={href}>
+                  <Link href={href} className="text-slate-400 text-sm hover:text-[#F97316] transition-colors">
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-10 pt-6 text-center text-xs">
-          © {new Date().getFullYear()} Toprix. Tous droits réservés.
+        {/* Bas */}
+        <div className="border-t border-white/5 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-slate-600 text-xs">
+            © {new Date().getFullYear()} Toprix. Tous droits réservés.
+          </p>
+          <p className="text-slate-700 text-xs">
+            Fait avec passion pour les automobilistes tunisiens 🇹🇳
+          </p>
         </div>
       </div>
     </footer>
