@@ -11,6 +11,24 @@ const LIENS_NAV = [
 export default function Header() {
   return (
     <header className="bg-[#0F172A] sticky top-0 z-50 border-b border-white/5">
+
+      {/* ── Bandeau Ramadan ─────────────────────────────────────────────── */}
+      <div className="bg-gradient-to-r from-amber-900/30 via-amber-700/20 to-amber-900/30 border-b border-amber-400/15">
+        <div className="flex items-center justify-center gap-3 py-1.5 text-amber-300 text-xs font-medium tracking-wide">
+          <span className="opacity-60 text-[10px]">✦</span>
+          <span className="text-base leading-none">🌙</span>
+          <span className="font-bold tracking-widest text-amber-200" style={{ fontVariant: 'small-caps' }}>
+            Ramadan Mubarak
+          </span>
+          <span className="text-amber-400/60 text-xs">·</span>
+          <span className="font-semibold" style={{ fontFamily: 'serif', letterSpacing: '0.05em' }}>
+            رمضان كريم
+          </span>
+          <span className="text-base leading-none">🌙</span>
+          <span className="opacity-60 text-[10px]">✦</span>
+        </div>
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
 
