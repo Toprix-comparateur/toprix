@@ -5,8 +5,8 @@ import { Search, Zap, ArrowRight, CheckCircle2 } from 'lucide-react'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Toprix - Comparateur de pièces automobiles',
-  description: 'Comparez les prix des pièces automobiles parmi toutes les boutiques en Tunisie.',
+  title: 'Toprix - Comparateur de produits high-tech',
+  description: 'Comparez les prix des smartphones, laptops, et produits high-tech parmi toutes les boutiques en Tunisie.',
 }
 
 const STATS = [
@@ -16,26 +16,26 @@ const STATS = [
 ]
 
 const CATEGORIES_RAPIDES = [
-  { href: '/categories/freinage',    label: 'Freinage',    icon: '🛞' },
-  { href: '/categories/filtration',  label: 'Filtration',  icon: '🔩' },
-  { href: '/categories/eclairage',   label: 'Éclairage',   icon: '💡' },
-  { href: '/categories/moteur',      label: 'Moteur',      icon: '⚙️' },
-  { href: '/categories/suspension',  label: 'Suspension',  icon: '🔧' },
-  { href: '/categories/carrosserie', label: 'Carrosserie', icon: '🚗' },
-  { href: '/categories/electricite', label: 'Électricité', icon: '⚡' },
+  { href: '/categories/smartphones', label: 'Smartphones', icon: '📱' },
+  { href: '/categories/laptops',     label: 'Laptops',     icon: '💻' },
+  { href: '/categories/tablettes',   label: 'Tablettes',   icon: '🖱️' },
+  { href: '/categories/audio',       label: 'Audio',       icon: '🎧' },
+  { href: '/categories/gaming',      label: 'Gaming',      icon: '🎮' },
+  { href: '/categories/photo',       label: 'Photo & Vidéo', icon: '📷' },
+  { href: '/categories/maison',      label: 'Maison Connectée', icon: '🏠' },
   { href: '/categories',             label: 'Tout voir',   icon: '→'  },
 ]
 
 const MARQUES_POPULAIRES = [
-  'Toyota', 'Volkswagen', 'Renault', 'Peugeot',
-  'BMW', 'Mercedes', 'Citroën', 'Ford',
-  'Kia', 'Hyundai', 'Fiat', 'Opel',
+  'Apple', 'Samsung', 'Sony', 'LG',
+  'Xiaomi', 'Huawei', 'Asus', 'HP',
+  'Dell', 'Lenovo', 'JBL', 'Logitech',
 ]
 
 const AVANTAGES = [
   'Comparez les prix en temps réel',
   'Plus de 80 boutiques référencées',
-  'Trouvez la pièce exacte en secondes',
+  'Trouvez le meilleur deal en secondes',
 ]
 
 export default function AccueilPage() {
@@ -68,12 +68,12 @@ export default function AccueilPage() {
 
           {/* Titre */}
           <h1 className="font-heading text-white text-4xl sm:text-5xl md:text-6xl font-bold mb-4 tracking-tight leading-tight">
-            Trouvez la pièce auto<br />
-            <span className="text-[#F97316]">au meilleur prix</span>
+            Comparez les produits<br />
+            <span className="text-[#F97316]">high-tech au meilleur prix</span>
           </h1>
 
           <p className="text-slate-400 text-lg md:text-xl mb-10 max-w-xl mx-auto leading-relaxed">
-            Comparez instantanément les offres de toutes les boutiques auto en Tunisie.
+            Smartphones, laptops, audio, gaming — comparez instantanément parmi toutes les boutiques en Tunisie.
           </p>
 
           {/* Barre de recherche */}
@@ -87,7 +87,7 @@ export default function AccueilPage() {
               <input
                 type="text"
                 name="q"
-                placeholder="Ex : filtre à huile, disque de frein..."
+                placeholder="Ex : iPhone 15, Galaxy S24, MacBook Air..."
                 className="w-full py-4 text-sm text-slate-800 placeholder:text-slate-400 outline-none bg-transparent"
               />
             </div>
@@ -194,10 +194,10 @@ export default function AccueilPage() {
       <section className="bg-[#0F172A] py-16 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="font-heading text-white text-2xl md:text-3xl mb-3">
-            Vous avez une boutique auto ?
+            Vous avez une boutique high-tech ?
           </h2>
           <p className="text-slate-400 mb-8">
-            Référencez vos produits gratuitement et touchez des milliers de clients.
+            Référencez vos produits gratuitement et touchez des milliers d&apos;acheteurs.
           </p>
           <Link
             href="/ajouter"

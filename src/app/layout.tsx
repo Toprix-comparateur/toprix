@@ -17,10 +17,10 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Toprix - Comparateur de pièces automobiles',
+    default: 'Toprix - Comparateur de produits high-tech',
     template: '%s | Toprix',
   },
-  description: 'Comparez les prix des pièces automobiles et trouvez les meilleures offres en Tunisie.',
+  description: 'Comparez les prix des smartphones, laptops et produits high-tech parmi toutes les boutiques en Tunisie.',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://toprix.net'),
 }
 
