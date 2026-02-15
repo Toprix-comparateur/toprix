@@ -5,7 +5,6 @@ import {
   TrendingUp, Tag, Smartphone, Home,
 } from 'lucide-react'
 import { getProduits } from '@/lib/api/produits'
-import CarteProduit from '@/components/product/CarteProduit'
 import CarouselProduits from '@/components/ui/CarouselProduits'
 import CategoriesPills from '@/components/ui/CategoriesPills'
 import MarqueeMarques from '@/components/ui/MarqueeMarques'
@@ -184,9 +183,7 @@ export default async function AccueilPage() {
               href="/rechercher?en_promo=1"
               linkLabel="Tout voir"
             />
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-              {tendances.map((p) => <CarteProduit key={p.id} produit={p} />)}
-            </div>
+            <CarouselProduits produits={tendances} />
           </div>
         </section>
       )}
@@ -202,9 +199,7 @@ export default async function AccueilPage() {
               href="/rechercher?en_promo=1"
               linkLabel="Voir toutes les promos"
             />
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-              {topPromos.map((p) => <CarteProduit key={p.id} produit={p} />)}
-            </div>
+            <CarouselProduits produits={topPromos} />
           </div>
         </section>
       )}

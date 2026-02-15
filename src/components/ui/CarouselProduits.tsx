@@ -65,7 +65,7 @@ export default function CarouselProduits({ produits }: CarouselProduitsProps) {
       >
         <div className="flex gap-3 sm:gap-4" style={{ width: 'max-content' }}>
           {produits.map((p) => (
-            <div key={p.id} className="w-44 sm:w-56 shrink-0 snap-start">
+            <div key={p.id} className="w-36 sm:w-44 lg:w-48 shrink-0 snap-start">
               <CarteProduit produit={p} />
             </div>
           ))}

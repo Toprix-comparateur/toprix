@@ -35,7 +35,7 @@ export default function CarteProduit({ produit }: CarteProduitProps) {
       className="group flex flex-col bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden hover:border-[#F97316]/40 hover:shadow-lg hover:shadow-orange-100/30 transition-all"
     >
       {/* Image — aspect-ratio responsive */}
-      <div className="relative aspect-[4/3] w-full bg-[#F8FAFC] overflow-hidden">
+      <div className="relative aspect-[4/3] w-full bg-white overflow-hidden">
         {produit.image ? (
           <Image
             src={produit.image}
