@@ -6,6 +6,9 @@ import {
 } from 'lucide-react'
 import { getProduits } from '@/lib/api/produits'
 import CarteProduit from '@/components/product/CarteProduit'
+import CarouselProduits from '@/components/ui/CarouselProduits'
+import CategoriesPills from '@/components/ui/CategoriesPills'
+import MarqueeMarques from '@/components/ui/MarqueeMarques'
 
 export const dynamic = 'force-dynamic'
 
@@ -29,12 +32,6 @@ const CATEGORIES_RAPIDES = [
   { href: '/categories/electromenager',       label: 'Électroménager',   icon: '🏠' },
   { href: '/categories/photo',                label: 'Photo & Vidéo',    icon: '📷' },
   { href: '/categories',                      label: 'Tout voir',        icon: '→'  },
-]
-
-const MARQUES_POPULAIRES = [
-  'Apple', 'Samsung', 'Sony', 'LG',
-  'Xiaomi', 'Huawei', 'Asus', 'HP',
-  'Dell', 'Lenovo', 'JBL', 'Logitech',
 ]
 
 const AVANTAGES = [
@@ -173,6 +170,9 @@ export default async function AccueilPage() {
         </div>
       </section>
 
+      {/* ──────────────────────── PILLS CATÉGORIES ───────────────────────────── */}
+      <CategoriesPills />
+
       {/* ───────────────────────── TENDANCES ACTUELLES ───────────────────────── */}
       {tendances.length > 0 && (
         <section className="py-12 sm:py-16 px-4 sm:px-6">
@@ -257,16 +257,7 @@ export default async function AccueilPage() {
               href="/categories/smartphones"
               linkLabel="Voir tous"
             />
-            {/* Carousel — snap scroll + scrollbar masquée */}
-            <div className="overflow-x-auto -mx-4 sm:-mx-6 px-4 sm:px-6 pb-3 snap-x snap-mandatory scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              <div className="flex gap-3 sm:gap-4" style={{ width: 'max-content' }}>
-                {smartphones.map((p) => (
-                  <div key={p.id} className="w-44 sm:w-56 shrink-0 snap-start">
-                    <CarteProduit produit={p} />
-                  </div>
-                ))}
-              </div>
-            </div>
+            <CarouselProduits produits={smartphones} />
           </div>
         </section>
       )}
@@ -282,24 +273,15 @@ export default async function AccueilPage() {
               href="/categories/electromenager"
               linkLabel="Voir tout"
             />
-            {/* Carousel — snap scroll + scrollbar masquée */}
-            <div className="overflow-x-auto -mx-4 sm:-mx-6 px-4 sm:px-6 pb-3 snap-x snap-mandatory scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              <div className="flex gap-3 sm:gap-4" style={{ width: 'max-content' }}>
-                {electro.map((p) => (
-                  <div key={p.id} className="w-44 sm:w-56 shrink-0 snap-start">
-                    <CarteProduit produit={p} />
-                  </div>
-                ))}
-              </div>
-            </div>
+            <CarouselProduits produits={electro} />
           </div>
         </section>
       )}
 
       {/* ────────────────────────────── MARQUES ──────────────────────────────── */}
-      <section className="py-12 sm:py-16 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-end justify-between mb-6 sm:mb-8">
+      <section className="py-12 sm:py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-6 sm:mb-8">
+          <div className="flex items-end justify-between">
             <div>
               <p className="text-[#F97316] text-xs font-semibold uppercase tracking-widest mb-1">Référencées</p>
               <h2 className="font-heading text-[#0F172A] text-2xl md:text-3xl">
@@ -315,19 +297,9 @@ export default async function AccueilPage() {
               <ArrowRight size={13} />
             </Link>
           </div>
-
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2 sm:gap-3">
-            {MARQUES_POPULAIRES.map((marque) => (
-              <Link
-                key={marque}
-                href={`/marques/${marque.toLowerCase()}`}
-                className="flex items-center justify-center bg-white border border-[#E2E8F0] rounded-xl py-3 sm:py-4 px-2 text-xs sm:text-sm font-medium text-[#64748B] hover:text-[#0F172A] hover:border-[#F97316]/30 hover:shadow-sm transition-all"
-              >
-                {marque}
-              </Link>
-            ))}
-          </div>
         </div>
+        {/* Marquee auto-scroll — pause au survol */}
+        <MarqueeMarques />
       </section>
 
       {/* ────────────────────────── CTA BOUTIQUE ─────────────────────────────── */}

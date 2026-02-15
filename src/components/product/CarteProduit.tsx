@@ -25,6 +25,9 @@ export default function CarteProduit({ produit }: CarteProduitProps) {
   const storeClass = STORE_COLORS[storeKey] ?? 'bg-slate-50 text-slate-500 border-slate-100'
   const hasDiscount = (produit.discount ?? 0) > 0
   const hasOldPrice = !!(produit.prix_max && produit.prix_min && produit.prix_max > produit.prix_min)
+  const pourcent = (hasDiscount && produit.prix_max && produit.prix_max > 0)
+    ? Math.round(((produit.prix_max - (produit.prix_min ?? 0)) / produit.prix_max) * 100)
+    : 0
 
   return (
     <Link
@@ -45,8 +48,8 @@ export default function CarteProduit({ produit }: CarteProduitProps) {
           <div className="absolute inset-0 flex items-center justify-center text-4xl opacity-20">⚙️</div>
         )}
         {hasDiscount && (
-          <span className="absolute top-2 left-2 bg-[#F97316] text-white text-xs font-bold px-2 py-0.5 rounded-md">
-            -{produit.discount} DT
+          <span className="absolute top-2 left-2 bg-[#F97316] text-white text-xs font-bold px-2 py-0.5 rounded-md shadow-sm">
+            -{pourcent > 0 ? `${pourcent}%` : `${produit.discount} DT`}
           </span>
         )}
       </div>
