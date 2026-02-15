@@ -55,9 +55,16 @@ export default function CarteProduit({ produit }: CarteProduitProps) {
       <div className="flex flex-col flex-1 p-4">
         {/* Marque + Store */}
         <div className="flex items-center justify-between mb-1">
-          <p className="text-[#F97316] text-xs font-semibold uppercase tracking-wide">
-            {produit.marque}
-          </p>
+          <div>
+            <p className="text-[#F97316] text-xs font-semibold uppercase tracking-wide">
+              {produit.marque}
+            </p>
+            {(produit.categorie_nom || produit.categorie) && (
+              <p className="text-[#94A3B8] text-[10px] leading-tight mt-0.5">
+                {produit.categorie_nom || produit.categorie}
+              </p>
+            )}
+          </div>
           {produit.boutique && (
             <span className={`flex items-center px-1.5 py-0.5 rounded-full border ${storeClass}`}>
               {STORE_LOGOS[storeKey] ? (

@@ -8,6 +8,12 @@ import {
   CheckCircle, XCircle, Hash, Store, Barcode,
 } from 'lucide-react'
 
+const STORE_LOGOS: Record<string, string> = {
+  mytek:      '/stores/mytek.png',
+  tunisianet: '/stores/tunisianet.png',
+  spacenet:   '/stores/spacenet.png',
+}
+
 export const dynamic = 'force-dynamic'
 
 interface Props {
@@ -189,11 +195,14 @@ export default async function ProduitDetailPage({ params }: Props) {
               </div>
             )}
 
-            {/* Tableau comparaison boutiques (produit comparatif multi-stores) */}
-            {produit.offres && produit.offres.length > 0 && !produit.url_boutique && (
+            {/* Tableau comparaison boutiques */}
+            {produit.offres && produit.offres.length > 0 && (
               <div>
                 <h2 className="font-heading text-[#0F172A] text-base font-semibold mb-3">
                   Comparer les offres
+                  <span className="ml-2 text-xs font-normal text-[#64748B]">
+                    ({produit.offres.length} boutique{produit.offres.length > 1 ? 's' : ''})
+                  </span>
                 </h2>
                 <div className="border border-[#E2E8F0] rounded-2xl overflow-hidden">
                   <div className="grid grid-cols-3 bg-[#F8FAFC] px-4 py-2.5 text-xs font-semibold text-[#64748B] uppercase tracking-wide">
@@ -201,39 +210,52 @@ export default async function ProduitDetailPage({ params }: Props) {
                     <span className="text-center">Prix</span>
                     <span className="text-right">Action</span>
                   </div>
-                  {produit.offres.map((offre, i) => (
-                    <div
-                      key={offre.boutique}
-                      className={`grid grid-cols-3 items-center px-4 py-3 text-sm ${i < produit.offres!.length - 1 ? 'border-b border-[#E2E8F0]' : ''}`}
-                    >
-                      <div>
-                        <span className="font-medium text-[#1E293B]">{offre.boutique}</span>
-                        {offre.stock && (
-                          <p className="text-xs text-[#64748B] mt-0.5 flex items-center gap-1">
-                            {offre.stock === 'En stock'
-                              ? <><CheckCircle size={10} className="text-green-500" /> En stock</>
-                              : <><XCircle size={10} className="text-red-400" /> {offre.stock}</>}
-                          </p>
-                        )}
+                  {produit.offres.map((offre, i) => {
+                    const logoKey = offre.boutique.toLowerCase()
+                    const logo = STORE_LOGOS[logoKey]
+                    return (
+                      <div
+                        key={offre.boutique}
+                        className={`grid grid-cols-3 items-center px-4 py-3 text-sm ${i === 0 ? 'bg-orange-50/40' : ''} ${i < produit.offres!.length - 1 ? 'border-b border-[#E2E8F0]' : ''}`}
+                      >
+                        <div className="flex flex-col gap-0.5">
+                          {logo ? (
+                            <Image src={logo} alt={offre.boutique} width={70} height={20}
+                              style={{ height: '18px', width: 'auto' }}
+                              className="object-contain"
+                            />
+                          ) : (
+                            <span className="font-medium text-[#1E293B]">{offre.boutique}</span>
+                          )}
+                          {offre.stock && (
+                            <p className="text-xs text-[#64748B] flex items-center gap-1">
+                              {offre.stock === 'En stock'
+                                ? <><CheckCircle size={10} className="text-green-500" /> En stock</>
+                                : <><XCircle size={10} className="text-red-400" /> {offre.stock}</>}
+                            </p>
+                          )}
+                        </div>
+                        <div className="text-center">
+                          <span className={`font-bold ${i === 0 ? 'text-[#F97316]' : 'text-[#1E293B]'}`}>
+                            {offre.prix} DT
+                          </span>
+                          {i === 0 && produit.offres!.length > 1 && (
+                            <p className="text-[10px] text-[#F97316] font-medium">✓ Meilleur prix</p>
+                          )}
+                        </div>
+                        <div className="flex justify-end">
+                          <a
+                            href={offre.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-xs bg-[#F97316] hover:bg-[#EA6C0A] text-white px-3 py-1.5 rounded-lg transition-colors"
+                          >
+                            Voir <ExternalLink size={10} />
+                          </a>
+                        </div>
                       </div>
-                      <span className={`text-center font-bold ${i === 0 ? 'text-[#F97316]' : 'text-[#1E293B]'}`}>
-                        {offre.prix} DT
-                        {i === 0 && produit.offres!.length > 1 && (
-                          <span className="ml-1 text-xs font-normal text-[#F97316]">✓ Meilleur</span>
-                        )}
-                      </span>
-                      <div className="flex justify-end">
-                        <a
-                          href={offre.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-xs bg-[#F97316] hover:bg-[#EA6C0A] text-white px-3 py-1.5 rounded-lg transition-colors"
-                        >
-                          Voir <ExternalLink size={10} />
-                        </a>
-                      </div>
-                    </div>
-                  ))}
+                    )
+                  })}
                 </div>
               </div>
             )}
