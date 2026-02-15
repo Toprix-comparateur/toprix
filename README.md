@@ -46,7 +46,7 @@ src/app/(public)/
 Affiche un produit en grille avec :
 - Badge **-X DT** (discount) sur l'image
 - Logo PNG boutique (fond coloré) : **Mytek** (bleu) · **Tunisianet** (vert) · **Spacenet** (violet)
-- Marque en orange + catégorie en gris clair
+- Marque en orange
 - Ancien prix barré + prix actuel en orange
 - **Économie : X DT** en vert
 - Indicateur **● En stock** / **○ Rupture de stock**
@@ -64,10 +64,12 @@ Logos dans `public/stores/` : `mytek.png`, `tunisianet.png`, `spacenet.png`.
 
 Sections dynamiques chargées en **3 appels API parallèles** (`Promise.allSettled`) :
 
+> **Note :** Les sections Tendances et Top promos s'affichent uniquement si l'API `en_promo=1` retourne des résultats (produits avec `discount > 0` dans MongoDB).
+
 | Section | Source API | Affichage |
 |---------|-----------|-----------|
-| **Tendances actuelles** | `en_promo=1` (items 1-8) | Grille 4 cols |
-| **Top promos** | `en_promo=1` (items 9-16) | Grille 4 cols, fond orange |
+| **Tendances actuelles** | `en_promo=1` (items 1-8) — conditionnel | Grille 4 cols |
+| **Top promos** | `en_promo=1` (items 9-16) — conditionnel | Grille 4 cols, fond orange |
 | **Catégories rapides** | Statique | Icônes 8 cols |
 | **Smartphones** | `categorie=smartphones` (10 items) | Carousel horizontal |
 | **Électroménager** | `categorie=electromenager` (10 items) | Carousel horizontal |
