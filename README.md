@@ -1,36 +1,118 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Toprix Frontend
 
-## Getting Started
+Comparateur de prix high-tech en Tunisie — interface Next.js déployée sur Vercel.
 
-First, run the development server:
+**Production :** `https://toprix-mu.vercel.app` (alias : `toprix.tn`)
+**API :** `https://api.toprix.tn/api/v1`
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## Stack technique
+
+| Outil | Version | Usage |
+|-------|---------|-------|
+| Next.js | 15 (App Router) | Framework SSR |
+| TypeScript | 5 | Typage |
+| Tailwind CSS | 4 | Styles |
+| Lucide React | — | Icônes |
+
+Rendu 100 % **SSR** (`force-dynamic`) — pas de Client Components, filtres via `searchParams` URL.
+
+---
+
+## Structure des pages
+
+```
+src/app/(public)/
+├── page.tsx                    # Accueil
+├── rechercher/page.tsx         # Recherche + filtres avancés
+├── produit/[slug]/page.tsx     # Détail produit
+├── categories/page.tsx         # Liste catégories
+├── categories/[slug]/page.tsx  # Produits d'une catégorie
+├── marques/page.tsx            # Liste marques
+├── marques/[name]/page.tsx     # Produits d'une marque
+├── blog/page.tsx               # Liste articles
+├── blog/[slug]/page.tsx        # Article détail
+├── boutiques/page.tsx          # Boutiques partenaires
+├── ajouter/page.tsx            # Formulaire demande
+└── contact/page.tsx            # Contact
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Composants clés
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### `CarteProduit`
+Affiche un produit en grille avec :
+- Badge **-X DT** (discount) sur l'image
+- Badge store coloré : **Mytek** (bleu) · **Tunisianet** (vert) · **Spacenet** (violet)
+- Ancien prix barré + prix actuel en orange
+- **Économie : X DT** en vert
+- Indicateur **● En stock** / **○ Rupture de stock**
 
-## Learn More
+### `Header`
+- Logo Toprix 🇹🇳 sticky
+- Bandeau **🌙 Ramadan Mubarak · رمضان كريم** (doré, haut du header)
+- Navigation desktop + icône menu mobile
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Page `/rechercher`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Filtres disponibles (tous en `searchParams` GET, SSR-compatible) :
 
-## Deploy on Vercel
+| Param | Type | Description |
+|-------|------|-------------|
+| `q` | string | Terme de recherche |
+| `categorie` | string | Filtrer par catégorie |
+| `marque` | string | Filtrer par marque |
+| `prix_min` | number | Prix minimum (DT) |
+| `prix_max` | number | Prix maximum (DT) |
+| `en_promo` | `1` | Promotions uniquement |
+| `page` | number | Pagination (20/page) |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Panneau filtre : `<details>`/`<summary>` natif HTML (toggle CSS pur, SSR-compatible).
+Badges actifs supprimables individuellement via `buildFilterUrl()`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Page `/produit/[slug]`
+
+Affiche pour un produit per-store (ObjectId) :
+- Badges marque · catégorie · store · stock
+- **SKU** (`reference`) en code monospace + ID MongoDB
+- Prix barré + prix actuel + **Économie X DT**
+- Bouton lien direct vers la boutique
+- **Fiche technique** (`fiche_technique` MongoDB)
+
+Pour un produit comparatif (slug texte) : tableau multi-boutiques trié par prix.
+
+---
+
+## API calls (`src/lib/api/`)
+
+```typescript
+getProduits({ q, categorie, marque, prix_min, prix_max, en_promo, page })
+getProduit(slug)
+getCategories() / getCategorie(slug)
+getMarques() / getMarque(nom)
+```
+
+Toutes les valeurs `undefined` sont filtrées avant `URLSearchParams` pour éviter le bug `"undefined"` en URL.
+
+---
+
+## Développement local
+
+```bash
+npm install
+npm run dev        # http://localhost:3000
+```
+
+Variable d'environnement : `NEXT_PUBLIC_API_URL=https://api.toprix.tn/api/v1`
+
+---
+
+## Déploiement
+
+Push sur `main` → déploiement automatique Vercel.
