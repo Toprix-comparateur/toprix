@@ -54,7 +54,7 @@ function SectionHeader({
   linkLabel: string
 }) {
   return (
-    <div className="flex items-end justify-between mb-8">
+    <div className="flex items-end justify-between mb-6 sm:mb-8">
       <div>
         <p className="text-[#F97316] text-xs font-semibold uppercase tracking-widest mb-1 flex items-center gap-1.5">
           <Icon size={12} />
@@ -66,9 +66,11 @@ function SectionHeader({
       </div>
       <Link
         href={href}
-        className="hidden sm:flex items-center gap-1.5 text-sm text-slate-500 hover:text-[#F97316] transition-colors"
+        className="flex items-center gap-1 text-xs sm:text-sm font-medium text-[#F97316] sm:text-slate-500 hover:text-[#F97316] transition-colors shrink-0 ml-3"
       >
-        {linkLabel} <ArrowRight size={14} />
+        <span className="hidden sm:inline">{linkLabel}</span>
+        <span className="sm:hidden">Voir tout</span>
+        <ArrowRight size={13} />
       </Link>
     </div>
   )
@@ -95,7 +97,7 @@ export default async function AccueilPage() {
     <div className="bg-white">
 
       {/* ─────────────────────────────────── HERO ───────────────────────────── */}
-      <section className="relative bg-[#0F172A] overflow-hidden" style={{ minHeight: '540px' }}>
+      <section className="relative bg-[#0F172A] min-h-[540px] overflow-hidden">
 
         {/* Grille décorative */}
         <div
@@ -110,7 +112,7 @@ export default async function AccueilPage() {
         <div className="absolute -top-32 -right-32 w-96 h-96 bg-[#F97316] rounded-full blur-[120px] opacity-20 pointer-events-none" />
         <div className="absolute bottom-0 -left-16 w-64 h-64 bg-[#F97316] rounded-full blur-[100px] opacity-10 pointer-events-none" />
 
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 pt-20 pb-28 text-center">
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-8 pt-16 sm:pt-20 pb-28 text-center">
 
           <div className="inline-flex items-center gap-2 bg-[#F97316]/10 border border-[#F97316]/30 text-[#F97316] text-xs font-semibold px-3 py-1.5 rounded-full mb-6 tracking-wide uppercase">
             <Zap size={11} />
@@ -173,7 +175,7 @@ export default async function AccueilPage() {
 
       {/* ───────────────────────── TENDANCES ACTUELLES ───────────────────────── */}
       {tendances.length > 0 && (
-        <section className="py-14 px-4">
+        <section className="py-12 sm:py-16 px-4 sm:px-6">
           <div className="max-w-7xl mx-auto">
             <SectionHeader
               eyebrow="En ce moment"
@@ -182,7 +184,7 @@ export default async function AccueilPage() {
               href="/rechercher?en_promo=1"
               linkLabel="Tout voir"
             />
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
               {tendances.map((p) => <CarteProduit key={p.id} produit={p} />)}
             </div>
           </div>
@@ -191,7 +193,7 @@ export default async function AccueilPage() {
 
       {/* ──────────────────────────── TOP PROMOS ─────────────────────────────── */}
       {topPromos.length > 0 && (
-        <section className="py-14 px-4 bg-gradient-to-b from-orange-50/70 to-white">
+        <section className="py-12 sm:py-16 px-4 sm:px-6 bg-gradient-to-b from-orange-50/70 to-white">
           <div className="max-w-7xl mx-auto">
             <SectionHeader
               eyebrow="Meilleures offres"
@@ -200,7 +202,7 @@ export default async function AccueilPage() {
               href="/rechercher?en_promo=1"
               linkLabel="Voir toutes les promos"
             />
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
               {topPromos.map((p) => <CarteProduit key={p.id} produit={p} />)}
             </div>
           </div>
@@ -208,9 +210,9 @@ export default async function AccueilPage() {
       )}
 
       {/* ─────────────────────────── CATÉGORIES RAPIDES ──────────────────────── */}
-      <section className="bg-[#F8FAFC] py-16 px-4">
+      <section className="bg-[#F8FAFC] py-12 sm:py-16 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-end justify-between mb-8">
+          <div className="flex items-end justify-between mb-6 sm:mb-8">
             <div>
               <p className="text-[#F97316] text-xs font-semibold uppercase tracking-widest mb-1">Explorer</p>
               <h2 className="font-heading text-[#0F172A] text-2xl md:text-3xl">
@@ -219,21 +221,23 @@ export default async function AccueilPage() {
             </div>
             <Link
               href="/categories"
-              className="hidden sm:flex items-center gap-1.5 text-sm text-slate-500 hover:text-[#F97316] transition-colors"
+              className="flex items-center gap-1 text-xs sm:text-sm font-medium text-[#F97316] sm:text-slate-500 hover:text-[#F97316] transition-colors shrink-0 ml-3"
             >
-              Tout voir <ArrowRight size={14} />
+              <span className="hidden sm:inline">Tout voir</span>
+              <span className="sm:hidden">Voir tout</span>
+              <ArrowRight size={13} />
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+          <div className="grid grid-cols-4 sm:grid-cols-4 lg:grid-cols-8 gap-2 sm:gap-3">
             {CATEGORIES_RAPIDES.map(({ href, label, icon }) => (
               <Link
                 key={href}
                 href={href}
-                className="group flex flex-col items-center justify-center gap-2 bg-white rounded-xl p-4 border border-[#E2E8F0] hover:border-[#F97316] hover:shadow-md transition-all"
+                className="group flex flex-col items-center justify-center gap-1.5 sm:gap-2 bg-white rounded-xl p-2.5 sm:p-4 border border-[#E2E8F0] hover:border-[#F97316] hover:shadow-md transition-all"
               >
-                <span className="text-2xl">{icon}</span>
-                <span className="text-xs font-medium text-[#1E293B] group-hover:text-[#F97316] text-center transition-colors">
+                <span className="text-xl sm:text-2xl">{icon}</span>
+                <span className="text-[10px] sm:text-xs font-medium text-[#1E293B] group-hover:text-[#F97316] text-center transition-colors leading-tight">
                   {label}
                 </span>
               </Link>
@@ -244,7 +248,7 @@ export default async function AccueilPage() {
 
       {/* ──────────────────────────── SMARTPHONES ────────────────────────────── */}
       {smartphones.length > 0 && (
-        <section className="py-14 px-4">
+        <section className="py-12 sm:py-16 px-4 sm:px-6">
           <div className="max-w-7xl mx-auto">
             <SectionHeader
               eyebrow="Catégorie"
@@ -253,10 +257,11 @@ export default async function AccueilPage() {
               href="/categories/smartphones"
               linkLabel="Voir tous"
             />
-            <div className="overflow-x-auto -mx-4 px-4 pb-3">
-              <div className="flex gap-4" style={{ width: 'max-content' }}>
+            {/* Carousel — snap scroll + scrollbar masquée */}
+            <div className="overflow-x-auto -mx-4 sm:-mx-6 px-4 sm:px-6 pb-3 snap-x snap-mandatory scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="flex gap-3 sm:gap-4" style={{ width: 'max-content' }}>
                 {smartphones.map((p) => (
-                  <div key={p.id} className="w-56 shrink-0">
+                  <div key={p.id} className="w-44 sm:w-56 shrink-0 snap-start">
                     <CarteProduit produit={p} />
                   </div>
                 ))}
@@ -268,7 +273,7 @@ export default async function AccueilPage() {
 
       {/* ──────────────────────────── ÉLECTROMÉNAGER ─────────────────────────── */}
       {electro.length > 0 && (
-        <section className="py-14 px-4 bg-[#F8FAFC]">
+        <section className="py-12 sm:py-16 px-4 sm:px-6 bg-[#F8FAFC]">
           <div className="max-w-7xl mx-auto">
             <SectionHeader
               eyebrow="Catégorie"
@@ -277,10 +282,11 @@ export default async function AccueilPage() {
               href="/categories/electromenager"
               linkLabel="Voir tout"
             />
-            <div className="overflow-x-auto -mx-4 px-4 pb-3">
-              <div className="flex gap-4" style={{ width: 'max-content' }}>
+            {/* Carousel — snap scroll + scrollbar masquée */}
+            <div className="overflow-x-auto -mx-4 sm:-mx-6 px-4 sm:px-6 pb-3 snap-x snap-mandatory scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="flex gap-3 sm:gap-4" style={{ width: 'max-content' }}>
                 {electro.map((p) => (
-                  <div key={p.id} className="w-56 shrink-0">
+                  <div key={p.id} className="w-44 sm:w-56 shrink-0 snap-start">
                     <CarteProduit produit={p} />
                   </div>
                 ))}
@@ -291,9 +297,9 @@ export default async function AccueilPage() {
       )}
 
       {/* ────────────────────────────── MARQUES ──────────────────────────────── */}
-      <section className="py-16 px-4">
+      <section className="py-12 sm:py-16 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-end justify-between mb-8">
+          <div className="flex items-end justify-between mb-6 sm:mb-8">
             <div>
               <p className="text-[#F97316] text-xs font-semibold uppercase tracking-widest mb-1">Référencées</p>
               <h2 className="font-heading text-[#0F172A] text-2xl md:text-3xl">
@@ -302,18 +308,20 @@ export default async function AccueilPage() {
             </div>
             <Link
               href="/marques"
-              className="hidden sm:flex items-center gap-1.5 text-sm text-slate-500 hover:text-[#F97316] transition-colors"
+              className="flex items-center gap-1 text-xs sm:text-sm font-medium text-[#F97316] sm:text-slate-500 hover:text-[#F97316] transition-colors shrink-0 ml-3"
             >
-              Voir toutes <ArrowRight size={14} />
+              <span className="hidden sm:inline">Voir toutes</span>
+              <span className="sm:hidden">Voir tout</span>
+              <ArrowRight size={13} />
             </Link>
           </div>
 
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2 sm:gap-3">
             {MARQUES_POPULAIRES.map((marque) => (
               <Link
                 key={marque}
                 href={`/marques/${marque.toLowerCase()}`}
-                className="flex items-center justify-center bg-white border border-[#E2E8F0] rounded-xl py-4 px-2 text-sm font-medium text-[#64748B] hover:text-[#0F172A] hover:border-slate-300 hover:shadow-sm transition-all"
+                className="flex items-center justify-center bg-white border border-[#E2E8F0] rounded-xl py-3 sm:py-4 px-2 text-xs sm:text-sm font-medium text-[#64748B] hover:text-[#0F172A] hover:border-[#F97316]/30 hover:shadow-sm transition-all"
               >
                 {marque}
               </Link>
@@ -323,7 +331,7 @@ export default async function AccueilPage() {
       </section>
 
       {/* ────────────────────────── CTA BOUTIQUE ─────────────────────────────── */}
-      <section className="bg-[#0F172A] py-16 px-4">
+      <section className="bg-[#0F172A] py-12 sm:py-16 px-4 sm:px-6">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="font-heading text-white text-2xl md:text-3xl mb-3">
             Vous avez une boutique high-tech ?

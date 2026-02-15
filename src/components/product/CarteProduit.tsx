@@ -31,18 +31,18 @@ export default function CarteProduit({ produit }: CarteProduitProps) {
       href={href}
       className="group flex flex-col bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden hover:border-[#F97316]/40 hover:shadow-lg hover:shadow-orange-100/30 transition-all"
     >
-      {/* Image */}
-      <div className="relative h-44 bg-[#F8FAFC] flex items-center justify-center overflow-hidden">
+      {/* Image — aspect-ratio responsive */}
+      <div className="relative aspect-[4/3] w-full bg-[#F8FAFC] overflow-hidden">
         {produit.image ? (
           <Image
             src={produit.image}
             alt={produit.nom}
             fill
-            sizes="(max-width: 640px) 100vw, 33vw"
-            className="object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            className="object-contain p-3 group-hover:scale-105 transition-transform duration-300"
           />
         ) : (
-          <div className="text-5xl opacity-20">⚙️</div>
+          <div className="absolute inset-0 flex items-center justify-center text-4xl opacity-20">⚙️</div>
         )}
         {hasDiscount && (
           <span className="absolute top-2 left-2 bg-[#F97316] text-white text-xs font-bold px-2 py-0.5 rounded-md">
@@ -52,23 +52,21 @@ export default function CarteProduit({ produit }: CarteProduitProps) {
       </div>
 
       {/* Contenu */}
-      <div className="flex flex-col flex-1 p-4">
+      <div className="flex flex-col flex-1 p-3 sm:p-4">
         {/* Marque + Store */}
-        <div className="flex items-center justify-between mb-1">
-          <div>
-            <p className="text-[#F97316] text-xs font-semibold uppercase tracking-wide">
-              {produit.marque}
-            </p>
-          </div>
+        <div className="flex items-center justify-between mb-1.5 gap-2">
+          <p className="text-[#F97316] text-xs font-semibold uppercase tracking-wide truncate">
+            {produit.marque}
+          </p>
           {produit.boutique && (
-            <span className={`flex items-center px-1.5 py-0.5 rounded-full border ${storeClass}`}>
+            <span className={`flex items-center px-1.5 py-0.5 rounded-full border ${storeClass} shrink-0`}>
               {STORE_LOGOS[storeKey] ? (
                 <Image
                   src={STORE_LOGOS[storeKey]}
                   alt={produit.boutique}
                   width={52}
                   height={16}
-                  className="object-contain h-4 w-auto"
+                  className="object-contain h-3.5 sm:h-4 w-auto"
                 />
               ) : (
                 <span className="text-xs font-semibold">{produit.boutique}</span>
@@ -77,39 +75,40 @@ export default function CarteProduit({ produit }: CarteProduitProps) {
           )}
         </div>
 
-        <p className="font-heading font-semibold text-[#0F172A] text-sm leading-snug line-clamp-2 flex-1">
+        <p className="font-heading font-semibold text-[#0F172A] text-xs sm:text-sm leading-snug line-clamp-2 flex-1">
           {produit.nom}
         </p>
 
         {/* Stock */}
         {produit.en_stock !== undefined && (
-          <p className={`text-xs font-semibold mt-1 ${produit.en_stock ? 'text-green-600' : 'text-red-400'}`}>
-            {produit.en_stock ? '● En stock' : '○ Rupture de stock'}
+          <p className={`text-xs font-medium mt-1 ${produit.en_stock ? 'text-green-600' : 'text-red-400'}`}>
+            {produit.en_stock ? '● En stock' : '○ Rupture'}
           </p>
         )}
 
         {/* Prix */}
-        <div className="flex items-end justify-between mt-3 pt-3 border-t border-[#E2E8F0]">
+        <div className="flex items-end justify-between mt-2.5 pt-2.5 border-t border-[#E2E8F0]">
           {produit.prix_min ? (
             <div>
               {hasOldPrice && (
-                <p className="text-xs text-[#94A3B8] line-through leading-none mb-0.5">
+                <p className="text-[10px] text-[#94A3B8] line-through leading-none mb-0.5">
                   {produit.prix_max} DT
                 </p>
               )}
-              <p className="font-heading text-[#F97316] font-bold text-lg leading-none">
+              <p className="font-heading text-[#F97316] font-bold text-base sm:text-lg leading-none">
                 {produit.prix_min} DT
               </p>
               {hasDiscount && (
-                <p className="text-xs text-green-600 font-semibold mt-0.5">
-                  Économie : {produit.discount} DT
+                <p className="text-[10px] text-green-600 font-semibold mt-0.5">
+                  Économie {produit.discount} DT
                 </p>
               )}
             </div>
           ) : (
-            <p className="text-xs text-[#64748B]">Prix non disponible</p>
+            <p className="text-xs text-[#64748B]">Prix indisponible</p>
           )}
-          <div className="w-8 h-8 rounded-full bg-[#F97316]/10 flex items-center justify-center group-hover:bg-[#F97316] transition-colors shrink-0">
+          {/* Touch target 36px */}
+          <div className="w-9 h-9 rounded-full bg-[#F97316]/10 flex items-center justify-center group-hover:bg-[#F97316] transition-colors shrink-0">
             <ArrowRight size={14} className="text-[#F97316] group-hover:text-white transition-colors" />
           </div>
         </div>
