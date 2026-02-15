@@ -8,9 +8,15 @@ interface CarteProduitProps {
 }
 
 const STORE_COLORS: Record<string, string> = {
-  mytek:      'bg-blue-50 text-blue-600 border-blue-100',
-  tunisianet: 'bg-green-50 text-green-600 border-green-100',
-  spacenet:   'bg-purple-50 text-purple-600 border-purple-100',
+  mytek:      'bg-blue-50 border-blue-100',
+  tunisianet: 'bg-green-50 border-green-100',
+  spacenet:   'bg-purple-50 border-purple-100',
+}
+
+const STORE_LOGOS: Record<string, string> = {
+  mytek:      '/stores/mytek.png',
+  tunisianet: '/stores/tunisianet.png',
+  spacenet:   '/stores/spacenet.png',
 }
 
 export default function CarteProduit({ produit }: CarteProduitProps) {
@@ -53,8 +59,18 @@ export default function CarteProduit({ produit }: CarteProduitProps) {
             {produit.marque}
           </p>
           {produit.boutique && (
-            <span className={`text-xs font-semibold px-2 py-0.5 rounded-full border ${storeClass}`}>
-              {produit.boutique}
+            <span className={`flex items-center px-1.5 py-0.5 rounded-full border ${storeClass}`}>
+              {STORE_LOGOS[storeKey] ? (
+                <Image
+                  src={STORE_LOGOS[storeKey]}
+                  alt={produit.boutique}
+                  width={52}
+                  height={16}
+                  className="object-contain h-4 w-auto"
+                />
+              ) : (
+                <span className="text-xs font-semibold">{produit.boutique}</span>
+              )}
             </span>
           )}
         </div>
