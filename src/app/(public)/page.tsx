@@ -6,7 +6,9 @@ import {
 } from 'lucide-react'
 import { getProduits } from '@/lib/api/produits'
 import CarouselProduits from '@/components/ui/CarouselProduits'
-import CategoriesPills from '@/components/ui/CategoriesPills'
+import StoriesCategories from '@/components/ui/StoriesCategories'
+import CampagneTeasers from '@/components/ui/CampagneTeasers'
+import TuilesCategoriesCarousel from '@/components/ui/TuilesCategoriesCarousel'
 import MarqueeMarques from '@/components/ui/MarqueeMarques'
 
 export const dynamic = 'force-dynamic'
@@ -22,16 +24,6 @@ const STATS = [
   { valeur: '3',       label: 'Boutiques'},
 ]
 
-const CATEGORIES_RAPIDES = [
-  { href: '/categories/smartphones',          label: 'Smartphones',      icon: '📱' },
-  { href: '/categories/ordinateurs-portables',label: 'Laptops',          icon: '💻' },
-  { href: '/categories/tablettes',            label: 'Tablettes',        icon: '📟' },
-  { href: '/categories/audio',                label: 'Audio',            icon: '🎧' },
-  { href: '/categories/gaming',               label: 'Gaming',           icon: '🎮' },
-  { href: '/categories/electromenager',       label: 'Électroménager',   icon: '🏠' },
-  { href: '/categories/photo',                label: 'Photo & Vidéo',    icon: '📷' },
-  { href: '/categories',                      label: 'Tout voir',        icon: '→'  },
-]
 
 const AVANTAGES = [
   'Comparez les prix en temps réel',
@@ -169,8 +161,11 @@ export default async function AccueilPage() {
         </div>
       </section>
 
-      {/* ──────────────────────── PILLS CATÉGORIES ───────────────────────────── */}
-      <CategoriesPills />
+      {/* ──────────────────── STORIES CATÉGORIES ─────────────────────────────── */}
+      <StoriesCategories />
+
+      {/* ─────────────────────── CAMPAIGN TEASERS ────────────────────────────── */}
+      <CampagneTeasers />
 
       {/* ───────────────────────── TENDANCES ACTUELLES ───────────────────────── */}
       {tendances.length > 0 && (
@@ -204,7 +199,7 @@ export default async function AccueilPage() {
         </section>
       )}
 
-      {/* ─────────────────────────── CATÉGORIES RAPIDES ──────────────────────── */}
+      {/* ─────────────────────────── CATÉGORIES TUILES ───────────────────────── */}
       <section className="bg-[#F8FAFC] py-12 sm:py-16 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-end justify-between mb-6 sm:mb-8">
@@ -223,21 +218,7 @@ export default async function AccueilPage() {
               <ArrowRight size={13} />
             </Link>
           </div>
-
-          <div className="grid grid-cols-4 sm:grid-cols-4 lg:grid-cols-8 gap-2 sm:gap-3">
-            {CATEGORIES_RAPIDES.map(({ href, label, icon }) => (
-              <Link
-                key={href}
-                href={href}
-                className="group flex flex-col items-center justify-center gap-1.5 sm:gap-2 bg-white rounded-xl p-2.5 sm:p-4 border border-[#E2E8F0] hover:border-[#F97316] hover:shadow-md transition-all"
-              >
-                <span className="text-xl sm:text-2xl">{icon}</span>
-                <span className="text-[10px] sm:text-xs font-medium text-[#1E293B] group-hover:text-[#F97316] text-center transition-colors leading-tight">
-                  {label}
-                </span>
-              </Link>
-            ))}
-          </div>
+          <TuilesCategoriesCarousel />
         </div>
       </section>
 
