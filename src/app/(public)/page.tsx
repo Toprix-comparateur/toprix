@@ -1,6 +1,11 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { Search, Zap, ArrowRight, CheckCircle2 } from 'lucide-react'
+import {
+  Search, Zap, ArrowRight, CheckCircle2,
+  TrendingUp, Tag, Smartphone, Home,
+} from 'lucide-react'
+import { getProduits } from '@/lib/api/produits'
+import CarteProduit from '@/components/product/CarteProduit'
 
 export const dynamic = 'force-dynamic'
 
@@ -12,18 +17,18 @@ export const metadata: Metadata = {
 const STATS = [
   { valeur: '50 000+', label: 'Produits' },
   { valeur: '120+',    label: 'Marques'  },
-  { valeur: '80+',     label: 'Boutiques'},
+  { valeur: '3',       label: 'Boutiques'},
 ]
 
 const CATEGORIES_RAPIDES = [
-  { href: '/categories/smartphones', label: 'Smartphones', icon: '📱' },
-  { href: '/categories/laptops',     label: 'Laptops',     icon: '💻' },
-  { href: '/categories/tablettes',   label: 'Tablettes',   icon: '🖱️' },
-  { href: '/categories/audio',       label: 'Audio',       icon: '🎧' },
-  { href: '/categories/gaming',      label: 'Gaming',      icon: '🎮' },
-  { href: '/categories/photo',       label: 'Photo & Vidéo', icon: '📷' },
-  { href: '/categories/maison',      label: 'Maison Connectée', icon: '🏠' },
-  { href: '/categories',             label: 'Tout voir',   icon: '→'  },
+  { href: '/categories/smartphones',          label: 'Smartphones',      icon: '📱' },
+  { href: '/categories/ordinateurs-portables',label: 'Laptops',          icon: '💻' },
+  { href: '/categories/tablettes',            label: 'Tablettes',        icon: '📟' },
+  { href: '/categories/audio',                label: 'Audio',            icon: '🎧' },
+  { href: '/categories/gaming',               label: 'Gaming',           icon: '🎮' },
+  { href: '/categories/electromenager',       label: 'Électroménager',   icon: '🏠' },
+  { href: '/categories/photo',                label: 'Photo & Vidéo',    icon: '📷' },
+  { href: '/categories',                      label: 'Tout voir',        icon: '→'  },
 ]
 
 const MARQUES_POPULAIRES = [
@@ -34,15 +39,62 @@ const MARQUES_POPULAIRES = [
 
 const AVANTAGES = [
   'Comparez les prix en temps réel',
-  'Plus de 80 boutiques référencées',
+  '3 boutiques référencées',
   'Trouvez le meilleur deal en secondes',
 ]
 
-export default function AccueilPage() {
+// Section titre réutilisable
+function SectionHeader({
+  eyebrow, title, icon: Icon, href, linkLabel,
+}: {
+  eyebrow: string
+  title: string
+  icon: React.FC<{ size?: number; className?: string }>
+  href: string
+  linkLabel: string
+}) {
+  return (
+    <div className="flex items-end justify-between mb-8">
+      <div>
+        <p className="text-[#F97316] text-xs font-semibold uppercase tracking-widest mb-1 flex items-center gap-1.5">
+          <Icon size={12} />
+          {eyebrow}
+        </p>
+        <h2 className="font-heading text-[#0F172A] text-2xl md:text-3xl">
+          {title}
+        </h2>
+      </div>
+      <Link
+        href={href}
+        className="hidden sm:flex items-center gap-1.5 text-sm text-slate-500 hover:text-[#F97316] transition-colors"
+      >
+        {linkLabel} <ArrowRight size={14} />
+      </Link>
+    </div>
+  )
+}
+
+export default async function AccueilPage() {
+  // Chargement parallèle — 3 appels simultanés
+  const [promosRes, smartphonesRes, electroRes] = await Promise.allSettled([
+    getProduits({ en_promo: true }),
+    getProduits({ categorie: 'smartphones' }),
+    getProduits({ categorie: 'electromenager' }),
+  ])
+
+  const promos      = promosRes.status      === 'fulfilled' ? promosRes.value.data      : []
+  const smartphones = smartphonesRes.status === 'fulfilled' ? smartphonesRes.value.data.slice(0, 10) : []
+  const electro     = electroRes.status     === 'fulfilled' ? electroRes.value.data.slice(0, 10)     : []
+
+  // Tendances = 8 premiers produits en promo
+  // Top promos = 8 suivants (produits 9-16)
+  const tendances = promos.slice(0, 8)
+  const topPromos = promos.slice(8, 16)
+
   return (
     <div className="bg-white">
 
-      {/* HERO */}
+      {/* ─────────────────────────────────── HERO ───────────────────────────── */}
       <section className="relative bg-[#0F172A] overflow-hidden" style={{ minHeight: '540px' }}>
 
         {/* Grille décorative */}
@@ -60,13 +112,11 @@ export default function AccueilPage() {
 
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 pt-20 pb-28 text-center">
 
-          {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-[#F97316]/10 border border-[#F97316]/30 text-[#F97316] text-xs font-semibold px-3 py-1.5 rounded-full mb-6 tracking-wide uppercase">
             <Zap size={11} />
             Comparateur n°1 en Tunisie
           </div>
 
-          {/* Titre */}
           <h1 className="font-heading text-white text-4xl sm:text-5xl md:text-6xl font-bold mb-4 tracking-tight leading-tight">
             Comparez les produits<br />
             <span className="text-[#F97316]">high-tech au meilleur prix</span>
@@ -76,7 +126,6 @@ export default function AccueilPage() {
             Smartphones, laptops, audio, gaming — comparez instantanément parmi toutes les boutiques en Tunisie.
           </p>
 
-          {/* Barre de recherche */}
           <form
             action="/rechercher"
             method="get"
@@ -99,7 +148,6 @@ export default function AccueilPage() {
             </button>
           </form>
 
-          {/* Avantages */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
             {AVANTAGES.map((a) => (
               <div key={a} className="flex items-center gap-2 text-slate-400 text-sm">
@@ -123,7 +171,43 @@ export default function AccueilPage() {
         </div>
       </section>
 
-      {/* CATÉGORIES */}
+      {/* ───────────────────────── TENDANCES ACTUELLES ───────────────────────── */}
+      {tendances.length > 0 && (
+        <section className="py-14 px-4">
+          <div className="max-w-7xl mx-auto">
+            <SectionHeader
+              eyebrow="En ce moment"
+              title="Tendances actuelles"
+              icon={TrendingUp}
+              href="/rechercher?en_promo=1"
+              linkLabel="Tout voir"
+            />
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+              {tendances.map((p) => <CarteProduit key={p.id} produit={p} />)}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ──────────────────────────── TOP PROMOS ─────────────────────────────── */}
+      {topPromos.length > 0 && (
+        <section className="py-14 px-4 bg-gradient-to-b from-orange-50/70 to-white">
+          <div className="max-w-7xl mx-auto">
+            <SectionHeader
+              eyebrow="Meilleures offres"
+              title="Top promos"
+              icon={Tag}
+              href="/rechercher?en_promo=1"
+              linkLabel="Voir toutes les promos"
+            />
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+              {topPromos.map((p) => <CarteProduit key={p.id} produit={p} />)}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ─────────────────────────── CATÉGORIES RAPIDES ──────────────────────── */}
       <section className="bg-[#F8FAFC] py-16 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-end justify-between mb-8">
@@ -158,7 +242,55 @@ export default function AccueilPage() {
         </div>
       </section>
 
-      {/* MARQUES */}
+      {/* ──────────────────────────── SMARTPHONES ────────────────────────────── */}
+      {smartphones.length > 0 && (
+        <section className="py-14 px-4">
+          <div className="max-w-7xl mx-auto">
+            <SectionHeader
+              eyebrow="Catégorie"
+              title="Smartphones"
+              icon={Smartphone}
+              href="/categories/smartphones"
+              linkLabel="Voir tous"
+            />
+            <div className="overflow-x-auto -mx-4 px-4 pb-3">
+              <div className="flex gap-4" style={{ width: 'max-content' }}>
+                {smartphones.map((p) => (
+                  <div key={p.id} className="w-56 shrink-0">
+                    <CarteProduit produit={p} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ──────────────────────────── ÉLECTROMÉNAGER ─────────────────────────── */}
+      {electro.length > 0 && (
+        <section className="py-14 px-4 bg-[#F8FAFC]">
+          <div className="max-w-7xl mx-auto">
+            <SectionHeader
+              eyebrow="Catégorie"
+              title="Électroménager"
+              icon={Home}
+              href="/categories/electromenager"
+              linkLabel="Voir tout"
+            />
+            <div className="overflow-x-auto -mx-4 px-4 pb-3">
+              <div className="flex gap-4" style={{ width: 'max-content' }}>
+                {electro.map((p) => (
+                  <div key={p.id} className="w-56 shrink-0">
+                    <CarteProduit produit={p} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ────────────────────────────── MARQUES ──────────────────────────────── */}
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-end justify-between mb-8">
@@ -190,7 +322,7 @@ export default function AccueilPage() {
         </div>
       </section>
 
-      {/* CTA BOUTIQUE */}
+      {/* ────────────────────────── CTA BOUTIQUE ─────────────────────────────── */}
       <section className="bg-[#0F172A] py-16 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="font-heading text-white text-2xl md:text-3xl mb-3">
