@@ -5,6 +5,7 @@ import type { Produit } from '@/types'
 
 interface CarteProduitProps {
   produit: Produit
+  className?: string
 }
 
 const STORE_COLORS: Record<string, string> = {
@@ -19,7 +20,7 @@ const STORE_LOGOS: Record<string, string> = {
   spacenet:   '/stores/spacenet.png',
 }
 
-export default function CarteProduit({ produit }: CarteProduitProps) {
+export default function CarteProduit({ produit, className }: CarteProduitProps) {
   const href = produit.slug ? `/produit/${produit.slug}` : `/produit/${produit.id}`
   const storeKey = (produit.boutique ?? '').toLowerCase()
   const storeClass = STORE_COLORS[storeKey] ?? 'bg-slate-50 text-slate-500 border-slate-100'
@@ -32,7 +33,7 @@ export default function CarteProduit({ produit }: CarteProduitProps) {
   return (
     <Link
       href={href}
-      className="group flex flex-col bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden hover:border-[#F97316]/40 hover:shadow-lg hover:shadow-orange-100/30 transition-all"
+      className={`group flex flex-col bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden hover:border-[#F97316]/40 hover:shadow-lg hover:shadow-orange-100/30 transition-all${className ? ` ${className}` : ''}`}
     >
       {/* Image — aspect-ratio responsive */}
       <div className="relative aspect-[4/3] w-full bg-white overflow-hidden">

@@ -249,10 +249,10 @@ export default async function AccueilPage() {
           {/* Produits scroll */}
           <div className="overflow-x-auto px-4 sm:px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <div className="max-w-7xl mx-auto">
-              <div className="flex gap-3" style={{ width: 'max-content' }}>
+              <div className="flex gap-4" style={{ width: 'max-content' }}>
                 {tvs.map(p => (
-                  <div key={p.id} className="w-32 sm:w-36 shrink-0">
-                    <CarteProduit produit={p} />
+                  <div key={p.id} className="w-44 sm:w-48 shrink-0 h-[290px]">
+                    <CarteProduit produit={p} className="h-full" />
                   </div>
                 ))}
               </div>
@@ -312,10 +312,10 @@ export default async function AccueilPage() {
           {/* Produits scroll */}
           <div className="overflow-x-auto px-4 sm:px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <div className="max-w-7xl mx-auto">
-              <div className="flex gap-3" style={{ width: 'max-content' }}>
+              <div className="flex gap-4" style={{ width: 'max-content' }}>
                 {laptops.map(p => (
-                  <div key={p.id} className="w-32 sm:w-36 shrink-0">
-                    <CarteProduit produit={p} />
+                  <div key={p.id} className="w-44 sm:w-48 shrink-0 h-[290px]">
+                    <CarteProduit produit={p} className="h-full" />
                   </div>
                 ))}
               </div>
