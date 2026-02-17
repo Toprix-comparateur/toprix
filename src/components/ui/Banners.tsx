@@ -23,35 +23,6 @@ export function BannerStats() {
           <p className="text-slate-500 text-sm">Smart TV · OLED · QLED · 4K</p>
         </div>
 
-        {/* Cartes comparaison */}
-        <div className="flex flex-col sm:flex-row gap-3 sm:max-w-lg">
-          {[
-            { store: 'Mytek',      dot: 'bg-blue-500',   prix: '1 249 DT', best: false },
-            { store: 'Tunisianet', dot: 'bg-green-500',  prix: '1 199 DT', best: false },
-            { store: 'Spacenet',   dot: 'bg-purple-500', prix: '989 DT',   best: true  },
-          ].map(({ store, dot, prix, best }) => (
-            <div
-              key={store}
-              className={`flex-1 flex items-center justify-between px-4 py-3 rounded-xl border ${best ? 'bg-white/10 border-[#F97316]/40' : 'bg-white/5 border-white/10'}`}
-            >
-              <div className="flex items-center gap-2">
-                <span className={`w-2 h-2 rounded-full shrink-0 ${dot}`} />
-                <span className="text-xs font-medium text-slate-300">{store}</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <span className={`text-xs font-bold ${best ? 'text-[#F97316]' : 'text-slate-500 line-through'}`}>{prix}</span>
-                {best && <span className="text-[9px] font-bold bg-[#F97316] text-white px-1.5 py-0.5 rounded-md">Meilleur</span>}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Économie */}
-        <div className="flex items-center gap-1.5 mt-3">
-          <Zap size={11} className="text-green-400" />
-          <span className="text-[11px] text-green-400 font-medium">Économie jusqu&apos;à 260 DT sur ce produit</span>
-        </div>
-
       </div>
     </div>
   )
