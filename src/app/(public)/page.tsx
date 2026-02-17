@@ -8,9 +8,9 @@ import { getProduits } from '@/lib/api/produits'
 import CarouselProduits from '@/components/ui/CarouselProduits'
 import CampagneTeasers from '@/components/ui/CampagneTeasers'
 import Image from 'next/image'
-import CarteProduit from '@/components/product/CarteProduit'
 import MarqueeMarques from '@/components/ui/MarqueeMarques'
 import CarouselCategories from '@/components/ui/CarouselCategories'
+import CarouselEdito from '@/components/ui/CarouselEdito'
 import { BannerStats, BannerHowItWorks } from '@/components/ui/Banners'
 
 export const dynamic = 'force-dynamic'
@@ -247,15 +247,9 @@ export default async function AccueilPage() {
           </div>
 
           {/* Produits scroll */}
-          <div className="overflow-x-auto px-4 sm:px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="px-4 sm:px-6">
             <div className="max-w-7xl mx-auto">
-              <div className="flex gap-4" style={{ width: 'max-content' }}>
-                {tvs.map(p => (
-                  <div key={p.id} className="w-44 sm:w-48 shrink-0 h-[290px]">
-                    <CarteProduit produit={p} className="h-full" />
-                  </div>
-                ))}
-              </div>
+              <CarouselEdito produits={tvs} />
             </div>
           </div>
 
@@ -310,15 +304,9 @@ export default async function AccueilPage() {
           </div>
 
           {/* Produits scroll */}
-          <div className="overflow-x-auto px-4 sm:px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="px-4 sm:px-6">
             <div className="max-w-7xl mx-auto">
-              <div className="flex gap-4" style={{ width: 'max-content' }}>
-                {laptops.map(p => (
-                  <div key={p.id} className="w-44 sm:w-48 shrink-0 h-[290px]">
-                    <CarteProduit produit={p} className="h-full" />
-                  </div>
-                ))}
-              </div>
+              <CarouselEdito produits={laptops} />
             </div>
           </div>
 

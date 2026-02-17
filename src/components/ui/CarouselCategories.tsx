@@ -48,6 +48,31 @@ const CATEGORIES = [
   },
 ]
 
+function CatCard({ href, label, img }: { href: string; label: string; img: string }) {
+  return (
+    <Link
+      href={href}
+      className="group rounded-2xl overflow-hidden border border-[#E2E8F0] hover:border-transparent hover:shadow-lg transition-all duration-200"
+    >
+      <div className="relative h-24 sm:h-28 overflow-hidden bg-[#F8FAFC]">
+        <Image
+          src={img}
+          alt={label}
+          fill
+          className="object-cover group-hover:scale-105 transition-transform duration-300"
+          sizes="(max-width: 640px) 44vw, 176px"
+        />
+      </div>
+      <div className="bg-white px-3 py-2.5 flex items-center justify-between">
+        <span className="text-[#1E293B] text-xs sm:text-[13px] font-semibold group-hover:text-[#F97316] transition-colors leading-tight">
+          {label}
+        </span>
+        <span className="text-[#CBD5E1] group-hover:text-[#F97316] transition-colors text-xs">›</span>
+      </div>
+    </Link>
+  )
+}
+
 export default function CarouselCategories() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [canLeft, setCanLeft]   = useState(false)
@@ -68,66 +93,44 @@ export default function CarouselCategories() {
     return () => el.removeEventListener('scroll', update)
   }, [update])
 
-  const scroll = (dir: 'left' | 'right') => {
-    scrollRef.current?.scrollBy({ left: dir === 'left' ? -500 : 500, behavior: 'smooth' })
-  }
-
   return (
-    <div className="relative group/carousel">
-
-      {/* Flèche gauche — desktop uniquement */}
-      <button
-        onClick={() => scroll('left')}
-        aria-label="Précédent"
-        className={`hidden sm:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-9 h-9 items-center justify-center rounded-full bg-white border border-[#E2E8F0] shadow-md hover:border-[#F97316] hover:text-[#F97316] transition-all duration-150 ${canLeft ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-      >
-        <ChevronLeft size={18} />
-      </button>
-
-      {/* Flèche droite — desktop uniquement */}
-      <button
-        onClick={() => scroll('right')}
-        aria-label="Suivant"
-        className={`hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-9 h-9 items-center justify-center rounded-full bg-white border border-[#E2E8F0] shadow-md hover:border-[#F97316] hover:text-[#F97316] transition-all duration-150 ${canRight ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-      >
-        <ChevronRight size={18} />
-      </button>
-
-      {/* Piste scrollable */}
-      <div
-        ref={scrollRef}
-        className="overflow-x-auto -mx-4 sm:-mx-0 px-4 sm:px-0 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-      >
-        <div className="flex gap-3 sm:gap-4" style={{ width: 'max-content' }}>
-          {CATEGORIES.map(({ href, label, img }) => (
-            <Link
-              key={href}
-              href={href}
-              className="group shrink-0 w-36 sm:w-44 rounded-2xl overflow-hidden border border-[#E2E8F0] hover:border-transparent hover:shadow-lg transition-all duration-200"
-            >
-              {/* Zone image */}
-              <div className="relative h-24 sm:h-28 overflow-hidden bg-[#F8FAFC]">
-                <Image
-                  src={img}
-                  alt={label}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  sizes="(max-width: 640px) 144px, 176px"
-                />
-              </div>
-
-              {/* Label */}
-              <div className="bg-white px-3 py-2.5 flex items-center justify-between">
-                <span className="text-[#1E293B] text-xs sm:text-[13px] font-semibold group-hover:text-[#F97316] transition-colors leading-tight">
-                  {label}
-                </span>
-                <span className="text-[#CBD5E1] group-hover:text-[#F97316] transition-colors text-xs">›</span>
-              </div>
-            </Link>
-          ))}
-        </div>
+    <>
+      {/* ── Mobile : grille 2 colonnes ── */}
+      <div className="grid grid-cols-2 gap-3 sm:hidden">
+        {CATEGORIES.map(c => <CatCard key={c.href} {...c} />)}
       </div>
 
-    </div>
+      {/* ── Desktop : carrousel avec flèches ── */}
+      <div className="relative hidden sm:block">
+        <button
+          onClick={() => scrollRef.current?.scrollBy({ left: -500, behavior: 'smooth' })}
+          aria-label="Précédent"
+          className={`absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-white border border-[#E2E8F0] shadow-md hover:border-[#F97316] hover:text-[#F97316] transition-all duration-150 ${canLeft ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        >
+          <ChevronLeft size={18} />
+        </button>
+
+        <div
+          ref={scrollRef}
+          className="overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          <div className="flex gap-4" style={{ width: 'max-content' }}>
+            {CATEGORIES.map(c => (
+              <div key={c.href} className="w-44 shrink-0">
+                <CatCard {...c} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <button
+          onClick={() => scrollRef.current?.scrollBy({ left: 500, behavior: 'smooth' })}
+          aria-label="Suivant"
+          className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-white border border-[#E2E8F0] shadow-md hover:border-[#F97316] hover:text-[#F97316] transition-all duration-150 ${canRight ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        >
+          <ChevronRight size={18} />
+        </button>
+      </div>
+    </>
   )
 }
