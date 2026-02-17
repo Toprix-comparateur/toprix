@@ -10,6 +10,7 @@ import StoriesCategories from '@/components/ui/StoriesCategories'
 import CampagneTeasers from '@/components/ui/CampagneTeasers'
 import TuilesCategoriesCarousel from '@/components/ui/TuilesCategoriesCarousel'
 import MarqueeMarques from '@/components/ui/MarqueeMarques'
+import CarouselCategories from '@/components/ui/CarouselCategories'
 import { BannerStats, BannerHowItWorks } from '@/components/ui/Banners'
 
 export const dynamic = 'force-dynamic'
@@ -244,6 +245,26 @@ export default async function AccueilPage() {
           </div>
         </section>
       )}
+
+      {/* ──────────────────── CARROUSEL CATÉGORIES (style Idealo) ─────────────── */}
+      <section className="py-8 sm:py-10 px-4 sm:px-6 bg-[#F8FAFC]">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-end justify-between mb-5 sm:mb-6">
+            <div>
+              <p className="text-[#F97316] text-xs font-semibold uppercase tracking-widest mb-1">Explorer</p>
+              <h2 className="font-heading text-[#0F172A] text-2xl md:text-3xl">Toutes les catégories</h2>
+            </div>
+            <Link
+              href="/categories"
+              className="flex items-center gap-1 text-xs sm:text-sm font-medium text-slate-500 hover:text-[#F97316] transition-colors shrink-0 ml-3"
+            >
+              <span className="hidden sm:inline">Tout voir</span>
+              <ArrowRight size={13} />
+            </Link>
+          </div>
+          <CarouselCategories />
+        </div>
+      </section>
 
       {/* ──────────────────────────── ÉLECTROMÉNAGER ─────────────────────────── */}
       {electro.length > 0 && (
