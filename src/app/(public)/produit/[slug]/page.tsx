@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
-import { getProduit } from '@/lib/api/produits'
+import { getProduit, getProduits } from '@/lib/api/produits'
+import type { Produit } from '@/types'
 import { notFound } from 'next/navigation'
+import CarteProduit from '@/components/product/CarteProduit'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
@@ -38,9 +40,18 @@ const STORE_COLORS: Record<string, string> = {
 
 export default async function ProduitDetailPage({ params }: Props) {
   const { slug } = await params
-  let produit = null
+  let produit: Produit | null = null
   try { produit = await getProduit(slug) } catch { notFound() }
   if (!produit) notFound()
+
+  // Produits similaires (même catégorie, hors produit courant)
+  let similaires: Produit[] = []
+  if (produit.categorie) {
+    try {
+      const res = await getProduits({ categorie: produit.categorie })
+      similaires = (res.data ?? []).filter(p => p.id !== produit!.id).slice(0, 3)
+    } catch { /* ignore */ }
+  }
 
   const hasDiscount = (produit.discount ?? 0) > 0
   const hasOldPrice = !!(produit.prix_max && produit.prix_min && produit.prix_max > produit.prix_min)
@@ -261,6 +272,21 @@ export default async function ProduitDetailPage({ params }: Props) {
             )}
           </div>
         </div>
+
+        {/* ── Produits similaires ── */}
+        {similaires.length > 0 && (
+          <div className="mt-10 pt-8 border-t border-[#E2E8F0]">
+            <h2 className="font-heading text-[#0F172A] text-lg font-semibold mb-5">
+              Produits similaires
+            </h2>
+            <div className="grid grid-cols-3 gap-3 sm:gap-4">
+              {similaires.map((p) => (
+                <CarteProduit key={p.id} produit={p} />
+              ))}
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   )

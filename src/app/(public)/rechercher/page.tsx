@@ -315,7 +315,7 @@ export default async function RechercherPage({ searchParams }: Props) {
               <>
                 {produits.data.length > 0 ? (
                   <>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                    <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5">
                       {produits.data.map((p) => (
                         <CarteProduit key={p.id} produit={p} />
                       ))}
