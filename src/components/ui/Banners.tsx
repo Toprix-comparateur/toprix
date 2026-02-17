@@ -64,29 +64,54 @@ export function BannerStats() {
           </div>
         </div>
 
-        {/* ── Côté image ── */}
-        <div className="sm:w-[42%] relative min-h-[160px] sm:min-h-0 overflow-hidden">
-          {/* Gradient de fondu gauche */}
-          <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#0F172A] to-transparent z-10" />
+        {/* ── Côté graphique : comparaison prix ── */}
+        <div className="sm:w-[42%] relative min-h-[180px] sm:min-h-0 flex items-center justify-center px-6 py-6 overflow-hidden">
 
-          <Image
-            src="/banners/smartphone.webp"
-            alt="Smartphones high-tech"
-            fill
-            className="object-cover object-center"
-            sizes="(max-width: 640px) 100vw, 42vw"
-            priority
-          />
+          {/* Fond avec lueurs */}
+          <div className="absolute inset-0" style={{
+            background: 'radial-gradient(ellipse at 70% 50%, rgba(249,115,22,0.12) 0%, transparent 60%), radial-gradient(ellipse at 20% 80%, rgba(59,130,246,0.08) 0%, transparent 50%)',
+          }} />
+          {/* Cercle décoratif */}
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-64 h-64 rounded-full border border-white/5 -translate-x-8 hidden sm:block" />
+          <div className="absolute right-8 top-1/2 -translate-y-1/2 w-40 h-40 rounded-full border border-white/5 hidden sm:block" />
 
-          {/* Badge promo */}
-          <div className="absolute top-4 right-4 z-20 bg-[#F97316] text-white text-[11px] font-black px-3 py-1.5 rounded-xl shadow-xl rotate-2">
-            −40% MAX
-          </div>
+          {/* Cartes de prix flottantes */}
+          <div className="relative z-10 flex flex-col gap-2.5 w-full max-w-[260px]">
 
-          {/* Badge marques */}
-          <div className="absolute bottom-4 right-4 z-20 flex items-center gap-1.5 bg-black/40 backdrop-blur-md text-white/80 text-[10px] font-medium px-3 py-1.5 rounded-full border border-white/10">
-            <Tag size={8} />
-            120+ marques
+            {/* Label */}
+            <p className="text-slate-500 text-[10px] uppercase tracking-widest mb-1">Exemple de comparaison</p>
+
+            {[
+              { store: 'Mytek',      color: 'bg-blue-500',   prix: '1 249',  slash: true  },
+              { store: 'Tunisianet', color: 'bg-green-500',  prix: '1 199',  slash: true  },
+              { store: 'Spacenet',   color: 'bg-purple-500', prix: '989',    slash: false, best: true },
+            ].map(({ store, color, prix, slash, best }) => (
+              <div
+                key={store}
+                className={`flex items-center justify-between px-3 py-2.5 rounded-xl border transition-all ${best ? 'bg-white/10 border-[#F97316]/40 shadow-lg shadow-orange-900/20' : 'bg-white/5 border-white/10'}`}
+              >
+                <div className="flex items-center gap-2">
+                  <span className={`w-2 h-2 rounded-full ${color}`} />
+                  <span className="text-xs font-medium text-slate-300">{store}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  {slash && <span className="text-[10px] text-slate-600 line-through">{prix} DT</span>}
+                  {best && <span className="text-xs font-black text-[#F97316]">{prix} DT</span>}
+                  {best && (
+                    <span className="text-[9px] font-bold bg-[#F97316] text-white px-1.5 py-0.5 rounded-md">
+                      Meilleur prix
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
+
+            {/* Économie */}
+            <div className="flex items-center gap-2 pt-1 pl-1">
+              <Zap size={11} className="text-green-400" />
+              <span className="text-[11px] text-green-400 font-semibold">Économie : jusqu&apos;à 260 DT</span>
+            </div>
+
           </div>
         </div>
 
