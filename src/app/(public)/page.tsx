@@ -10,6 +10,7 @@ import StoriesCategories from '@/components/ui/StoriesCategories'
 import CampagneTeasers from '@/components/ui/CampagneTeasers'
 import TuilesCategoriesCarousel from '@/components/ui/TuilesCategoriesCarousel'
 import MarqueeMarques from '@/components/ui/MarqueeMarques'
+import { BannerStats, BannerHowItWorks, BannerBoutiques } from '@/components/ui/Banners'
 
 export const dynamic = 'force-dynamic'
 
@@ -199,6 +200,9 @@ export default async function AccueilPage() {
         </section>
       )}
 
+      {/* ───────────────────────────── BANNER STATS ─────────────────────────── */}
+      <BannerStats />
+
       {/* ─────────────────────────── CATÉGORIES TUILES ───────────────────────── */}
       <section className="bg-[#F8FAFC] py-12 sm:py-16 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
@@ -221,6 +225,9 @@ export default async function AccueilPage() {
           <TuilesCategoriesCarousel />
         </div>
       </section>
+
+      {/* ────────────────────────── BANNER HOW IT WORKS ─────────────────────── */}
+      <BannerHowItWorks />
 
       {/* ──────────────────────────── SMARTPHONES ────────────────────────────── */}
       {smartphones.length > 0 && (
@@ -253,6 +260,9 @@ export default async function AccueilPage() {
           </div>
         </section>
       )}
+
+      {/* ──────────────────────── BANNER BOUTIQUES ───────────────────────────── */}
+      <BannerBoutiques />
 
       {/* ────────────────────────────── MARQUES ──────────────────────────────── */}
       <section className="py-12 sm:py-16">
