@@ -143,8 +143,8 @@ export function BannerHowItWorks() {
           </Link>
         </div>
 
-        {/* 3 cartes — desktop grid-cols-3 · mobile grid-cols-1 */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
+        {/* 3 cartes — desktop grid-cols-3 · mobile grid-cols-2 (3e passe en dessous) */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-5">
           {CAT_BANNERS.map(({ href, label, sub, img, tag }) => (
             <Link
               key={href}
