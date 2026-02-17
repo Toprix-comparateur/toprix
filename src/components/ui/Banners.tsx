@@ -10,13 +10,18 @@ import { ArrowRight, Zap } from 'lucide-react'
 
 export function BannerStats() {
   return (
-    <div className="bg-[#0F172A] py-6 sm:py-8">
+    <div className="bg-[#0F172A] py-8 sm:py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
-        {/* Titre simple */}
-        <p className="text-slate-400 text-sm font-medium mb-4">
-          Comparez les prix en temps réel sur 3 boutiques
-        </p>
+        {/* En-tête style éditorial */}
+        <div className="flex flex-col gap-1.5 mb-5">
+          <div className="flex items-center gap-2">
+            <span className="w-5 h-0.5 bg-[#F97316]" />
+            <span className="text-[#F97316] text-[10px] font-bold uppercase tracking-[0.2em]">Catégorie</span>
+          </div>
+          <h2 className="font-heading text-white text-2xl sm:text-3xl">Téléviseurs</h2>
+          <p className="text-slate-500 text-sm">Smart TV · OLED · QLED · 4K</p>
+        </div>
 
         {/* Cartes comparaison */}
         <div className="flex flex-col sm:flex-row gap-3 sm:max-w-lg">
