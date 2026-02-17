@@ -11,7 +11,7 @@ import Image from 'next/image'
 import MarqueeMarques from '@/components/ui/MarqueeMarques'
 import CarouselCategories from '@/components/ui/CarouselCategories'
 import CarouselEdito from '@/components/ui/CarouselEdito'
-import { BannerStats, BannerHowItWorks } from '@/components/ui/Banners'
+import { BannerHowItWorks } from '@/components/ui/Banners'
 
 export const dynamic = 'force-dynamic'
 
@@ -209,8 +209,6 @@ export default async function AccueilPage() {
         </section>
       )}
 
-      {/* ───────────────────────────── BANNER STATS ─────────────────────────── */}
-      <BannerStats />
 
       {/* ══════════════════════════ TÉLÉVISEURS ══════════════════════════════════ */}
       {tvs.length > 0 && (
@@ -224,7 +222,7 @@ export default async function AccueilPage() {
                   <span className="w-6 h-0.5 bg-[#F97316]" />
                   <span className="text-[#F97316] text-[10px] font-bold uppercase tracking-[0.2em]">Catégorie</span>
                 </div>
-                <h2 className="font-heading text-white text-3xl sm:text-4xl">Téléviseurs</h2>
+                <h2 className="font-heading text-slate-500 text-3xl sm:text-4xl">Téléviseurs</h2>
                 <p className="text-slate-500 text-sm">Smart TV · OLED · QLED · 4K</p>
               </div>
 
