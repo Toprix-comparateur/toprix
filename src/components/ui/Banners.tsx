@@ -94,31 +94,34 @@ export function BannerStats() {
 
 const CAT_BANNERS = [
   {
-    href: '/categories/smartphones',
-    label: 'Smartphones',
-    sub: 'Les derniers modèles',
-    icon: '📱',
-    gradient: 'linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%)',
-    glow: 'rgba(59,130,246,0.35)',
-    tag: 'bg-blue-50 text-blue-700',
-  },
-  {
     href: '/categories/ordinateurs-portables',
-    label: 'Ordinateurs',
-    sub: 'Laptops & PC gaming',
+    label: 'PC Bureau',
+    sub: 'Ordinateurs de bureau & gaming',
     icon: '💻',
+    img: '/banners/pc-bureau-gaming.webp',   // 640 × 427
     gradient: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
     glow: 'rgba(148,163,184,0.30)',
     tag: 'bg-slate-100 text-slate-700',
   },
   {
-    href: '/categories/electromenager',
-    label: 'Électroménager',
-    sub: 'Cuisine & maison',
-    icon: '🏠',
-    gradient: 'linear-gradient(135deg, #7c2d12 0%, #ea580c 100%)',
-    glow: 'rgba(249,115,22,0.35)',
-    tag: 'bg-orange-50 text-orange-700',
+    href: '/categories/gaming',
+    label: 'PC Gamer',
+    sub: 'Setup gaming & accessoires',
+    icon: '🎮',
+    img: '/banners/pc-gamer.webp',           // 800 × 534
+    gradient: 'linear-gradient(135deg, #2e1065 0%, #7c3aed 100%)',
+    glow: 'rgba(167,139,250,0.30)',
+    tag: 'bg-purple-50 text-purple-700',
+  },
+  {
+    href: '/categories/smartphones',
+    label: 'Smartphones',
+    sub: 'Les derniers modèles',
+    icon: '📱',
+    img: undefined,
+    gradient: 'linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%)',
+    glow: 'rgba(59,130,246,0.35)',
+    tag: 'bg-blue-50 text-blue-700',
   },
 ]
 
@@ -142,38 +145,51 @@ export function BannerHowItWorks() {
           </Link>
         </div>
 
-        {/* 3 cartes */}
+        {/* 3 cartes — desktop grid-cols-3 · mobile grid-cols-1 */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
-          {CAT_BANNERS.map(({ href, label, sub, icon, gradient, glow, tag }) => (
+          {CAT_BANNERS.map(({ href, label, sub, icon, img, gradient, glow, tag }) => (
             <Link
               key={href}
               href={href}
               className="group rounded-2xl overflow-hidden border border-[#E2E8F0] hover:shadow-lg hover:border-transparent transition-all duration-200"
             >
-              {/* Zone image — h-44 desktop, h-40 mobile */}
+              {/* ── Zone image h-44 desktop · h-40 mobile ── */}
               <div
-                className="relative h-40 sm:h-44 flex items-center justify-center overflow-hidden"
-                style={{ background: gradient }}
+                className={`relative h-40 sm:h-44 overflow-hidden ${!img ? 'flex items-center justify-center' : ''}`}
+                style={!img ? { background: gradient } : {}}
               >
-                {/* Lueur centrale */}
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    backgroundImage: `radial-gradient(circle at 30% 70%, ${glow} 0%, transparent 60%)`,
-                  }}
-                />
-
-                <span className="text-7xl sm:text-8xl select-none relative z-10 group-hover:scale-110 transition-transform duration-300 leading-none">
-                  {icon}
-                </span>
-
-                {/* Label placeholder */}
-                <p className="absolute bottom-2 left-3 text-white/40 text-[9px] tracking-[0.15em] uppercase">
-                  Placeholder · 380 × 176
-                </p>
+                {img ? (
+                  <>
+                    {/* Photo réelle */}
+                    <Image
+                      src={img}
+                      alt={label}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 640px) calc(100vw - 32px), 300px"
+                    />
+                    {/* Overlay dégradé bas pour lisibilité */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent z-10" />
+                    {/* Titre sur l'image */}
+                    <p className="absolute bottom-3 left-4 text-white font-heading font-bold text-sm z-20 drop-shadow">
+                      {label}
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    {/* Placeholder emoji */}
+                    <div
+                      className="absolute inset-0"
+                      style={{ backgroundImage: `radial-gradient(circle at 30% 70%, ${glow} 0%, transparent 60%)` }}
+                    />
+                    <span className="text-7xl sm:text-8xl select-none relative z-10 group-hover:scale-110 transition-transform duration-300 leading-none">
+                      {icon}
+                    </span>
+                  </>
+                )}
 
                 {/* Badge "Voir" flottant */}
-                <span className="absolute top-3 right-3 bg-white/20 backdrop-blur-sm text-white text-[10px] font-semibold px-2.5 py-1 rounded-full flex items-center gap-1">
+                <span className="absolute top-3 right-3 bg-white/20 backdrop-blur-sm text-white text-[10px] font-semibold px-2.5 py-1 rounded-full flex items-center gap-1 z-20">
                   <Zap size={8} /> Voir
                 </span>
               </div>
