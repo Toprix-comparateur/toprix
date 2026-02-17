@@ -222,8 +222,8 @@ export default async function AccueilPage() {
                   <span className="w-6 h-0.5 bg-[#F97316]" />
                   <span className="text-[#F97316] text-[10px] font-bold uppercase tracking-[0.2em]">Catégorie</span>
                 </div>
-                <h2 className="font-heading text-slate-500 text-3xl sm:text-4xl">Téléviseurs</h2>
-                <p className="text-slate-500 text-sm">Smart TV · OLED · QLED · 4K</p>
+                <h2 className="font-heading text-slate-300 text-3xl sm:text-4xl">Téléviseurs</h2>
+                <p className="text-slate-300 text-sm">Smart TV · OLED · QLED · 4K</p>
               </div>
 
               {/* Image catégorie + CTA */}
