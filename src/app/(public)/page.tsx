@@ -7,7 +7,8 @@ import {
 import { getProduits } from '@/lib/api/produits'
 import CarouselProduits from '@/components/ui/CarouselProduits'
 import CampagneTeasers from '@/components/ui/CampagneTeasers'
-import TuilesCategoriesCarousel from '@/components/ui/TuilesCategoriesCarousel'
+import Image from 'next/image'
+import CarteProduit from '@/components/product/CarteProduit'
 import MarqueeMarques from '@/components/ui/MarqueeMarques'
 import CarouselCategories from '@/components/ui/CarouselCategories'
 import { BannerStats, BannerHowItWorks } from '@/components/ui/Banners'
@@ -66,16 +67,20 @@ function SectionHeader({
 }
 
 export default async function AccueilPage() {
-  // Chargement parallèle — 3 appels simultanés
-  const [promosRes, smartphonesRes, electroRes] = await Promise.allSettled([
+  // Chargement parallèle — 5 appels simultanés
+  const [promosRes, smartphonesRes, electroRes, tvRes, laptopsRes] = await Promise.allSettled([
     getProduits({ en_promo: true }),
     getProduits({ categorie: 'smartphones' }),
     getProduits({ categorie: 'electromenager' }),
+    getProduits({ categorie: 'tv-et-son' }),
+    getProduits({ categorie: 'ordinateurs-portables' }),
   ])
 
-  const promos      = promosRes.status      === 'fulfilled' ? promosRes.value.data      : []
-  const smartphones = smartphonesRes.status === 'fulfilled' ? smartphonesRes.value.data.slice(0, 10) : []
-  const electro     = electroRes.status     === 'fulfilled' ? electroRes.value.data.slice(0, 10)     : []
+  const promos      = promosRes.status      === 'fulfilled' ? promosRes.value.data                    : []
+  const smartphones = smartphonesRes.status === 'fulfilled' ? smartphonesRes.value.data.slice(0, 10)  : []
+  const electro     = electroRes.status     === 'fulfilled' ? electroRes.value.data.slice(0, 10)      : []
+  const tvs         = tvRes.status          === 'fulfilled' ? tvRes.value.data.slice(0, 10)           : []
+  const laptops     = laptopsRes.status     === 'fulfilled' ? laptopsRes.value.data.slice(0, 10)      : []
 
   // Tendances = 8 premiers produits en promo
   // Top promos = 8 suivants (produits 9-16)
@@ -207,28 +212,73 @@ export default async function AccueilPage() {
       {/* ───────────────────────────── BANNER STATS ─────────────────────────── */}
       <BannerStats />
 
-      {/* ─────────────────────────── CATÉGORIES TUILES ───────────────────────── */}
-      <section className="bg-[#F8FAFC] py-12 sm:py-16 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-end justify-between mb-6 sm:mb-8">
-            <div>
-              <p className="text-[#F97316] text-xs font-semibold uppercase tracking-widest mb-1">Explorer</p>
-              <h2 className="font-heading text-[#0F172A] text-2xl md:text-3xl">
-                Catégories populaires
-              </h2>
+      {/* ─────────────────────── TÉLÉVISEURS — style éditorial ───────────────── */}
+      {tvs.length > 0 && (
+        <section className="py-10 sm:py-14 px-4 sm:px-6 bg-[#F8FAFC]">
+          <div className="max-w-7xl mx-auto rounded-3xl overflow-hidden border border-[#E2E8F0] shadow-sm flex flex-col sm:flex-row">
+
+            {/* Panneau gauche */}
+            <div className="sm:w-56 lg:w-64 shrink-0 bg-[#0F172A] flex flex-col justify-between p-6 sm:p-8 gap-6">
+              <div className="flex flex-col gap-3">
+                <span className="text-[#F97316] text-[10px] font-bold uppercase tracking-widest">Catégorie</span>
+                <h2 className="font-heading text-white text-2xl sm:text-3xl leading-tight">Téléviseurs</h2>
+                <p className="text-slate-400 text-xs leading-relaxed">Smart TV, OLED, QLED — les meilleures offres du moment.</p>
+              </div>
+              <div className="relative h-24 sm:h-32 rounded-xl overflow-hidden">
+                <Image src="/banners/cat-moniteurs.webp" alt="Téléviseurs" fill className="object-cover opacity-60" sizes="256px" />
+              </div>
+              <Link
+                href="/categories/tv-et-son"
+                className="inline-flex items-center gap-1.5 bg-[#F97316] hover:bg-[#EA6C0A] text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition-colors w-fit"
+              >
+                Voir tout <ArrowRight size={12} />
+              </Link>
             </div>
-            <Link
-              href="/categories"
-              className="flex items-center gap-1 text-xs sm:text-sm font-medium text-[#F97316] sm:text-slate-500 hover:text-[#F97316] transition-colors shrink-0 ml-3"
-            >
-              <span className="hidden sm:inline">Tout voir</span>
-              <span className="sm:hidden">Voir tout</span>
-              <ArrowRight size={13} />
-            </Link>
+
+            {/* Produits */}
+            <div className="flex-1 bg-white overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden p-4 sm:p-5">
+              <div className="flex gap-3 sm:gap-4" style={{ width: 'max-content' }}>
+                {tvs.map(p => <CarteProduit key={p.id} produit={p} />)}
+              </div>
+            </div>
+
           </div>
-          <TuilesCategoriesCarousel />
-        </div>
-      </section>
+        </section>
+      )}
+
+      {/* ──────────────────────── LAPTOPS — style éditorial ───────────────────── */}
+      {laptops.length > 0 && (
+        <section className="py-10 sm:py-14 px-4 sm:px-6 bg-white">
+          <div className="max-w-7xl mx-auto rounded-3xl overflow-hidden border border-[#E2E8F0] shadow-sm flex flex-col sm:flex-row">
+
+            {/* Panneau gauche */}
+            <div className="sm:w-56 lg:w-64 shrink-0 bg-[#1E3A5F] flex flex-col justify-between p-6 sm:p-8 gap-6">
+              <div className="flex flex-col gap-3">
+                <span className="text-blue-300 text-[10px] font-bold uppercase tracking-widest">Catégorie</span>
+                <h2 className="font-heading text-white text-2xl sm:text-3xl leading-tight">Laptops</h2>
+                <p className="text-slate-400 text-xs leading-relaxed">Ultrabooks, gaming, bureau — comparez les meilleurs modèles.</p>
+              </div>
+              <div className="relative h-24 sm:h-32 rounded-xl overflow-hidden">
+                <Image src="/banners/cat-laptops.webp" alt="Laptops" fill className="object-cover opacity-60" sizes="256px" />
+              </div>
+              <Link
+                href="/categories/ordinateurs-portables"
+                className="inline-flex items-center gap-1.5 bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition-colors w-fit"
+              >
+                Voir tout <ArrowRight size={12} />
+              </Link>
+            </div>
+
+            {/* Produits */}
+            <div className="flex-1 bg-white overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden p-4 sm:p-5">
+              <div className="flex gap-3 sm:gap-4" style={{ width: 'max-content' }}>
+                {laptops.map(p => <CarteProduit key={p.id} produit={p} />)}
+              </div>
+            </div>
+
+          </div>
+        </section>
+      )}
 
       {/* ────────────────────────── BANNER HOW IT WORKS ─────────────────────── */}
       <BannerHowItWorks />
