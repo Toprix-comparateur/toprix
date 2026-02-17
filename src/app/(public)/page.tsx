@@ -249,8 +249,12 @@ export default async function AccueilPage() {
           {/* Produits scroll */}
           <div className="overflow-x-auto px-4 sm:px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <div className="max-w-7xl mx-auto">
-              <div className="flex gap-3 sm:gap-4" style={{ width: 'max-content' }}>
-                {tvs.map(p => <CarteProduit key={p.id} produit={p} />)}
+              <div className="flex gap-3" style={{ width: 'max-content' }}>
+                {tvs.map(p => (
+                  <div key={p.id} className="w-32 sm:w-36 shrink-0">
+                    <CarteProduit produit={p} />
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -308,8 +312,12 @@ export default async function AccueilPage() {
           {/* Produits scroll */}
           <div className="overflow-x-auto px-4 sm:px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <div className="max-w-7xl mx-auto">
-              <div className="flex gap-3 sm:gap-4" style={{ width: 'max-content' }}>
-                {laptops.map(p => <CarteProduit key={p.id} produit={p} />)}
+              <div className="flex gap-3" style={{ width: 'max-content' }}>
+                {laptops.map(p => (
+                  <div key={p.id} className="w-32 sm:w-36 shrink-0">
+                    <CarteProduit produit={p} />
+                  </div>
+                ))}
               </div>
             </div>
           </div>
