@@ -10,76 +10,82 @@ import { ArrowRight, Flame, Tag, Zap } from 'lucide-react'
 
 export function BannerStats() {
   return (
-    <div className="overflow-hidden">
-      <div className="flex flex-col sm:flex-row min-h-[180px] sm:min-h-[220px]">
+    <div className="overflow-hidden bg-[#0F172A]">
+      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row min-h-[200px] sm:min-h-[240px]">
 
         {/* ── Côté texte ── */}
-        <div className="flex-1 bg-[#0F172A] flex flex-col justify-center px-8 sm:px-12 lg:px-16 py-10 sm:py-0 gap-4 sm:gap-5">
+        <div className="flex-1 flex flex-col justify-center px-6 sm:px-10 lg:px-14 py-8 sm:py-0 gap-3 sm:gap-4 relative">
+
+          {/* Ligne décorative verticale */}
+          <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-16 bg-gradient-to-b from-transparent via-[#F97316] to-transparent hidden sm:block" />
+
+          {/* Eyebrow */}
           <div className="flex items-center gap-2">
-            <Flame size={14} className="text-[#F97316]" />
-            <span className="text-[#F97316] text-[11px] font-semibold uppercase tracking-widest">
+            <span className="flex items-center gap-1.5 bg-[#F97316]/10 border border-[#F97316]/20 text-[#F97316] text-[10px] font-bold uppercase tracking-[0.18em] px-3 py-1 rounded-full">
+              <Flame size={10} strokeWidth={2.5} />
               Offres du moment
             </span>
           </div>
 
-          <h2 className="font-heading text-white text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
-            Jusqu&apos;à <span className="text-[#F97316]">−40%</span>
-            <br className="hidden sm:block" /> sur le High‑Tech
+          {/* Titre */}
+          <h2 className="font-heading text-white leading-[1.1]">
+            <span className="block text-4xl sm:text-5xl font-extrabold">
+              Jusqu&apos;à <span className="text-[#F97316]">−40%</span>
+            </span>
+            <span className="block text-lg sm:text-xl font-medium text-slate-400 mt-1">
+              sur tout le High‑Tech
+            </span>
           </h2>
 
-          <p className="text-slate-400 text-sm leading-relaxed max-w-sm">
-            Smartphones, laptops, audio… Comparez les prix de nos 3 boutiques
-            partenaires et trouvez le meilleur deal.
-          </p>
+          {/* Stores pills */}
+          <div className="flex items-center gap-2 flex-wrap">
+            {['Mytek', 'Tunisianet', 'Spacenet'].map(s => (
+              <span key={s} className="text-[10px] font-semibold text-slate-400 bg-white/5 border border-white/10 px-2.5 py-1 rounded-full">
+                {s}
+              </span>
+            ))}
+            <span className="text-[10px] text-slate-500">· 3 boutiques comparées</span>
+          </div>
 
-          <div className="flex flex-wrap gap-3 pt-1">
+          {/* CTAs */}
+          <div className="flex gap-2 pt-1">
             <Link
               href="/rechercher?en_promo=1"
-              className="inline-flex items-center gap-2 bg-[#F97316] hover:bg-[#EA6C0A] text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors"
+              className="inline-flex items-center gap-2 bg-[#F97316] hover:bg-[#EA6C0A] text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-colors shadow-lg shadow-orange-900/30"
             >
-              Voir les promos <ArrowRight size={14} />
+              <Zap size={12} /> Voir les promos
             </Link>
             <Link
               href="/categories"
-              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 text-white text-sm font-medium px-5 py-2.5 rounded-xl transition-colors"
+              className="inline-flex items-center gap-2 border border-white/10 hover:border-white/25 text-white/70 hover:text-white text-xs font-medium px-4 py-2.5 rounded-xl transition-all"
             >
-              Parcourir
+              Parcourir <ArrowRight size={11} />
             </Link>
           </div>
         </div>
 
-        {/* ── Côté image placeholder ── */}
-        <div
-          className="sm:w-[45%] relative min-h-[180px] sm:min-h-0 flex items-center justify-center overflow-hidden"
-          style={{ background: 'linear-gradient(135deg, #1E3A5F 0%, #0F172A 100%)' }}
-        >
-          {/* Lueurs de fond */}
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage:
-                'radial-gradient(circle at 25% 60%, rgba(249,115,22,0.25) 0%, transparent 55%), radial-gradient(circle at 75% 40%, rgba(59,130,246,0.20) 0%, transparent 55%)',
-            }}
-          />
+        {/* ── Côté image ── */}
+        <div className="sm:w-[42%] relative min-h-[160px] sm:min-h-0 overflow-hidden">
+          {/* Gradient de fondu gauche */}
+          <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#0F172A] to-transparent z-10" />
 
-          {/* Image smartphone */}
           <Image
             src="/banners/smartphone.webp"
             alt="Smartphones high-tech"
             fill
             className="object-cover object-center"
-            sizes="(max-width: 640px) 100vw, 45vw"
+            sizes="(max-width: 640px) 100vw, 42vw"
             priority
           />
 
-          {/* Badge flottant */}
-          <div className="absolute top-4 right-4 bg-[#F97316] text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow-lg">
+          {/* Badge promo */}
+          <div className="absolute top-4 right-4 z-20 bg-[#F97316] text-white text-[11px] font-black px-3 py-1.5 rounded-xl shadow-xl rotate-2">
             −40% MAX
           </div>
 
           {/* Badge marques */}
-          <div className="absolute bottom-4 left-4 flex items-center gap-1.5 bg-white/10 backdrop-blur-sm text-white/70 text-[10px] px-3 py-1.5 rounded-full">
-            <Tag size={9} />
+          <div className="absolute bottom-4 right-4 z-20 flex items-center gap-1.5 bg-black/40 backdrop-blur-md text-white/80 text-[10px] font-medium px-3 py-1.5 rounded-full border border-white/10">
+            <Tag size={8} />
             120+ marques
           </div>
         </div>
