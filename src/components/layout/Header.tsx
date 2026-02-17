@@ -1,5 +1,8 @@
+'use client'
+
 import Link from 'next/link'
-import { Search, Menu } from 'lucide-react'
+import { useState } from 'react'
+import { Search, Menu, X } from 'lucide-react'
 
 const LIENS_NAV = [
   { href: '/categories', label: 'Catégories' },
@@ -9,6 +12,8 @@ const LIENS_NAV = [
 ]
 
 export default function Header() {
+  const [open, setOpen] = useState(false)
+
   return (
     <header className="bg-[#0F172A] sticky top-0 z-50 border-b border-white/5">
 
@@ -33,13 +38,9 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-1 shrink-0">
-            <span className="font-heading text-white text-xl font-700 tracking-tight">
-              Top
-            </span>
-            <span className="font-heading text-[#F97316] text-xl font-700 tracking-tight">
-              rix
-            </span>
+          <Link href="/" className="flex items-center gap-1 shrink-0" onClick={() => setOpen(false)}>
+            <span className="font-heading text-white text-xl font-700 tracking-tight">Top</span>
+            <span className="font-heading text-[#F97316] text-xl font-700 tracking-tight">rix</span>
             <span className="text-xs self-start mt-0.5">🇹🇳</span>
           </Link>
 
@@ -74,17 +75,46 @@ export default function Header() {
               + Ajouter
             </Link>
 
-            {/* Mobile menu icon */}
+            {/* Bouton menu mobile */}
             <button
-              className="md:hidden text-slate-300 hover:text-white p-1"
-              aria-label="Menu"
+              onClick={() => setOpen(o => !o)}
+              className="md:hidden text-slate-300 hover:text-white p-1 transition-colors"
+              aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
             >
-              <Menu size={22} />
+              {open ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
 
         </div>
       </div>
+
+      {/* ── Menu mobile déroulant ─────────────────────────────────────────── */}
+      {open && (
+        <div className="md:hidden border-t border-white/5 bg-[#0F172A]">
+          <nav className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-1">
+            {LIENS_NAV.map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                onClick={() => setOpen(false)}
+                className="text-slate-300 hover:text-white hover:bg-white/5 text-sm font-medium px-3 py-3 rounded-lg transition-colors"
+              >
+                {label}
+              </Link>
+            ))}
+            <div className="pt-2 mt-1 border-t border-white/5">
+              <Link
+                href="/ajouter"
+                onClick={() => setOpen(false)}
+                className="flex items-center justify-center bg-[#F97316] hover:bg-[#EA6C0A] text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors"
+              >
+                + Ajouter ma boutique
+              </Link>
+            </div>
+          </nav>
+        </div>
+      )}
+
     </header>
   )
 }

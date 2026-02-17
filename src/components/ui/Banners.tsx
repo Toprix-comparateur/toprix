@@ -11,7 +11,7 @@ import { ArrowRight, Flame, Tag, Zap } from 'lucide-react'
 export function BannerStats() {
   return (
     <div className="overflow-hidden">
-      <div className="flex flex-col sm:flex-row min-h-[260px] sm:min-h-[320px]">
+      <div className="flex flex-col sm:flex-row min-h-[180px] sm:min-h-[220px]">
 
         {/* ── Côté texte ── */}
         <div className="flex-1 bg-[#0F172A] flex flex-col justify-center px-8 sm:px-12 lg:px-16 py-10 sm:py-0 gap-4 sm:gap-5">
@@ -101,25 +101,29 @@ const CAT_BANNERS = [
     href: '/categories/ordinateurs-portables',
     label: 'PC Bureau',
     sub: 'Ordinateurs de bureau performants',
-    icon: '🖥️',
-    img: '/banners/pc-bureau.webp',     // 640 × 427
+    img: '/banners/pc-bureau.webp',
     tag: 'bg-slate-100 text-slate-700',
   },
   {
     href: '/categories/gaming',
     label: 'PC Gaming',
     sub: 'Setup gamer & accessoires',
-    icon: '🎮',
-    img: '/banners/pc-gaming.webp',     // 600 × 400
+    img: '/banners/pc-gaming.webp',
     tag: 'bg-purple-50 text-purple-700',
   },
   {
     href: '/categories/ordinateurs-portables',
     label: 'Laptops',
     sub: 'Ordinateurs portables & ultrabooks',
-    icon: '💻',
-    img: '/banners/laptop.webp',        // 600 × 480
+    img: '/banners/laptop.webp',
     tag: 'bg-blue-50 text-blue-700',
+  },
+  {
+    href: '/categories/informatique',
+    label: 'Composants PC',
+    sub: 'Processeurs, RAM, GPU & stockage',
+    img: '/banners/composants-pc.webp',
+    tag: 'bg-orange-50 text-orange-700',
   },
 ]
 
@@ -143,8 +147,8 @@ export function BannerHowItWorks() {
           </Link>
         </div>
 
-        {/* 3 cartes — desktop grid-cols-3 · mobile grid-cols-2 (3e passe en dessous) */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-5">
+        {/* 4 cartes — desktop grid-cols-4 · mobile grid-cols-2 */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5">
           {CAT_BANNERS.map(({ href, label, sub, img, tag }) => (
             <Link
               key={href}
