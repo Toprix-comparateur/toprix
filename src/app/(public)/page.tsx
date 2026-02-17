@@ -212,76 +212,120 @@ export default async function AccueilPage() {
       {/* ───────────────────────────── BANNER STATS ─────────────────────────── */}
       <BannerStats />
 
-      {/* ─────────────────────── TÉLÉVISEURS — style éditorial ───────────────── */}
+      {/* ══════════════════════════ TÉLÉVISEURS ══════════════════════════════════ */}
       {tvs.length > 0 && (
-        <section className="py-10 sm:py-14 px-4 sm:px-6 bg-[#F8FAFC]">
-          <div className="max-w-7xl mx-auto rounded-3xl overflow-hidden border border-[#E2E8F0] shadow-sm flex flex-col sm:flex-row">
+        <section className="bg-[#0F172A] py-12 sm:py-16">
 
-            {/* Panneau gauche */}
-            <div className="sm:w-56 lg:w-64 shrink-0 bg-[#0F172A] flex flex-col justify-between p-6 sm:p-8 gap-6">
-              <div className="flex flex-col gap-3">
-                <span className="text-[#F97316] text-[10px] font-bold uppercase tracking-widest">Catégorie</span>
-                <h2 className="font-heading text-white text-2xl sm:text-3xl leading-tight">Téléviseurs</h2>
-                <p className="text-slate-400 text-xs leading-relaxed">Smart TV, OLED, QLED — les meilleures offres du moment.</p>
+          {/* En-tête */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-6 sm:mb-8">
+            <div className="flex items-end justify-between">
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-0.5 bg-[#F97316]" />
+                  <span className="text-[#F97316] text-[10px] font-bold uppercase tracking-[0.2em]">Catégorie</span>
+                </div>
+                <h2 className="font-heading text-white text-3xl sm:text-4xl">Téléviseurs</h2>
+                <p className="text-slate-500 text-sm">Smart TV · OLED · QLED · 4K</p>
               </div>
-              <div className="relative h-24 sm:h-32 rounded-xl overflow-hidden">
-                <Image src="/banners/cat-moniteurs.webp" alt="Téléviseurs" fill className="object-cover opacity-60" sizes="256px" />
+
+              {/* Image catégorie + CTA */}
+              <div className="hidden sm:flex items-center gap-6">
+                <div className="relative w-28 h-20 rounded-xl overflow-hidden opacity-70">
+                  <Image src="/banners/cat-moniteurs.webp" alt="TV" fill className="object-cover" sizes="112px" />
+                </div>
+                <Link
+                  href="/categories/tv-et-son"
+                  className="inline-flex items-center gap-2 border border-white/20 hover:border-[#F97316] hover:text-[#F97316] text-white/70 text-xs font-semibold px-5 py-2.5 rounded-xl transition-all"
+                >
+                  Voir tout <ArrowRight size={12} />
+                </Link>
               </div>
-              <Link
-                href="/categories/tv-et-son"
-                className="inline-flex items-center gap-1.5 bg-[#F97316] hover:bg-[#EA6C0A] text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition-colors w-fit"
-              >
-                Voir tout <ArrowRight size={12} />
-              </Link>
             </div>
 
-            {/* Produits */}
-            <div className="flex-1 bg-white overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden p-4 sm:p-5">
+            {/* Séparateur */}
+            <div className="mt-6 h-px bg-gradient-to-r from-[#F97316]/60 via-white/5 to-transparent" />
+          </div>
+
+          {/* Produits scroll */}
+          <div className="overflow-x-auto px-4 sm:px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="max-w-7xl mx-auto">
               <div className="flex gap-3 sm:gap-4" style={{ width: 'max-content' }}>
                 {tvs.map(p => <CarteProduit key={p.id} produit={p} />)}
               </div>
             </div>
-
           </div>
-        </section>
-      )}
 
-      {/* ──────────────────────── LAPTOPS — style éditorial ───────────────────── */}
-      {laptops.length > 0 && (
-        <section className="py-10 sm:py-14 px-4 sm:px-6 bg-white">
-          <div className="max-w-7xl mx-auto rounded-3xl overflow-hidden border border-[#E2E8F0] shadow-sm flex flex-col sm:flex-row">
-
-            {/* Panneau gauche */}
-            <div className="sm:w-56 lg:w-64 shrink-0 bg-[#1E3A5F] flex flex-col justify-between p-6 sm:p-8 gap-6">
-              <div className="flex flex-col gap-3">
-                <span className="text-blue-300 text-[10px] font-bold uppercase tracking-widest">Catégorie</span>
-                <h2 className="font-heading text-white text-2xl sm:text-3xl leading-tight">Laptops</h2>
-                <p className="text-slate-400 text-xs leading-relaxed">Ultrabooks, gaming, bureau — comparez les meilleurs modèles.</p>
-              </div>
-              <div className="relative h-24 sm:h-32 rounded-xl overflow-hidden">
-                <Image src="/banners/cat-laptops.webp" alt="Laptops" fill className="object-cover opacity-60" sizes="256px" />
-              </div>
-              <Link
-                href="/categories/ordinateurs-portables"
-                className="inline-flex items-center gap-1.5 bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition-colors w-fit"
-              >
-                Voir tout <ArrowRight size={12} />
-              </Link>
-            </div>
-
-            {/* Produits */}
-            <div className="flex-1 bg-white overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden p-4 sm:p-5">
-              <div className="flex gap-3 sm:gap-4" style={{ width: 'max-content' }}>
-                {laptops.map(p => <CarteProduit key={p.id} produit={p} />)}
-              </div>
-            </div>
-
+          {/* CTA mobile */}
+          <div className="sm:hidden mt-6 px-4 flex justify-center">
+            <Link
+              href="/categories/tv-et-son"
+              className="inline-flex items-center gap-2 bg-[#F97316] hover:bg-[#EA6C0A] text-white text-xs font-semibold px-6 py-2.5 rounded-xl transition-colors"
+            >
+              Voir tous les téléviseurs <ArrowRight size={12} />
+            </Link>
           </div>
+
         </section>
       )}
 
       {/* ────────────────────────── BANNER HOW IT WORKS ─────────────────────── */}
       <BannerHowItWorks />
+
+      {/* ══════════════════════════ LAPTOPS ══════════════════════════════════════ */}
+      {laptops.length > 0 && (
+        <section className="bg-white py-12 sm:py-16 border-t-4 border-[#3B82F6]">
+
+          {/* En-tête */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-6 sm:mb-8">
+            <div className="flex items-end justify-between">
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-0.5 bg-[#3B82F6]" />
+                  <span className="text-[#3B82F6] text-[10px] font-bold uppercase tracking-[0.2em]">Catégorie</span>
+                </div>
+                <h2 className="font-heading text-[#0F172A] text-3xl sm:text-4xl">Laptops</h2>
+                <p className="text-slate-400 text-sm">Ultrabooks · Gaming · Bureau · Créatifs</p>
+              </div>
+
+              {/* Image catégorie + CTA */}
+              <div className="hidden sm:flex items-center gap-6">
+                <div className="relative w-28 h-20 rounded-xl overflow-hidden border border-[#E2E8F0]">
+                  <Image src="/banners/cat-laptops.webp" alt="Laptops" fill className="object-cover" sizes="112px" />
+                </div>
+                <Link
+                  href="/categories/ordinateurs-portables"
+                  className="inline-flex items-center gap-2 border border-[#3B82F6]/30 hover:border-[#3B82F6] hover:text-[#3B82F6] text-slate-500 text-xs font-semibold px-5 py-2.5 rounded-xl transition-all"
+                >
+                  Voir tout <ArrowRight size={12} />
+                </Link>
+              </div>
+            </div>
+
+            {/* Séparateur */}
+            <div className="mt-6 h-px bg-gradient-to-r from-[#3B82F6]/40 via-slate-100 to-transparent" />
+          </div>
+
+          {/* Produits scroll */}
+          <div className="overflow-x-auto px-4 sm:px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="max-w-7xl mx-auto">
+              <div className="flex gap-3 sm:gap-4" style={{ width: 'max-content' }}>
+                {laptops.map(p => <CarteProduit key={p.id} produit={p} />)}
+              </div>
+            </div>
+          </div>
+
+          {/* CTA mobile */}
+          <div className="sm:hidden mt-6 px-4 flex justify-center">
+            <Link
+              href="/categories/ordinateurs-portables"
+              className="inline-flex items-center gap-2 bg-[#3B82F6] hover:bg-[#2563EB] text-white text-xs font-semibold px-6 py-2.5 rounded-xl transition-colors"
+            >
+              Voir tous les laptops <ArrowRight size={12} />
+            </Link>
+          </div>
+
+        </section>
+      )}
 
       {/* ──────────────────────────── SMARTPHONES ────────────────────────────── */}
       {smartphones.length > 0 && (
