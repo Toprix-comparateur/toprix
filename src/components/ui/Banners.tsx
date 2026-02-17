@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, Flame, Tag, Zap } from 'lucide-react'
+import { ArrowRight, Zap } from 'lucide-react'
 
 /* ─────────────────────────────────────────────────────────────────────────────
    1. BannerStats → Hero promo split banner
@@ -10,109 +10,41 @@ import { ArrowRight, Flame, Tag, Zap } from 'lucide-react'
 
 export function BannerStats() {
   return (
-    <div className="overflow-hidden bg-[#0F172A]">
-      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row min-h-[200px] sm:min-h-[240px]">
+    <div className="bg-[#0F172A] py-6 sm:py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
-        {/* ── Côté texte ── */}
-        <div className="flex-1 flex flex-col justify-center px-6 sm:px-10 lg:px-14 py-8 sm:py-0 gap-3 sm:gap-4 relative">
+        {/* Titre simple */}
+        <p className="text-slate-400 text-sm font-medium mb-4">
+          Comparez les prix en temps réel sur 3 boutiques
+        </p>
 
-          {/* Ligne décorative verticale */}
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-16 bg-gradient-to-b from-transparent via-[#F97316] to-transparent hidden sm:block" />
-
-          {/* Eyebrow */}
-          <div className="flex items-center gap-2">
-            <span className="flex items-center gap-1.5 bg-[#F97316]/10 border border-[#F97316]/20 text-[#F97316] text-[10px] font-bold uppercase tracking-[0.18em] px-3 py-1 rounded-full">
-              <Flame size={10} strokeWidth={2.5} />
-              Offres du moment
-            </span>
-          </div>
-
-          {/* Titre */}
-          <h2 className="font-heading text-white leading-[1.1]">
-            <span className="block text-4xl sm:text-5xl font-extrabold">
-              Jusqu&apos;à <span className="text-[#F97316]">−40%</span>
-            </span>
-            <span className="block text-lg sm:text-xl font-medium text-slate-400 mt-1">
-              sur tout le High‑Tech
-            </span>
-          </h2>
-
-          {/* Stores pills */}
-          <div className="flex items-center gap-2 flex-wrap">
-            {['Mytek', 'Tunisianet', 'Spacenet'].map(s => (
-              <span key={s} className="text-[10px] font-semibold text-slate-400 bg-white/5 border border-white/10 px-2.5 py-1 rounded-full">
-                {s}
-              </span>
-            ))}
-            <span className="text-[10px] text-slate-500">· 3 boutiques comparées</span>
-          </div>
-
-          {/* CTAs */}
-          <div className="flex gap-2 pt-1">
-            <Link
-              href="/rechercher?en_promo=1"
-              className="inline-flex items-center gap-2 bg-[#F97316] hover:bg-[#EA6C0A] text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-colors shadow-lg shadow-orange-900/30"
+        {/* Cartes comparaison */}
+        <div className="flex flex-col sm:flex-row gap-3 sm:max-w-lg">
+          {[
+            { store: 'Mytek',      dot: 'bg-blue-500',   prix: '1 249 DT', best: false },
+            { store: 'Tunisianet', dot: 'bg-green-500',  prix: '1 199 DT', best: false },
+            { store: 'Spacenet',   dot: 'bg-purple-500', prix: '989 DT',   best: true  },
+          ].map(({ store, dot, prix, best }) => (
+            <div
+              key={store}
+              className={`flex-1 flex items-center justify-between px-4 py-3 rounded-xl border ${best ? 'bg-white/10 border-[#F97316]/40' : 'bg-white/5 border-white/10'}`}
             >
-              <Zap size={12} /> Voir les promos
-            </Link>
-            <Link
-              href="/categories"
-              className="inline-flex items-center gap-2 border border-white/10 hover:border-white/25 text-white/70 hover:text-white text-xs font-medium px-4 py-2.5 rounded-xl transition-all"
-            >
-              Parcourir <ArrowRight size={11} />
-            </Link>
-          </div>
+              <div className="flex items-center gap-2">
+                <span className={`w-2 h-2 rounded-full shrink-0 ${dot}`} />
+                <span className="text-xs font-medium text-slate-300">{store}</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className={`text-xs font-bold ${best ? 'text-[#F97316]' : 'text-slate-500 line-through'}`}>{prix}</span>
+                {best && <span className="text-[9px] font-bold bg-[#F97316] text-white px-1.5 py-0.5 rounded-md">Meilleur</span>}
+              </div>
+            </div>
+          ))}
         </div>
 
-        {/* ── Côté graphique : comparaison prix ── */}
-        <div className="sm:w-[42%] relative min-h-[180px] sm:min-h-0 flex items-center justify-center px-6 py-6 overflow-hidden">
-
-          {/* Fond avec lueurs */}
-          <div className="absolute inset-0" style={{
-            background: 'radial-gradient(ellipse at 70% 50%, rgba(249,115,22,0.12) 0%, transparent 60%), radial-gradient(ellipse at 20% 80%, rgba(59,130,246,0.08) 0%, transparent 50%)',
-          }} />
-          {/* Cercle décoratif */}
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-64 h-64 rounded-full border border-white/5 -translate-x-8 hidden sm:block" />
-          <div className="absolute right-8 top-1/2 -translate-y-1/2 w-40 h-40 rounded-full border border-white/5 hidden sm:block" />
-
-          {/* Cartes de prix flottantes */}
-          <div className="relative z-10 flex flex-col gap-2.5 w-full max-w-[260px]">
-
-            {/* Label */}
-            <p className="text-slate-500 text-[10px] uppercase tracking-widest mb-1">Exemple de comparaison</p>
-
-            {[
-              { store: 'Mytek',      color: 'bg-blue-500',   prix: '1 249',  slash: true  },
-              { store: 'Tunisianet', color: 'bg-green-500',  prix: '1 199',  slash: true  },
-              { store: 'Spacenet',   color: 'bg-purple-500', prix: '989',    slash: false, best: true },
-            ].map(({ store, color, prix, slash, best }) => (
-              <div
-                key={store}
-                className={`flex items-center justify-between px-3 py-2.5 rounded-xl border transition-all ${best ? 'bg-white/10 border-[#F97316]/40 shadow-lg shadow-orange-900/20' : 'bg-white/5 border-white/10'}`}
-              >
-                <div className="flex items-center gap-2">
-                  <span className={`w-2 h-2 rounded-full ${color}`} />
-                  <span className="text-xs font-medium text-slate-300">{store}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  {slash && <span className="text-[10px] text-slate-600 line-through">{prix} DT</span>}
-                  {best && <span className="text-xs font-black text-[#F97316]">{prix} DT</span>}
-                  {best && (
-                    <span className="text-[9px] font-bold bg-[#F97316] text-white px-1.5 py-0.5 rounded-md">
-                      Meilleur prix
-                    </span>
-                  )}
-                </div>
-              </div>
-            ))}
-
-            {/* Économie */}
-            <div className="flex items-center gap-2 pt-1 pl-1">
-              <Zap size={11} className="text-green-400" />
-              <span className="text-[11px] text-green-400 font-semibold">Économie : jusqu&apos;à 260 DT</span>
-            </div>
-
-          </div>
+        {/* Économie */}
+        <div className="flex items-center gap-1.5 mt-3">
+          <Zap size={11} className="text-green-400" />
+          <span className="text-[11px] text-green-400 font-medium">Économie jusqu&apos;à 260 DT sur ce produit</span>
         </div>
 
       </div>
