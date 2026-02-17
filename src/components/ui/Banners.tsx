@@ -62,11 +62,15 @@ export function BannerStats() {
             }}
           />
 
-          {/* Contenu placeholder */}
-          <div className="relative flex flex-col items-center gap-3">
-            <span className="text-[7rem] sm:text-[9rem] select-none leading-none">📱</span>
-            <span className="text-white/30 text-[10px] tracking-[0.2em] uppercase">Image produit · 800 × 320</span>
-          </div>
+          {/* Image smartphone */}
+          <Image
+            src="/banners/smartphone.webp"
+            alt="Smartphones high-tech"
+            fill
+            className="object-cover object-center"
+            sizes="(max-width: 640px) 100vw, 45vw"
+            priority
+          />
 
           {/* Badge flottant */}
           <div className="absolute top-4 right-4 bg-[#F97316] text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow-lg">
