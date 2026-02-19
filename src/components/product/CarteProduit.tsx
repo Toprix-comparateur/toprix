@@ -37,7 +37,7 @@ export default function CarteProduit({ produit, className, compact }: CarteProdu
       className={`group flex flex-col bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden hover:border-[#F97316]/40 hover:shadow-lg hover:shadow-orange-100/30 transition-all${className ? ` ${className}` : ''}`}
     >
       {/* Image — aspect-ratio responsive */}
-      <div className={`relative w-full bg-white overflow-hidden ${compact ? 'aspect-square' : 'aspect-[4/3]'}`}>
+      <div className={`relative w-full bg-white overflow-hidden ${compact ? 'aspect-[3/2]' : 'aspect-[4/3]'}`}>
         {produit.image ? (
           <Image
             src={produit.image}
@@ -57,9 +57,9 @@ export default function CarteProduit({ produit, className, compact }: CarteProdu
       </div>
 
       {/* Contenu */}
-      <div className={`flex flex-col flex-1 ${compact ? 'p-2' : 'p-3 sm:p-4'}`}>
+      <div className={`flex flex-col flex-1 ${compact ? 'p-1.5' : 'p-3 sm:p-4'}`}>
         {/* Marque + Store */}
-        <div className="flex items-center justify-between mb-1 gap-2">
+        <div className="flex items-center justify-between mb-0.5 gap-2">
           <p className="text-[#F97316] text-[10px] font-semibold uppercase tracking-wide truncate">
             {produit.marque}
           </p>
@@ -80,7 +80,7 @@ export default function CarteProduit({ produit, className, compact }: CarteProdu
           )}
         </div>
 
-        <p className={`font-heading font-semibold text-[#0F172A] leading-snug line-clamp-2 flex-1 ${compact ? 'text-[11px]' : 'text-xs sm:text-sm'}`}>
+        <p className={`font-heading font-semibold text-[#0F172A] leading-snug line-clamp-2 flex-1 ${compact ? 'text-[10px]' : 'text-xs sm:text-sm'}`}>
           {produit.nom}
         </p>
 
@@ -92,16 +92,16 @@ export default function CarteProduit({ produit, className, compact }: CarteProdu
         )}
 
         {/* Prix */}
-        <div className={`flex items-end justify-between border-t border-[#E2E8F0] ${compact ? 'mt-1.5 pt-1.5' : 'mt-2.5 pt-2.5'}`}>
+        <div className={`flex items-center justify-between border-t border-[#E2E8F0] ${compact ? 'mt-1 pt-1' : 'mt-2.5 pt-2.5'}`}>
           {produit.prix_min ? (
             <div>
-              {hasOldPrice && (
+              {!compact && hasOldPrice && (
                 <p className="text-[10px] text-[#94A3B8] line-through leading-none mb-0.5">
                   {produit.prix_max} DT
                 </p>
               )}
-              <p className={`font-heading text-[#F97316] font-bold leading-none ${compact ? 'text-sm' : 'text-base sm:text-lg'}`}>
-                {produit.prix_min} DT
+              <p className={`font-heading text-[#F97316] font-bold leading-none ${compact ? 'text-xs' : 'text-base sm:text-lg'}`}>
+                {produit.prix_min} <span className={compact ? 'text-[10px]' : 'text-sm'}>DT</span>
               </p>
               {!compact && hasDiscount && (
                 <p className="text-[10px] text-green-600 font-semibold mt-0.5">
@@ -110,12 +110,13 @@ export default function CarteProduit({ produit, className, compact }: CarteProdu
               )}
             </div>
           ) : (
-            <p className="text-xs text-[#64748B]">Prix indisponible</p>
+            <p className="text-xs text-[#64748B]">—</p>
           )}
-          {/* Touch target */}
-          <div className={`rounded-full bg-[#F97316]/10 flex items-center justify-center group-hover:bg-[#F97316] transition-colors shrink-0 ${compact ? 'w-7 h-7' : 'w-9 h-9'}`}>
-            <ArrowRight size={compact ? 11 : 14} className="text-[#F97316] group-hover:text-white transition-colors" />
-          </div>
+          {!compact && (
+            <div className="w-9 h-9 rounded-full bg-[#F97316]/10 flex items-center justify-center group-hover:bg-[#F97316] transition-colors shrink-0">
+              <ArrowRight size={14} className="text-[#F97316] group-hover:text-white transition-colors" />
+            </div>
+          )}
         </div>
       </div>
     </Link>

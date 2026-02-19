@@ -49,7 +49,7 @@ export default async function ProduitDetailPage({ params }: Props) {
   if (produit.categorie) {
     try {
       const res = await getProduits({ categorie: produit.categorie })
-      similaires = (res.data ?? []).filter(p => p.id !== produit!.id).slice(0, 3)
+      similaires = (res.data ?? []).filter(p => p.id !== produit!.id).slice(0, 4)
     } catch { /* ignore */ }
   }
 
@@ -279,7 +279,7 @@ export default async function ProduitDetailPage({ params }: Props) {
             <h2 className="font-heading text-[#0F172A] text-lg font-semibold mb-5">
               Produits similaires
             </h2>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               {similaires.map((p) => (
                 <CarteProduit key={p.id} produit={p} compact />
               ))}
