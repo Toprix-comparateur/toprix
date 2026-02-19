@@ -8,24 +8,27 @@ const SCOPE_ITEMS = [
     label: 'Smartphones',
     sousTitre: 'Toutes les marques',
     img: '/banners/cat-smartphones.webp',
-    bg: 'rgb(219, 234, 254)',     // blue-100
-    accent: '#1D4ED8',
+    gradient: 'from-blue-900/80 via-blue-800/50 to-blue-700/20',
+    accent: '#60A5FA',
+    accentBtn: '#1D4ED8',
   },
   {
     href: '/categories/gaming',
     label: 'Gaming',
     sousTitre: 'PC, Consoles & Accessoires',
     img: '/banners/cat-gaming.webp',
-    bg: 'rgb(220, 252, 231)',     // green-100
-    accent: '#16A34A',
+    gradient: 'from-green-900/80 via-green-800/50 to-green-700/20',
+    accent: '#4ADE80',
+    accentBtn: '#16A34A',
   },
   {
     href: '/categories/electromenager',
     label: 'Électroménager',
     sousTitre: 'Cuisine, Climatisation & Plus',
     img: '/banners/cat-electromenager.webp',
-    bg: 'rgb(254, 243, 199)',     // yellow-100
-    accent: '#D97706',
+    gradient: 'from-amber-900/80 via-amber-800/50 to-amber-700/20',
+    accent: '#FCD34D',
+    accentBtn: '#D97706',
   },
 ]
 
@@ -34,39 +37,40 @@ export default function CategoryScope() {
     <section className="py-10 sm:py-12 px-4 sm:px-6 bg-white">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {SCOPE_ITEMS.map(({ href, label, sousTitre, img, bg, accent }) => (
+          {SCOPE_ITEMS.map(({ href, label, sousTitre, img, gradient, accent, accentBtn }) => (
             <Link
               key={href}
               href={href}
               className="group relative rounded-2xl overflow-hidden flex flex-col"
-              style={{ backgroundColor: bg, minHeight: '200px' }}
+              style={{ minHeight: '200px' }}
             >
+              {/* Image background */}
+              <Image
+                src={img}
+                alt={label}
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                sizes="(max-width: 640px) 100vw, 33vw"
+              />
+
+              {/* Gradient overlay pour lisibilité */}
+              <div className={`absolute inset-0 bg-gradient-to-r ${gradient}`} />
+
               {/* Contenu texte */}
-              <div className="relative z-10 p-5 flex-1">
+              <div className="relative z-10 p-5 flex-1 flex flex-col justify-end">
                 <p
-                  className="font-heading text-lg font-bold mb-1"
+                  className="font-heading text-lg font-bold mb-0.5"
                   style={{ color: accent }}
                 >
                   {label}
                 </p>
-                <p className="text-sm text-slate-600 mb-4">{sousTitre}</p>
+                <p className="text-sm text-white/70 mb-4">{sousTitre}</p>
                 <span
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full transition-colors"
-                  style={{ backgroundColor: `${accent}18`, color: accent }}
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full w-fit"
+                  style={{ backgroundColor: `${accentBtn}cc`, color: '#fff' }}
                 >
                   Explorer <ArrowRight size={11} />
                 </span>
-              </div>
-
-              {/* Image en bas à droite */}
-              <div className="absolute bottom-0 right-0 w-36 h-28 sm:w-40 sm:h-32">
-                <Image
-                  src={img}
-                  alt={label}
-                  fill
-                  className="object-contain object-bottom group-hover:scale-105 transition-transform duration-300 drop-shadow-md"
-                  sizes="160px"
-                />
               </div>
             </Link>
           ))}

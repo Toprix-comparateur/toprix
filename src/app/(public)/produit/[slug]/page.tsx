@@ -279,9 +279,9 @@ export default async function ProduitDetailPage({ params }: Props) {
             <h2 className="font-heading text-[#0F172A] text-lg font-semibold mb-5">
               Produits similaires
             </h2>
-            <div className="grid grid-cols-3 gap-3 sm:gap-4">
+            <div className="grid grid-cols-3 gap-3">
               {similaires.map((p) => (
-                <CarteProduit key={p.id} produit={p} />
+                <CarteProduit key={p.id} produit={p} compact />
               ))}
             </div>
           </div>

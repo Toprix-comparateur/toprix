@@ -56,7 +56,7 @@ export default function BannerSlider() {
       className="relative overflow-hidden rounded-2xl shadow-xl"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
-      style={{ height: '340px' }}
+      style={{ height: '170px' }}
     >
       {/* Slides */}
       {SLIDES.map((slide, i) => (
@@ -78,26 +78,26 @@ export default function BannerSlider() {
           <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent" />
 
           {/* Contenu */}
-          <div className="relative z-10 h-full flex flex-col justify-center px-8 sm:px-12 max-w-lg">
+          <div className="relative z-10 h-full flex flex-col justify-center px-5 sm:px-8 max-w-lg">
             <span
-              className="inline-block text-xs font-bold uppercase tracking-widest px-2.5 py-1 rounded-full mb-4 w-fit"
+              className="inline-block text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full mb-2 w-fit"
               style={{ backgroundColor: `${slide.accent}22`, color: slide.accent, border: `1px solid ${slide.accent}44` }}
             >
               {slide.tag}
             </span>
-            <h3 className="font-heading text-white text-2xl sm:text-3xl font-bold mb-2 leading-tight">
+            <h3 className="font-heading text-white text-base sm:text-xl font-bold mb-1 leading-tight">
               {slide.titre}
             </h3>
-            <p className="text-white/60 text-sm mb-6 leading-relaxed">
+            <p className="text-white/60 text-xs mb-3 leading-relaxed hidden sm:block">
               {slide.sousTitre}
             </p>
             <Link
               href={slide.href}
-              className="inline-flex items-center gap-2 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all w-fit"
+              className="inline-flex items-center gap-1.5 text-white text-xs font-semibold px-4 py-1.5 rounded-lg transition-all w-fit"
               style={{ backgroundColor: slide.accent }}
             >
               {slide.cta}
-              <ChevronRight size={14} />
+              <ChevronRight size={12} />
             </Link>
           </div>
         </div>
