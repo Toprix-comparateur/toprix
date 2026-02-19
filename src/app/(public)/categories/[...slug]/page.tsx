@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
-import { getCategorie } from '@/lib/api/categories'
-import { getProduits } from '@/lib/api/produits'
+import { getCategorieDetail } from '@/lib/api/categories'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import CarteProduit from '@/components/product/CarteProduit'
@@ -9,15 +8,19 @@ import { ChevronRight, LayoutGrid } from 'lucide-react'
 export const dynamic = 'force-dynamic'
 
 interface Props {
-  params: Promise<{ slug: string }>
+  params: Promise<{ slug: string[] }>
   searchParams: Promise<{ page?: string }>
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
+  const fullSlug = slug.join('/')
   try {
-    const cat = await getCategorie(slug)
-    return { title: `${cat.nom} - Comparer les prix`, description: `Comparez les meilleurs prix pour les produits ${cat.nom}.` }
+    const { categorie } = await getCategorieDetail(fullSlug)
+    return {
+      title: `${categorie.nom} - Comparer les prix`,
+      description: `Comparez les meilleurs prix pour les produits ${categorie.nom}.`,
+    }
   } catch {
     return { title: 'Catégorie introuvable' }
   }
@@ -27,13 +30,20 @@ export default async function CategorieDetailPage({ params, searchParams }: Prop
   const { slug } = await params
   const { page = '1' } = await searchParams
 
-  let categorie = null
-  let produits = null
+  const fullSlug = slug.join('/')
+  const isSubcat = slug.length >= 2
 
-  try { categorie = await getCategorie(slug) } catch { notFound() }
-  try { produits = await getProduits({ categorie: slug, page: Number(page) }) } catch {}
+  let detail = null
 
-  if (!categorie) notFound()
+  try {
+    detail = await getCategorieDetail(fullSlug, Number(page))
+  } catch {
+    notFound()
+  }
+
+  if (!detail) notFound()
+
+  const { categorie, data: produits, meta } = detail
 
   return (
     <div>
@@ -41,10 +51,21 @@ export default async function CategorieDetailPage({ params, searchParams }: Prop
       <section className="bg-[#0F172A] py-8 px-4 relative overflow-hidden">
         <div className="absolute -top-20 right-0 w-64 h-64 bg-[#F97316] rounded-full blur-[100px] opacity-10 pointer-events-none" />
         <div className="max-w-7xl mx-auto relative">
-          <nav className="flex items-center gap-1.5 text-xs text-slate-500 mb-4">
+          <nav className="flex items-center gap-1.5 text-xs text-slate-500 mb-4 flex-wrap">
             <Link href="/" className="hover:text-slate-300 transition-colors">Accueil</Link>
             <ChevronRight size={12} />
             <Link href="/categories" className="hover:text-slate-300 transition-colors">Catégories</Link>
+            {isSubcat && categorie.parent_slug && (
+              <>
+                <ChevronRight size={12} />
+                <Link
+                  href={`/categories/${categorie.parent_slug}`}
+                  className="hover:text-slate-300 transition-colors capitalize"
+                >
+                  {categorie.parent_nom ?? categorie.parent_slug.replace(/-/g, ' ')}
+                </Link>
+              </>
+            )}
             <ChevronRight size={12} />
             <span className="text-slate-300">{categorie.nom}</span>
           </nav>
@@ -54,16 +75,16 @@ export default async function CategorieDetailPage({ params, searchParams }: Prop
             </div>
             <div>
               <h1 className="font-heading text-white text-2xl md:text-3xl font-bold">{categorie.nom}</h1>
-              <p className="text-slate-400 text-sm">{categorie.nombre_produits ?? 0} produit(s) disponible(s)</p>
+              <p className="text-slate-400 text-sm">{meta?.total_items ?? 0} produit(s) disponible(s)</p>
             </div>
           </div>
         </div>
       </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        {produits && produits.data.length > 0 ? (
+        {produits.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {produits.data.map((p) => <CarteProduit key={p.id} produit={p} />)}
+            {produits.map((p) => <CarteProduit key={p.id} produit={p} />)}
           </div>
         ) : (
           <div className="text-center py-20 border border-dashed border-[#E2E8F0] rounded-2xl">

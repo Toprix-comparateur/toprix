@@ -12,6 +12,8 @@ import MarqueeMarques from '@/components/ui/MarqueeMarques'
 import CarouselCategories from '@/components/ui/CarouselCategories'
 import CarouselEdito from '@/components/ui/CarouselEdito'
 import { BannerHowItWorks } from '@/components/ui/Banners'
+import BannerSlider from '@/components/ui/BannerSlider'
+import CategoryScope from '@/components/ui/CategoryScope'
 
 export const dynamic = 'force-dynamic'
 
@@ -91,7 +93,7 @@ export default async function AccueilPage() {
     <div className="bg-white">
 
       {/* ─────────────────────────────────── HERO ───────────────────────────── */}
-      <section className="relative bg-[#0F172A] min-h-[540px] overflow-hidden">
+      <section className="relative bg-[#0F172A] min-h-[400px] overflow-hidden">
 
         {/* Grille décorative */}
         <div
@@ -106,19 +108,19 @@ export default async function AccueilPage() {
         <div className="absolute -top-32 -right-32 w-96 h-96 bg-[#F97316] rounded-full blur-[120px] opacity-20 pointer-events-none" />
         <div className="absolute bottom-0 -left-16 w-64 h-64 bg-[#F97316] rounded-full blur-[100px] opacity-10 pointer-events-none" />
 
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-8 pt-16 sm:pt-20 pb-28 text-center">
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-8 pt-10 sm:pt-12 pb-20 text-center">
 
           <div className="inline-flex items-center gap-2 bg-[#F97316]/10 border border-[#F97316]/30 text-[#F97316] text-xs font-semibold px-3 py-1.5 rounded-full mb-6 tracking-wide uppercase">
             <Zap size={11} />
             Comparateur n°1 en Tunisie
           </div>
 
-          <h1 className="font-heading text-white text-4xl sm:text-5xl md:text-6xl font-bold mb-4 tracking-tight leading-tight">
+          <h1 className="font-heading text-white text-3xl sm:text-4xl md:text-5xl font-bold mb-4 tracking-tight leading-tight">
             Comparez les produits<br />
             <span className="text-[#F97316]">high-tech au meilleur prix</span>
           </h1>
 
-          <p className="text-slate-400 text-lg md:text-xl mb-10 max-w-xl mx-auto leading-relaxed">
+          <p className="text-slate-400 text-base md:text-lg mb-8 max-w-xl mx-auto leading-relaxed">
             Smartphones, laptops, audio, gaming — comparez instantanément parmi toutes les boutiques en Tunisie.
           </p>
 
@@ -337,6 +339,13 @@ export default async function AccueilPage() {
         </section>
       )}
 
+      {/* ──────────────── BANNER SLIDER (entre smartphones et électro) ──────── */}
+      <section className="py-6 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto">
+          <BannerSlider />
+        </div>
+      </section>
+
       {/* ──────────────────────────── ÉLECTROMÉNAGER ─────────────────────────── */}
       {electro.length > 0 && (
         <section className="py-12 sm:py-16 px-4 sm:px-6 bg-[#F8FAFC]">
@@ -352,6 +361,9 @@ export default async function AccueilPage() {
           </div>
         </section>
       )}
+
+      {/* ──────────────────────── CATEGORY SCOPE ─────────────────────────────── */}
+      <CategoryScope />
 
       {/* ────────────────────────────── MARQUES ──────────────────────────────── */}
       <section className="py-12 sm:py-16">

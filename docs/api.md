@@ -77,6 +77,17 @@ interface Produit {
 
 > **Note :** Quand `slug` est `null`, le frontend utilise `id` (ObjectId) pour la navigation vers `/produit/[id]`.
 
+### `SousCategorie`
+```typescript
+interface SousCategorie {
+  id: string
+  slug: string         // format "parent/sous" ex: "informatique/stockage"
+  nom: string          // nom lisible ex: "Stockage"
+  parent_slug: string  // slug de la catégorie parente ex: "informatique"
+  nombre_produits?: number
+}
+```
+
 ### `Categorie`
 ```typescript
 interface Categorie {
@@ -85,6 +96,9 @@ interface Categorie {
   nom: string
   image?: string
   nombre_produits?: number
+  parent_slug?: string       // présent si sous-catégorie
+  parent_nom?: string        // présent si sous-catégorie
+  sous_categories?: SousCategorie[]  // présent sur les catégories parentes
 }
 ```
 
@@ -182,10 +196,20 @@ const produit  = await getProduit('iphone-15-pro')
 
 ### `categories.ts`
 
-| Fonction | Endpoint | Retour |
-|----------|----------|--------|
-| `getCategories()` | `GET /categories/` | `ReponseAPI<Categorie[]>` |
-| `getCategorie(slug)` | `GET /categories/:slug/` | `Categorie` |
+| Fonction | Endpoint | Params | Retour |
+|----------|----------|--------|--------|
+| `getCategories()` | `GET /categories/` | — | `ReponseAPI<Categorie[]>` |
+| `getCategorieDetail(slug, page?)` | `GET /categories/:slug/?page=N` | `slug` peut être `"informatique"` ou `"informatique/stockage"` | `CategorieDetailReponse` |
+
+```typescript
+interface CategorieDetailReponse {
+  data: Produit[]        // produits de la catégorie/sous-catégorie
+  meta: PaginationMeta
+  categorie: Categorie   // inclut parent_slug/parent_nom si sous-catégorie
+}
+```
+
+> `getCategorie(slug)` (ancienne fonction) a été remplacée par `getCategorieDetail(slug, page?)` qui retourne à la fois les infos de la catégorie ET ses produits, en un seul appel.
 
 ---
 

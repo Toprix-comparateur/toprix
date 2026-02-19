@@ -27,12 +27,23 @@ export interface Produit {
   offres?: OffreBoutique[]
 }
 
+export interface SousCategorie {
+  id: string
+  slug: string
+  nom: string
+  parent_slug: string
+  nombre_produits?: number
+}
+
 export interface Categorie {
   id: string
   slug: string
   nom: string
   image?: string
   nombre_produits?: number
+  parent_slug?: string
+  parent_nom?: string
+  sous_categories?: SousCategorie[]
 }
 
 export interface Marque {

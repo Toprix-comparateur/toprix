@@ -12,7 +12,7 @@
 | `/rechercher` | `(public)/rechercher/page.tsx` | `getProduits(q, page)` | SSR |
 | `/produit/[slug]` | `(public)/produit/[slug]/page.tsx` | `getProduit(slug)` | SSR |
 | `/categories` | `(public)/categories/page.tsx` | `getCategories()` | SSR |
-| `/categories/[slug]` | `(public)/categories/[slug]/page.tsx` | `getCategorie()` + `getProduits()` | SSR |
+| `/categories/[...slug]` | `(public)/categories/[...slug]/page.tsx` | `getCategorieDetail(slug, page)` | SSR |
 | `/marques` | `(public)/marques/page.tsx` | `getMarques()` | SSR |
 | `/marques/[name]` | `(public)/marques/[name]/page.tsx` | `getMarque()` + `getProduits()` | SSR |
 | `/blog` | `(public)/blog/page.tsx` | `getArticles(page)` | SSR |
@@ -96,23 +96,37 @@ Le tableau utilise les vraies offres de `produit.offres[]`. Chaque offre a un li
 
 **Fichier** : `src/app/(public)/categories/page.tsx`
 
-Grille 3 colonnes, chaque item : icône + nom + nombre de produits + flèche orange au hover.
+Liste verticale de catégories parentes. Chaque catégorie affiche :
+- Icône + nom + compteur produits
+- Sous-catégories en grille compacte (2→5 colonnes selon breakpoint) avec nom + compteur
 
 Icônes configurées via un dictionnaire `ICONES` par slug :
 ```typescript
 const ICONES: Record<string, string> = {
-  smartphones: '📱', laptop: '💻', audio: '🎧', gaming: '🎮', ...
+  informatique: '💻', telephonie: '📱', electromenager: '🏠', gaming: '🎮', ...
 }
 ```
 
+Les sous-catégories sont directement cliquables vers `/categories/<parent>/<sous>`.
+
 ---
 
-### `/categories/[slug]` — Catégorie détail
+### `/categories/[...slug]` — Catégorie ou Sous-catégorie détail
 
-**Fichier** : `src/app/(public)/categories/[slug]/page.tsx`
+**Fichier** : `src/app/(public)/categories/[...slug]/page.tsx`
+
+Route catch-all qui gère deux cas :
+- **`/categories/telephonie`** → `slug = ['telephonie']` → catégorie parente
+- **`/categories/informatique/stockage`** → `slug = ['informatique', 'stockage']` → sous-catégorie
+
+Dans les deux cas, un seul appel `getCategorieDetail(slug.join('/'), page)` récupère produits + infos catégorie.
+
+**Breadcrumb** :
+- Catégorie parente : `Accueil › Catégories › Téléphonie`
+- Sous-catégorie : `Accueil › Catégories › Informatique › Stockage`
 
 **Sections** :
-1. Hero dark avec breadcrumb, icône catégorie, H1, compteur produits
+1. Hero dark avec breadcrumb (avec lien vers parent si sous-catégorie), icône, H1, compteur produits
 2. Grille `CarteProduit` (4 colonnes xl)
 3. Empty state si aucun produit
 
@@ -247,7 +261,7 @@ app/layout.tsx          ← html, body, fonts
     ├── page.tsx               ← /
     ├── rechercher/page.tsx    ← /rechercher
     ├── produit/[slug]/        ← /produit/:slug
-    ├── categories/            ← /categories + /:slug
+    ├── categories/            ← /categories + /[...slug] (parent ou sous-catégorie)
     ├── marques/               ← /marques + /:name
     ├── blog/                  ← /blog + /:slug
     ├── boutiques/             ← /boutiques
