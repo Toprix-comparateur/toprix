@@ -22,7 +22,7 @@ const STORE_LOGOS: Record<string, string> = {
 }
 
 export default function CarteProduit({ produit, className, compact }: CarteProduitProps) {
-  const href = produit.slug ? `/produit/${produit.slug}` : `/produit/${produit.id}`
+  const href = `/produit/${produit.id}`
   const storeKey = (produit.boutique ?? '').toLowerCase()
   const storeClass = STORE_COLORS[storeKey] ?? 'bg-slate-50 text-slate-500 border-slate-100'
   const hasDiscount = (produit.discount ?? 0) > 0
