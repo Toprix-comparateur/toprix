@@ -1,15 +1,23 @@
 import type { Metadata } from 'next'
 import { getCategorieDetail } from '@/lib/api/categories'
+import { getProduits } from '@/lib/api/produits'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import CarteProduit from '@/components/product/CarteProduit'
+import ProductFilters from '@/components/product/ProductFilters'
 import { ChevronRight, LayoutGrid } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
 interface Props {
   params: Promise<{ slug: string[] }>
-  searchParams: Promise<{ page?: string }>
+  searchParams: Promise<{
+    page?: string
+    marque?: string
+    prix_min?: string
+    prix_max?: string
+    en_promo?: string
+  }>
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -28,22 +36,58 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CategorieDetailPage({ params, searchParams }: Props) {
   const { slug } = await params
-  const { page = '1' } = await searchParams
+  const {
+    page = '1',
+    marque = '',
+    prix_min = '',
+    prix_max = '',
+    en_promo = '',
+  } = await searchParams
 
   const fullSlug = slug.join('/')
   const isSubcat = slug.length >= 2
 
-  let detail = null
+  // Déterminer si des filtres sont actifs
+  const hasFilters = !!(marque || prix_min || prix_max || en_promo === '1')
+  const nbFiltresActifs = [
+    marque,
+    (prix_min || prix_max) ? '1' : '',
+    en_promo === '1' ? '1' : '',
+  ].filter(Boolean).length
+
+  let categorie = null
+  let produits: any[] = []
+  let meta = null
 
   try {
-    detail = await getCategorieDetail(fullSlug, Number(page))
+    if (hasFilters) {
+      // Si filtres actifs, utiliser getProduits() avec categorie
+      const result = await getProduits({
+        categorie: fullSlug,
+        page: Number(page),
+        marque,
+        prix_min: prix_min ? Number(prix_min) : undefined,
+        prix_max: prix_max ? Number(prix_max) : undefined,
+        en_promo: en_promo === '1',
+      })
+      produits = result.data
+      meta = result.meta
+
+      // Récupérer les infos catégorie séparément (sans pagination)
+      const catDetail = await getCategorieDetail(fullSlug, 1)
+      categorie = catDetail.categorie
+    } else {
+      // Sans filtres, utiliser l'endpoint catégorie normal
+      const detail = await getCategorieDetail(fullSlug, Number(page))
+      categorie = detail.categorie
+      produits = detail.data
+      meta = detail.meta
+    }
   } catch {
     notFound()
   }
 
-  if (!detail) notFound()
-
-  const { categorie, data: produits, meta } = detail
+  if (!categorie) notFound()
 
   return (
     <div>
@@ -82,14 +126,26 @@ export default async function CategorieDetailPage({ params, searchParams }: Prop
       </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        {/* Filtres */}
+        <ProductFilters
+          marque={marque}
+          prix_min={prix_min}
+          prix_max={prix_max}
+          en_promo={en_promo === '1'}
+          nbFiltresActifs={nbFiltresActifs}
+          hideBrand={false}
+        />
+
         {produits.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {produits.map((p) => <CarteProduit key={p.id} produit={p} />)}
           </div>
         ) : (
           <div className="text-center py-20 border border-dashed border-[#E2E8F0] rounded-2xl">
-            <p className="font-heading text-[#0F172A] text-lg font-semibold mb-2">Aucun produit pour le moment</p>
-            <p className="text-[#64748B] text-sm mb-6">Cette catégorie sera bientôt peuplée.</p>
+            <p className="font-heading text-[#0F172A] text-lg font-semibold mb-2">Aucun produit trouvé</p>
+            <p className="text-[#64748B] text-sm mb-6">
+              {hasFilters ? 'Essayez de modifier les filtres.' : 'Cette catégorie sera bientôt peuplée.'}
+            </p>
             <Link href="/categories" className="inline-flex items-center gap-2 text-[#F97316] text-sm font-semibold hover:underline">
               <ChevronRight size={14} className="rotate-180" /> Retour aux catégories
             </Link>
