@@ -72,10 +72,10 @@ export default async function AccueilPage() {
   // Chargement parallèle — 5 appels simultanés
   const [promosRes, smartphonesRes, electroRes, tvRes, laptopsRes] = await Promise.allSettled([
     getProduits({ en_promo: true }),
-    getProduits({ categorie: 'smartphones' }),
+    getProduits({ categorie: 'telephonie' }),
     getProduits({ categorie: 'electromenager' }),
     getProduits({ categorie: 'tv-et-son' }),
-    getProduits({ categorie: 'ordinateurs-portables' }),
+    getProduits({ categorie: 'informatique' }),
   ])
 
   const promos      = promosRes.status      === 'fulfilled' ? promosRes.value.data                    : []
@@ -291,7 +291,7 @@ export default async function AccueilPage() {
                   <Image src="/banners/cat-laptops.webp" alt="Laptops" fill className="object-cover" sizes="112px" />
                 </div>
                 <Link
-                  href="/categories/ordinateurs-portables"
+                  href="/categories/informatique"
                   className="inline-flex items-center gap-2 border border-[#3B82F6]/30 hover:border-[#3B82F6] hover:text-[#3B82F6] text-slate-500 text-xs font-semibold px-5 py-2.5 rounded-xl transition-all"
                 >
                   Voir tout <ArrowRight size={12} />
@@ -313,7 +313,7 @@ export default async function AccueilPage() {
           {/* CTA mobile */}
           <div className="sm:hidden mt-6 px-4 flex justify-center">
             <Link
-              href="/categories/ordinateurs-portables"
+              href="/categories/informatique"
               className="inline-flex items-center gap-2 bg-[#3B82F6] hover:bg-[#2563EB] text-white text-xs font-semibold px-6 py-2.5 rounded-xl transition-colors"
             >
               Voir tous les laptops <ArrowRight size={12} />
@@ -331,7 +331,7 @@ export default async function AccueilPage() {
               eyebrow="Catégorie"
               title="Smartphones"
               icon={Smartphone}
-              href="/categories/smartphones"
+              href="/categories/telephonie"
               linkLabel="Voir tous"
             />
             <CarouselProduits produits={smartphones} />

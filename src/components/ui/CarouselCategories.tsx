@@ -7,24 +7,14 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 const CATEGORIES = [
   {
-    href: '/categories/smartphones',
-    label: 'Smartphones',
+    href: '/categories/telephonie',
+    label: 'Téléphonie',
     img: '/banners/cat-smartphones.webp',
   },
   {
-    href: '/categories/ordinateurs-portables',
-    label: 'Laptops',
+    href: '/categories/informatique',
+    label: 'Informatique',
     img: '/banners/cat-laptops.webp',
-  },
-  {
-    href: '/categories/tablettes',
-    label: 'Tablettes',
-    img: '/banners/cat-tablettes.webp',
-  },
-  {
-    href: '/categories/audio',
-    label: 'Audio',
-    img: '/banners/cat-audio.webp',
   },
   {
     href: '/categories/gaming',
@@ -32,19 +22,29 @@ const CATEGORIES = [
     img: '/banners/cat-gaming.webp',
   },
   {
+    href: '/categories/tv-et-son',
+    label: 'TV & Son',
+    img: '/banners/cat-audio.webp',
+  },
+  {
     href: '/categories/electromenager',
     label: 'Électroménager',
     img: '/banners/cat-electromenager.webp',
   },
   {
-    href: '/categories/photo',
+    href: '/categories/photo-et-video',
     label: 'Photo & Vidéo',
     img: '/banners/cat-photo.webp',
   },
   {
-    href: '/categories/moniteurs',
-    label: 'Moniteurs',
+    href: '/categories/surveillance',
+    label: 'Surveillance',
     img: '/banners/cat-moniteurs.webp',
+  },
+  {
+    href: '/categories/energie',
+    label: 'Énergie',
+    img: '/banners/cat-tablettes.webp',
   },
 ]
 
