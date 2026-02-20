@@ -1,7 +1,8 @@
 import { MetadataRoute } from 'next'
+import { SITE_URL } from '@/lib/config'
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = 'https://toprix-mu.vercel.app'
+  const baseUrl = SITE_URL
 
   return {
     rules: [

@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     template: '%s | Toprix',
   },
   description: 'Comparez les prix des smartphones, laptops et produits high-tech parmi toutes les boutiques en Tunisie.',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://toprix.net'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://toprix.tn'),
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },

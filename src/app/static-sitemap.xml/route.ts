@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server'
+import { SITE_URL, API_URL } from '@/lib/config'
 
 export const dynamic = 'force-static'
 export const revalidate = 3600 // revalider toutes les heures
 
 export async function GET() {
-  const baseUrl = 'https://toprix-mu.vercel.app'
+  const baseUrl = SITE_URL
 
   const staticPages = [
     { url: '', priority: '1.0', changefreq: 'daily' },

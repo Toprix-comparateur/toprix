@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server'
+import { SITE_URL, API_URL } from '@/lib/config'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 3600
 
 export async function GET() {
-  const baseUrl = 'https://toprix-mu.vercel.app'
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.toprix.tn/api/v1'
+  const baseUrl = SITE_URL
+  const apiUrl = API_URL
 
   try {
     // Récupérer un échantillon de produits pour extraire les marques

@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server'
+import { SITE_URL, API_URL } from '@/lib/config'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 7200 // revalider toutes les 2 heures
 
 export async function GET() {
-  const baseUrl = 'https://toprix-mu.vercel.app'
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.toprix.tn/api/v1'
+  const baseUrl = SITE_URL
+  const apiUrl = API_URL
 
   try {
     // Récupérer plusieurs pages de produits
@@ -32,7 +33,7 @@ export async function GET() {
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${allProduits.map((produit) => `  <url>
-    <loc>${baseUrl}/produit/${produit.slug || produit.id}</loc>
+    <loc>${baseUrl}/produit/${produit.id}</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
