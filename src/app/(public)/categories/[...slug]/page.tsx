@@ -127,6 +127,32 @@ export default async function CategorieDetailPage({ params, searchParams }: Prop
       </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        {/* Sous-catégories (uniquement pour catégorie parente) */}
+        {!isSubcat && categorie.sous_categories && categorie.sous_categories.length > 0 && (
+          <div className="mb-8">
+            <h2 className="font-heading text-[#0F172A] text-lg font-semibold mb-4">Sous-catégories</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
+              {categorie.sous_categories.map((sous) => (
+                <Link
+                  key={sous.id}
+                  href={`/categories/${sous.slug}`}
+                  className="group flex items-center justify-between bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl px-3 py-2.5 hover:border-[#F97316]/40 hover:bg-orange-50/40 hover:shadow-sm transition-all"
+                >
+                  <div className="min-w-0">
+                    <p className="text-xs font-medium text-[#334155] group-hover:text-[#F97316] truncate transition-colors">
+                      {sous.nom}
+                    </p>
+                    {sous.nombre_produits !== undefined && (
+                      <p className="text-[10px] text-[#94A3B8]">{sous.nombre_produits} produits</p>
+                    )}
+                  </div>
+                  <ChevronRight size={12} className="text-[#CBD5E1] group-hover:text-[#F97316] transition-colors shrink-0 ml-1" />
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Filtres */}
         <ProductFilters
           marque={marque}
