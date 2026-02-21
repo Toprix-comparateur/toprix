@@ -10,12 +10,13 @@ import Pagination from '@/components/ui/Pagination'
 export const dynamic = 'force-dynamic'
 
 interface Props {
-  params: Promise<{ name: string }>
+  params: Promise<{ slug: string[] }>
   searchParams: Promise<{ page?: string }>
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { name } = await params
+  const { slug } = await params
+  const name = slug.join('/')
   try {
     const marque = await getMarque(name)
     return { title: `${marque.nom} - Comparer les prix`, description: `Comparez les meilleurs prix des produits ${marque.nom}.` }
@@ -25,7 +26,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function MarqueDetailPage({ params, searchParams }: Props) {
-  const { name } = await params
+  const { slug } = await params
+  const name = slug.join('/')
   const { page = '1' } = await searchParams
 
   let marque = null
@@ -45,7 +47,7 @@ export default async function MarqueDetailPage({ params, searchParams }: Props) 
           <nav className="flex items-center gap-1.5 text-xs text-slate-500 mb-4">
             <Link href="/" className="hover:text-slate-300 transition-colors">Accueil</Link>
             <ChevronRight size={12} />
-            <Link href="/marques" className="hover:text-slate-300 transition-colors">Marques</Link>
+            <Link href="/marque" className="hover:text-slate-300 transition-colors">Marques</Link>
             <ChevronRight size={12} />
             <span className="text-slate-300">{marque.nom}</span>
           </nav>
@@ -85,7 +87,7 @@ export default async function MarqueDetailPage({ params, searchParams }: Props) 
           <div className="text-center py-20 border border-dashed border-[#E2E8F0] rounded-2xl">
             <p className="font-heading text-[#0F172A] text-lg font-semibold mb-2">Aucun produit pour le moment</p>
             <p className="text-[#64748B] text-sm mb-6">Les produits {marque.nom} seront bientôt disponibles.</p>
-            <Link href="/marques" className="inline-flex items-center gap-2 text-[#F97316] text-sm font-semibold hover:underline">
+            <Link href="/marque" className="inline-flex items-center gap-2 text-[#F97316] text-sm font-semibold hover:underline">
               <ChevronRight size={14} className="rotate-180" /> Retour aux marques
             </Link>
           </div>

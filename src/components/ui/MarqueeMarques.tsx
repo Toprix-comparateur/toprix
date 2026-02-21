@@ -17,7 +17,7 @@ export default function MarqueeMarques() {
         {doubled.map((marque, i) => (
           <Link
             key={`${marque}-${i}`}
-            href={`/marques/${marque.toLowerCase()}`}
+            href={`/marque/${marque.toLowerCase()}`}
             className="shrink-0 flex items-center justify-center bg-white border border-[#E2E8F0] rounded-xl px-5 py-3 text-sm font-medium text-[#64748B] hover:text-[#0F172A] hover:border-[#F97316]/40 hover:shadow-sm transition-all whitespace-nowrap"
           >
             {marque}

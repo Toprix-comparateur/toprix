@@ -376,7 +376,7 @@ export default async function AccueilPage() {
               </h2>
             </div>
             <Link
-              href="/marques"
+              href="/marque"
               className="flex items-center gap-1 text-xs sm:text-sm font-medium text-[#F97316] sm:text-slate-500 hover:text-[#F97316] transition-colors shrink-0 ml-3"
             >
               <span className="hidden sm:inline">Voir toutes</span>

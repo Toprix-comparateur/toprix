@@ -3,7 +3,7 @@ import Link from 'next/link'
 const LIENS = {
   navigation: [
     { href: '/categories', label: 'Catégories'  },
-    { href: '/marques',    label: 'Marques'     },
+    { href: '/marque',     label: 'Marques'     },
     { href: '/boutiques',  label: 'Boutiques'   },
     { href: '/rechercher', label: 'Rechercher'  },
   ],

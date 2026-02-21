@@ -34,7 +34,7 @@ export default async function MarquesPage() {
             {marques.data.map((marque) => (
               <Link
                 key={marque.id}
-                href={`/marques/${marque.slug}`}
+                href={`/marque/${marque.slug}`}
                 className="group flex flex-col items-center justify-center gap-2 bg-white border border-[#E2E8F0] rounded-2xl py-5 px-3 hover:border-[#F97316]/50 hover:shadow-md transition-all"
               >
                 <div className="w-10 h-10 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] flex items-center justify-center text-xl group-hover:bg-[#F97316]/10 transition-colors">

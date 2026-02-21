@@ -6,7 +6,7 @@ import { Search, Menu, X } from 'lucide-react'
 
 const LIENS_NAV = [
   { href: '/categories', label: 'Catégories' },
-  { href: '/marques',    label: 'Marques'    },
+  { href: '/marque',     label: 'Marques'    },
   { href: '/blog',       label: 'Blog'       },
   { href: '/boutiques',  label: 'Boutiques'  },
 ]
