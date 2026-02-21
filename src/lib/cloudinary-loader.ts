@@ -13,5 +13,5 @@ export default function cloudinaryLoader({
   quality?: number
 }): string {
   const params = `w_${width},f_auto,q_${quality ?? 'auto'}`
-  return `https://res.cloudinary.com/${CLOUD_NAME}/image/fetch/${params}/${src}`
+  return `https://res.cloudinary.com/${CLOUD_NAME}/image/fetch/${params}/${encodeURIComponent(src)}`
 }
