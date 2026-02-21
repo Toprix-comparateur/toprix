@@ -5,12 +5,16 @@ import { fetchProductIdsForCategories } from '@/lib/sitemap-helpers'
 export const dynamic = 'force-dynamic'
 export const revalidate = 7200
 
-const CATEGORIES = ['surveillance', 'energie', 'bureau-et-papeterie']
+// Divers / petites catégories : ~3 300 produits estimés
+const CATEGORIES = [
+  'bureau-et-papeterie', 'energie', 'surveillance',
+  'photo-et-video', 'bebe-et-jouets',
+]
 
 export async function GET() {
   const baseUrl = SITE_URL
 
-  const ids = await fetchProductIdsForCategories(CATEGORIES, 10000)
+  const ids = await fetchProductIdsForCategories(CATEGORIES)
 
   const lastmod = new Date().toISOString()
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
