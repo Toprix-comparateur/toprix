@@ -16,7 +16,8 @@ const spaceGrotesk = Space_Grotesk({
   display: 'swap',
 })
 
-const GTM_ID    = 'GTM-T7FNCLZT'
+const GTM_ID     = 'GTM-T7FNCLZT'
+const GA4_ID     = 'G-5H9RJNSB6R'
 const ADSENSE_ID = 'ca-pub-8451378376537532'
 
 export const metadata: Metadata = {
@@ -26,9 +27,7 @@ export const metadata: Metadata = {
   },
   description: 'Comparez les prix des smartphones, laptops et produits high-tech parmi toutes les boutiques en Tunisie.',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://toprix.tn'),
-
   icons: {
-    // favicon.ico géré automatiquement par src/app/favicon.ico (App Router)
     icon: [
       { url: '/favicon.svg', type: 'image/svg+xml' },
       { url: '/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
@@ -36,25 +35,38 @@ export const metadata: Metadata = {
     apple: { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
   },
   manifest: '/site.webmanifest',
-
-  // Vérifications moteurs de recherche
-  verification: {
-    // google: 'XXXX', // à ajouter si Search Console demande la vérification HTML
-    // other: { 'msvalidate.01': 'XXXX' }, // Bing Webmaster Tools (à obtenir)
-  },
-
-  // Balises meta personnalisées
   other: {
     'google-adsense-account': ADSENSE_ID,
-    'Petal-Search-site-verification': '4434db8634', // Huawei Petal Search
+    'Petal-Search-site-verification': '4434db8634',
   },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" className={`${inter.variable} ${spaceGrotesk.variable}`}>
+      {/* ── 1. Google Tag Manager ── dans <head>, le plus haut possible */}
+      <Script id="gtm-head" strategy="beforeInteractive">
+        {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${GTM_ID}');`}
+      </Script>
+
+      {/* ── 2. Google tag (gtag.js) ── dans <head> */}
+      <Script
+        src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`}
+        strategy="beforeInteractive"
+      />
+      <Script id="ga4-init" strategy="beforeInteractive">
+        {`window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());
+gtag('config','${GA4_ID}');`}
+      </Script>
+
       <body className="antialiased">
-        {/* GTM noscript fallback (doit être juste après <body>) */}
+        {/* ── 3. GTM noscript ── juste après <body> */}
         <noscript>
           <iframe
             src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
@@ -66,17 +78,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         {children}
 
-        {/* Google Tag Manager — charge GA4 (G-5H9RJNSB6R) + Microsoft Clarity via GTM */}
-        <Script id="gtm" strategy="afterInteractive">
-          {`(function(w,d,s,l,i){w[l]=w[l]||[];
-            w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
-            var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
-            j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-            f.parentNode.insertBefore(j,f);
-          })(window,document,'script','dataLayer','${GTM_ID}');`}
-        </Script>
-
-        {/* Google AdSense */}
+        {/* ── 4. Google AdSense ── chargement différé */}
         <Script
           async
           src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_ID}`}
