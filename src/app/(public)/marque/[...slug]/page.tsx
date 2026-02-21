@@ -19,7 +19,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const name = slug.join('/')
   try {
     const marque = await getMarque(name)
-    return { title: `${marque.nom} - Comparer les prix`, description: `Comparez les meilleurs prix des produits ${marque.nom}.` }
+    const title = `${marque.nom.toUpperCase()} – Produits au meilleur prix en Tunisie`
+    const description = `Découvrez tous les produits ${marque.nom} en Tunisie. Comparez les prix sur Mytek, Tunisianet et Spacenet pour trouver les meilleures offres.`
+    return {
+      title,
+      description,
+      openGraph: { title, description, type: 'website' },
+    }
   } catch {
     return { title: 'Marque introuvable' }
   }

@@ -26,7 +26,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   try {
     const produit = await getProduit(slug)
-    return { title: `${produit.nom} - ${produit.marque}`, description: produit.description }
+    const title = `${produit.nom} - ${produit.marque} | Toprix`
+    const description = produit.description
+      || `Comparez le prix de ${produit.nom} (${produit.marque}) sur Mytek, Tunisianet et Spacenet. Trouvez la meilleure offre en Tunisie.`
+    return {
+      title,
+      description,
+      openGraph: {
+        title,
+        description,
+        type: 'website',
+        images: produit.image ? [{ url: produit.image, alt: produit.nom }] : [],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title,
+        description,
+        images: produit.image ? [produit.image] : [],
+      },
+    }
   } catch {
     return { title: 'Produit introuvable' }
   }
@@ -58,7 +76,47 @@ export default async function ProduitDetailPage({ params }: Props) {
   const storeKey = (produit.boutique ?? '').toLowerCase()
   const storeClass = STORE_COLORS[storeKey] ?? 'bg-slate-50 text-slate-500 border-slate-100'
 
+  const RETURN_URLS: Record<string, string> = {
+    mytek:      'https://www.mytek.tn/expedition-retours',
+    tunisianet: 'https://www.tunisianet.com.tn/content/1-livraison',
+    spacenet:   'https://spacenet.tn/content/17-expedition-livraison',
+  }
+
+  const jsonLd = {
+    '@context': 'https://schema.org/',
+    '@type': 'Product',
+    name: produit.nom,
+    image: produit.image || undefined,
+    description: produit.description || `${produit.nom} - ${produit.marque}`,
+    sku: produit.reference || undefined,
+    brand: { '@type': 'Brand', name: produit.marque },
+    category: produit.categorie_nom || produit.categorie,
+    offers: (produit.offres && produit.offres.length > 0
+      ? produit.offres
+      : produit.prix_min ? [{ boutique: produit.boutique || '', prix: produit.prix_min, stock: produit.en_stock ? 'En stock' : '', url: produit.url_boutique || '' }]
+      : []
+    ).map((o) => ({
+      '@type': 'Offer',
+      url: o.url,
+      priceCurrency: 'TND',
+      price: o.prix,
+      priceValidUntil: '2026-12-31',
+      availability: o.stock === 'En stock'
+        ? 'https://schema.org/InStock'
+        : 'https://schema.org/OutOfStock',
+      hasMerchantReturnPolicy: {
+        '@type': 'MerchantReturnPolicy',
+        returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+        merchantReturnDays: 14,
+        applicableCountry: 'TN',
+        returnPolicyUrl: RETURN_URLS[o.boutique?.toLowerCase() || ''] || 'https://toprix.tn',
+      },
+    })),
+  }
+
   return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     <div>
       {/* Breadcrumb */}
       <section className="bg-[#0F172A] py-5 px-4">
@@ -289,5 +347,6 @@ export default async function ProduitDetailPage({ params }: Props) {
 
       </div>
     </div>
+    </>
   )
 }

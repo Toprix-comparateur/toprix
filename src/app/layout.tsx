@@ -39,6 +39,22 @@ export const metadata: Metadata = {
     'google-adsense-account': ADSENSE_ID,
     'Petal-Search-site-verification': '4434db8634',
   },
+
+  openGraph: {
+    type: 'website',
+    locale: 'fr_TN',
+    url: 'https://toprix.tn',
+    siteName: 'Toprix',
+    title: 'Toprix - Comparateur de produits high-tech',
+    description: 'Comparez les prix des smartphones, laptops et produits high-tech parmi toutes les boutiques en Tunisie.',
+    images: [{ url: '/web-app-manifest-512x512.png', width: 512, height: 512, alt: 'Toprix' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Toprix - Comparateur de produits high-tech',
+    description: 'Comparez les prix des smartphones, laptops et produits high-tech parmi toutes les boutiques en Tunisie.',
+    images: ['/web-app-manifest-512x512.png'],
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

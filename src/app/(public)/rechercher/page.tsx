@@ -9,6 +9,7 @@ export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
   title: 'Rechercher',
   description: 'Recherchez et comparez les prix des produits high-tech en Tunisie.',
+  robots: { index: false, follow: true },
 }
 
 interface Props {

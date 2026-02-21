@@ -17,9 +17,17 @@ import CategoryScope from '@/components/ui/CategoryScope'
 
 export const dynamic = 'force-dynamic'
 
+const SITE_URL = 'https://toprix.tn'
+
 export const metadata: Metadata = {
-  title: 'Toprix - Comparateur de produits high-tech',
-  description: 'Comparez les prix des smartphones, laptops, et produits high-tech parmi toutes les boutiques en Tunisie.',
+  title: 'Toprix.tn - Comparateur de Prix High-Tech Tunisie | Meilleurs Prix 2026',
+  description: 'Comparez instantanément les prix de milliers de produits high-tech en Tunisie. Smartphones, PC, TV et électroménager chez Mytek, Tunisianet, Spacenet.',
+  openGraph: {
+    title: 'Toprix.tn - Comparateur de Prix High-Tech Tunisie',
+    description: 'Trouvez les meilleures offres high-tech en Tunisie. Comparez les prix en temps réel chez Mytek, Tunisianet et Spacenet.',
+    url: SITE_URL,
+    type: 'website',
+  },
 }
 
 const STATS = [
@@ -89,7 +97,28 @@ export default async function AccueilPage() {
   const tendances = promos.slice(0, 8)
   const topPromos = promos.slice(8, 16)
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Toprix',
+    url: SITE_URL,
+    description: 'Comparateur de prix high-tech en Tunisie : Mytek, Tunisianet, Spacenet.',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: { '@type': 'EntryPoint', urlTemplate: `${SITE_URL}/rechercher/?q={search_term_string}` },
+      'query-input': 'required name=search_term_string',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Toprix',
+      url: SITE_URL,
+      logo: { '@type': 'ImageObject', url: `${SITE_URL}/web-app-manifest-512x512.png` },
+    },
+  }
+
   return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     <div className="bg-white">
 
       {/* ─────────────────────────────────── HERO ───────────────────────────── */}
@@ -408,5 +437,6 @@ export default async function AccueilPage() {
       </section>
 
     </div>
+    </>
   )
 }

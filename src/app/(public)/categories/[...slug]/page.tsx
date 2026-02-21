@@ -26,9 +26,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const fullSlug = slug.join('/')
   try {
     const { categorie } = await getCategorieDetail(fullSlug)
+    const title = `${categorie.nom} – Produits au meilleur prix en Tunisie`
+    const description = `Découvrez tous les produits ${categorie.nom} en Tunisie. Comparez les prix sur Mytek, Tunisianet et Spacenet pour trouver les meilleures offres.`
     return {
-      title: `${categorie.nom} - Comparer les prix`,
-      description: `Comparez les meilleurs prix pour les produits ${categorie.nom}.`,
+      title,
+      description,
+      openGraph: { title, description, type: 'website' },
     }
   } catch {
     return { title: 'Catégorie introuvable' }
