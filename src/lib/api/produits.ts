@@ -9,6 +9,9 @@ export async function getProduits(params?: {
   prix_min?: number
   prix_max?: number
   en_promo?: boolean
+  boutique?: string
+  en_stock?: boolean
+  tri?: string
 }): Promise<ReponseAPI<Produit[]>> {
   const clean: Record<string, string> = {}
   if (params?.q) clean.q = params.q
@@ -18,6 +21,9 @@ export async function getProduits(params?: {
   if (params?.prix_min != null) clean.prix_min = String(params.prix_min)
   if (params?.prix_max != null) clean.prix_max = String(params.prix_max)
   if (params?.en_promo) clean.en_promo = '1'
+  if (params?.boutique) clean.boutique = params.boutique
+  if (params?.en_stock) clean.en_stock = '1'
+  if (params?.tri) clean.tri = params.tri
   const query = new URLSearchParams(clean).toString()
   return fetchAPI(`/produits/${query ? `?${query}` : ''}`)
 }

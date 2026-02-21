@@ -32,7 +32,7 @@ export default function Footer() {
               <span className="font-heading text-[#F97316] text-2xl font-bold tracking-tight">rix</span>
             </Link>
             <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
-              Le premier comparateur de pièces automobiles en Tunisie. Trouvez la meilleure offre en quelques secondes.
+              Le comparateur de produits high-tech en Tunisie. Comparez les prix parmi toutes les boutiques en quelques secondes.
             </p>
           </div>
 
@@ -71,7 +71,7 @@ export default function Footer() {
             © {new Date().getFullYear()} Toprix. Tous droits réservés.
           </p>
           <p className="text-slate-700 text-xs">
-            Fait avec passion pour les automobilistes tunisiens 🇹🇳
+            Fait avec passion pour les consommateurs tunisiens 🇹🇳
           </p>
         </div>
       </div>
