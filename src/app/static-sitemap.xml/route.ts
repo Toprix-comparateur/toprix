@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { SITE_URL, API_URL } from '@/lib/config'
+import { SITE_URL } from '@/lib/config'
 
 export const dynamic = 'force-static'
 export const revalidate = 3600 // revalider toutes les heures
@@ -8,9 +8,12 @@ export async function GET() {
   const baseUrl = SITE_URL
 
   const staticPages = [
-    { url: '', priority: '1.0', changefreq: 'daily' },
+    { url: '',            priority: '1.0', changefreq: 'daily' },
     { url: '/categories', priority: '0.9', changefreq: 'daily' },
     { url: '/rechercher', priority: '0.8', changefreq: 'always' },
+    { url: '/marque',     priority: '0.8', changefreq: 'weekly' },
+    { url: '/boutiques',  priority: '0.7', changefreq: 'weekly' },
+    { url: '/blog',       priority: '0.7', changefreq: 'weekly' },
   ]
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>

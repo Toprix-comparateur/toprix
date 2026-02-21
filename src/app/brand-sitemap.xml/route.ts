@@ -6,42 +6,24 @@ export const revalidate = 3600
 
 export async function GET() {
   const baseUrl = SITE_URL
-  const apiUrl = API_URL
 
   try {
-    // Récupérer un échantillon de produits pour extraire les marques
-    // TODO: Créer un endpoint backend dédié /brands/ pour plus d'efficacité
-    const response = await fetch(`${apiUrl}/produits/?page=1`, {
+    const response = await fetch(`${API_URL}/marques/`, {
       next: { revalidate: 3600 },
     })
 
-    if (!response.ok) {
-      throw new Error('Failed to fetch products for brands')
-    }
+    if (!response.ok) throw new Error('Failed to fetch marques')
 
-    const { data: produits } = await response.json()
-
-    // Extraire les marques uniques
-    const brandsSet = new Set<string>()
-    for (const produit of produits || []) {
-      if (produit.marque) {
-        brandsSet.add(produit.marque)
-      }
-    }
-
-    const brands = Array.from(brandsSet).sort()
+    const { data: marques } = await response.json()
 
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${brands.map((brand) => {
-  const slug = brand.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
-  return `  <url>
-    <loc>${baseUrl}/rechercher?marque=${encodeURIComponent(brand)}</loc>
+${(marques || []).map((m: { slug: string }) => `  <url>
+    <loc>${baseUrl}/marque/${m.slug}</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
-  </url>`
-}).join('\n')}
+  </url>`).join('\n')}
 </urlset>`
 
     return new NextResponse(xml, {
