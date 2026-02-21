@@ -8,6 +8,7 @@ export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
   title: 'Marques high-tech',
   description: 'Comparez les produits de toutes les grandes marques high-tech.',
+  alternates: { canonical: '/marque' },
 }
 
 export default async function MarquesPage() {

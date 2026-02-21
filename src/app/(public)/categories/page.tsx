@@ -8,6 +8,7 @@ export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
   title: 'Catégories de produits high-tech',
   description: 'Comparez les prix par catégorie : smartphones, laptops, écrans, et plus.',
+  alternates: { canonical: '/categories' },
 }
 
 export default async function CategoriesPage() {

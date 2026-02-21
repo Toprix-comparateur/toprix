@@ -22,6 +22,7 @@ const SITE_URL = 'https://toprix.tn'
 export const metadata: Metadata = {
   title: 'Toprix.tn - Comparateur de Prix High-Tech Tunisie | Meilleurs Prix 2026',
   description: 'Comparez instantanément les prix de milliers de produits high-tech en Tunisie. Smartphones, PC, TV et électroménager chez Mytek, Tunisianet, Spacenet.',
+  alternates: { canonical: '/' },
   openGraph: {
     title: 'Toprix.tn - Comparateur de Prix High-Tech Tunisie',
     description: 'Trouvez les meilleures offres high-tech en Tunisie. Comparez les prix en temps réel chez Mytek, Tunisianet et Spacenet.',
