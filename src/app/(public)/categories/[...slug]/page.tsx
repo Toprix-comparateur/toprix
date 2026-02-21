@@ -6,6 +6,7 @@ import Link from 'next/link'
 import CarteProduit from '@/components/product/CarteProduit'
 import ProductFilters from '@/components/product/ProductFilters'
 import { ChevronRight, LayoutGrid } from 'lucide-react'
+import Pagination from '@/components/ui/Pagination'
 
 export const dynamic = 'force-dynamic'
 
@@ -137,9 +138,27 @@ export default async function CategorieDetailPage({ params, searchParams }: Prop
         />
 
         {produits.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {produits.map((p) => <CarteProduit key={p.id} produit={p} />)}
-          </div>
+          <>
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5">
+              {produits.map((p) => <CarteProduit key={p.id} produit={p} />)}
+            </div>
+            {meta && meta.total_pages > 1 && (
+              <Pagination
+                currentPage={meta.page}
+                totalPages={meta.total_pages}
+                buildUrl={(p) => {
+                  const sp = new URLSearchParams()
+                  if (p > 1) sp.set('page', String(p))
+                  if (marque) sp.set('marque', marque)
+                  if (prix_min) sp.set('prix_min', prix_min)
+                  if (prix_max) sp.set('prix_max', prix_max)
+                  if (en_promo === '1') sp.set('en_promo', '1')
+                  const qs = sp.toString()
+                  return qs ? `?${qs}` : `?`
+                }}
+              />
+            )}
+          </>
         ) : (
           <div className="text-center py-20 border border-dashed border-[#E2E8F0] rounded-2xl">
             <p className="font-heading text-[#0F172A] text-lg font-semibold mb-2">Aucun produit trouvé</p>

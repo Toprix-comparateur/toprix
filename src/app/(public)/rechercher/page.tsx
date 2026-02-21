@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
-import type React from 'react'
-import { Search, SlidersHorizontal, X, ChevronLeft, ChevronRight, Tag } from 'lucide-react'
+import { Search, SlidersHorizontal, X, Tag } from 'lucide-react'
 import { getProduits } from '@/lib/api/produits'
 import CarteProduit from '@/components/product/CarteProduit'
+import Pagination from '@/components/ui/Pagination'
 
 export const dynamic = 'force-dynamic'
 
@@ -322,70 +322,23 @@ export default async function RechercherPage({ searchParams }: Props) {
                     </div>
 
                     {/* Pagination */}
-                    {produits.meta && produits.meta.total_pages > 1 && (() => {
-                      const currentPage = produits.meta!.page
-                      const totalPages = produits.meta!.total_pages
-                      const buildUrl = (p: number) => {
-                        const sp = new URLSearchParams()
-                        if (q) sp.set('q', q)
-                        if (p > 1) sp.set('page', String(p))
-                        if (categorie) sp.set('categorie', categorie)
-                        if (marque) sp.set('marque', marque)
-                        if (prix_min) sp.set('prix_min', prix_min)
-                        if (prix_max) sp.set('prix_max', prix_max)
-                        if (en_promo === '1') sp.set('en_promo', '1')
-                        return `?${sp.toString()}`
-                      }
-                      const pages = Array.from({ length: totalPages }, (_, i) => i + 1)
-                        .filter(p => p === 1 || p === totalPages || Math.abs(p - currentPage) <= 2)
-                      return (
-                        <nav className="mt-10 flex items-center justify-center gap-1.5" aria-label="Pagination">
-                          {currentPage > 1 ? (
-                            <a
-                              href={buildUrl(currentPage - 1)}
-                              className="inline-flex items-center gap-1 px-3 py-2 text-sm border border-[#E2E8F0] rounded-lg text-[#64748B] hover:border-[#F97316]/40 hover:text-[#F97316] transition-colors"
-                            >
-                              <ChevronLeft size={14} /> Préc.
-                            </a>
-                          ) : (
-                            <span className="inline-flex items-center gap-1 px-3 py-2 text-sm border border-[#E2E8F0] rounded-lg text-slate-300 cursor-not-allowed">
-                              <ChevronLeft size={14} /> Préc.
-                            </span>
-                          )}
-
-                          {pages.reduce<React.ReactNode[]>((acc, p, i, arr) => {
-                            if (i > 0 && p - arr[i - 1] > 1) {
-                              acc.push(<span key={`ellipsis-${p}`} className="px-2 text-slate-400 text-sm">…</span>)
-                            }
-                            acc.push(
-                              p === currentPage ? (
-                                <span key={p} className="inline-flex items-center justify-center w-9 h-9 text-sm font-semibold bg-[#F97316] text-white rounded-lg">
-                                  {p}
-                                </span>
-                              ) : (
-                                <a key={p} href={buildUrl(p)} className="inline-flex items-center justify-center w-9 h-9 text-sm border border-[#E2E8F0] rounded-lg text-[#64748B] hover:border-[#F97316]/40 hover:text-[#F97316] transition-colors">
-                                  {p}
-                                </a>
-                              )
-                            )
-                            return acc
-                          }, [])}
-
-                          {currentPage < totalPages ? (
-                            <a
-                              href={buildUrl(currentPage + 1)}
-                              className="inline-flex items-center gap-1 px-3 py-2 text-sm border border-[#E2E8F0] rounded-lg text-[#64748B] hover:border-[#F97316]/40 hover:text-[#F97316] transition-colors"
-                            >
-                              Suiv. <ChevronRight size={14} />
-                            </a>
-                          ) : (
-                            <span className="inline-flex items-center gap-1 px-3 py-2 text-sm border border-[#E2E8F0] rounded-lg text-slate-300 cursor-not-allowed">
-                              Suiv. <ChevronRight size={14} />
-                            </span>
-                          )}
-                        </nav>
-                      )
-                    })()}
+                    {produits.meta && produits.meta.total_pages > 1 && (
+                      <Pagination
+                        currentPage={produits.meta.page}
+                        totalPages={produits.meta.total_pages}
+                        buildUrl={(p) => {
+                          const sp = new URLSearchParams()
+                          if (q) sp.set('q', q)
+                          if (p > 1) sp.set('page', String(p))
+                          if (categorie) sp.set('categorie', categorie)
+                          if (marque) sp.set('marque', marque)
+                          if (prix_min) sp.set('prix_min', prix_min)
+                          if (prix_max) sp.set('prix_max', prix_max)
+                          if (en_promo === '1') sp.set('en_promo', '1')
+                          return `?${sp.toString()}`
+                        }}
+                      />
+                    )}
                   </>
                 ) : (
                   <div className="text-center py-16 border border-dashed border-[#E2E8F0] rounded-2xl">

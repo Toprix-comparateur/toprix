@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import CarteProduit from '@/components/product/CarteProduit'
 import { ChevronRight } from 'lucide-react'
+import Pagination from '@/components/ui/Pagination'
 
 export const dynamic = 'force-dynamic'
 
@@ -64,9 +65,22 @@ export default async function MarqueDetailPage({ params, searchParams }: Props) 
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {produits && produits.data.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {produits.data.map((p) => <CarteProduit key={p.id} produit={p} />)}
-          </div>
+          <>
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5">
+              {produits.data.map((p) => <CarteProduit key={p.id} produit={p} />)}
+            </div>
+            {produits.meta && produits.meta.total_pages > 1 && (
+              <Pagination
+                currentPage={produits.meta.page}
+                totalPages={produits.meta.total_pages}
+                buildUrl={(p) => {
+                  const sp = new URLSearchParams()
+                  if (p > 1) sp.set('page', String(p))
+                  return sp.toString() ? `?${sp.toString()}` : '?'
+                }}
+              />
+            )}
+          </>
         ) : (
           <div className="text-center py-20 border border-dashed border-[#E2E8F0] rounded-2xl">
             <p className="font-heading text-[#0F172A] text-lg font-semibold mb-2">Aucun produit pour le moment</p>
