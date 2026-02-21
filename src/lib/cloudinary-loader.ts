@@ -1,8 +1,5 @@
 // Loader Cloudinary pour Next.js Image
-// Utilise l'Auto Upload Mapping : chaque boutique est mappée à un dossier Cloudinary
-//   mytek      → https://www.mytek.tn
-//   tunisianet → https://www.tunisianet.com.tn
-//   spacenet   → https://spacenet.tn
+// Auto Upload Mapping par boutique + fallback fetch pour autres URLs
 
 const CLOUD_NAME = 'dbayeaedd'
 
@@ -12,15 +9,17 @@ const STORE_PREFIXES: [string, string][] = [
   ['https://spacenet.tn',            'spacenet'],
 ]
 
-function toCloudinaryPath(src: string): string {
+function toCloudinaryPath(src: string): { mode: 'upload' | 'fetch'; path: string } {
   for (const [base, folder] of STORE_PREFIXES) {
     if (src.startsWith(base)) {
-      const path = src.slice(base.length).replace(/^\/+/, '')
-      return `${folder}/${path}`
+      const path = src
+        .slice(base.length)
+        .replace(/^\/+/, '')   // supprimer les / en tête
+        .replace(/\/+/g, '/')  // normaliser les // doubles (Mytek)
+      return { mode: 'upload', path: `${folder}/${path}` }
     }
   }
-  // Fallback : fetch direct pour toute autre URL
-  return `fetch/${encodeURIComponent(src)}`
+  return { mode: 'fetch', path: encodeURIComponent(src) }
 }
 
 export default function cloudinaryLoader({
@@ -33,12 +32,6 @@ export default function cloudinaryLoader({
   quality?: number
 }): string {
   const params = `w_${width},f_auto,q_${quality ?? 'auto'}`
-  const path = toCloudinaryPath(src)
-
-  // Si fallback fetch, l'URL est déjà complète dans `path`
-  if (path.startsWith('fetch/')) {
-    return `https://res.cloudinary.com/${CLOUD_NAME}/image/${path}`
-  }
-
-  return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${params}/${path}`
+  const { mode, path } = toCloudinaryPath(src)
+  return `https://res.cloudinary.com/${CLOUD_NAME}/image/${mode}/${params}/${path}`
 }
