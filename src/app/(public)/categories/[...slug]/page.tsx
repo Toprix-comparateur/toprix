@@ -94,6 +94,16 @@ export default async function CategorieDetailPage({ params, searchParams }: Prop
 
   if (!categorie) notFound()
 
+  // Top 5 marques selon les produits visibles
+  const brandCount = new Map<string, number>()
+  produits.forEach((p) => {
+    if (p.marque) brandCount.set(p.marque, (brandCount.get(p.marque) ?? 0) + 1)
+  })
+  const topBrands = [...brandCount.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5)
+    .map(([brand]) => brand)
+
   return (
     <div>
       {/* Breadcrumb hero */}
@@ -165,6 +175,8 @@ export default async function CategorieDetailPage({ params, searchParams }: Prop
           en_promo={en_promo === '1'}
           nbFiltresActifs={nbFiltresActifs}
           hideBrand={false}
+          popularBrands={topBrands}
+          alwaysOpen={true}
         />
 
         {produits.length > 0 ? (

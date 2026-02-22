@@ -1,25 +1,20 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter, usePathname, useSearchParams } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { SlidersHorizontal, X, Tag } from 'lucide-react'
 
 interface ProductFiltersProps {
-  // Valeurs actuelles des filtres
   marque?: string
   prix_min?: string
   prix_max?: string
   en_promo?: boolean
-
-  // Compteur de filtres actifs
   nbFiltresActifs?: number
-
-  // Masquer certains filtres
   hideCategorie?: boolean
   hideBrand?: boolean
-
-  // Préserver certains params (ex: categorie pour pages catégories)
   preserveParams?: Record<string, string>
+  popularBrands?: string[]
+  alwaysOpen?: boolean
 }
 
 export default function ProductFilters({
@@ -28,59 +23,58 @@ export default function ProductFilters({
   prix_max = '',
   en_promo = false,
   nbFiltresActifs = 0,
-  hideCategorie = false,
   hideBrand = false,
   preserveParams = {},
+  popularBrands = [],
+  alwaysOpen = false,
 }: ProductFiltersProps) {
   const router = useRouter()
   const pathname = usePathname()
-  const searchParams = useSearchParams()
 
-  const [isOpen, setIsOpen] = useState(nbFiltresActifs > 0)
+  const [isOpen, setIsOpen] = useState(alwaysOpen || nbFiltresActifs > 0)
 
   const hasFilters = !!(marque || prix_min || prix_max || en_promo)
 
-  // Construire URL avec filtres
   const buildFilterUrl = (exclude: string[] = []) => {
     const sp = new URLSearchParams()
-
-    // Préserver les params requis
     Object.entries(preserveParams).forEach(([key, value]) => {
-      if (value && !exclude.includes(key)) {
-        sp.set(key, value)
-      }
+      if (value && !exclude.includes(key)) sp.set(key, value)
     })
-
-    // Ajouter les filtres
     if (marque && !exclude.includes('marque')) sp.set('marque', marque)
     if (prix_min && !exclude.includes('prix_min')) sp.set('prix_min', prix_min)
     if (prix_max && !exclude.includes('prix_max')) sp.set('prix_max', prix_max)
     if (en_promo && !exclude.includes('en_promo')) sp.set('en_promo', '1')
-
     return `${pathname}?${sp.toString()}`
+  }
+
+  const handleBrandClick = (brand: string) => {
+    const sp = new URLSearchParams()
+    Object.entries(preserveParams).forEach(([key, value]) => {
+      if (value) sp.set(key, value)
+    })
+    if (prix_min) sp.set('prix_min', prix_min)
+    if (prix_max) sp.set('prix_max', prix_max)
+    if (en_promo) sp.set('en_promo', '1')
+    // Toggle : même marque → désélectionner
+    if (marque !== brand) sp.set('marque', brand)
+    router.push(`${pathname}?${sp.toString()}`)
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     const sp = new URLSearchParams()
-
-    // Préserver params
     Object.entries(preserveParams).forEach(([key, value]) => {
       if (value) sp.set(key, value)
     })
-
-    // Filtres
     const marqueVal = formData.get('marque') as string
     const prixMinVal = formData.get('prix_min') as string
     const prixMaxVal = formData.get('prix_max') as string
     const enPromoVal = formData.get('en_promo') as string
-
     if (marqueVal) sp.set('marque', marqueVal)
     if (prixMinVal) sp.set('prix_min', prixMinVal)
     if (prixMaxVal) sp.set('prix_max', prixMaxVal)
     if (enPromoVal === '1') sp.set('en_promo', '1')
-
     router.push(`${pathname}?${sp.toString()}`)
   }
 
@@ -94,26 +88,58 @@ export default function ProductFilters({
 
   return (
     <div className="mb-6">
-      {/* Toggle button */}
-      <button
-        type="button"
-        onClick={() => setIsOpen(!isOpen)}
-        className="inline-flex items-center gap-2 border border-[#E2E8F0] text-[#64748B] text-sm px-4 py-2 rounded-lg hover:border-[#F97316]/40 hover:text-[#1E293B] transition-colors select-none"
-      >
-        <SlidersHorizontal size={14} />
-        Filtrer
-        {nbFiltresActifs > 0 && (
-          <span className="ml-0.5 bg-[#F97316] text-white text-xs font-bold w-4 h-4 rounded-full flex items-center justify-center">
-            {nbFiltresActifs}
-          </span>
-        )}
-      </button>
 
-      {/* Filter form */}
+      {/* ── Marques populaires ── */}
+      {popularBrands.length > 0 && (
+        <div className="mb-4">
+          <p className="text-xs font-semibold text-[#64748B] uppercase tracking-wide mb-2">
+            Marques populaires
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {popularBrands.map(brand => {
+              const isActive = marque === brand
+              return (
+                <button
+                  key={brand}
+                  type="button"
+                  onClick={() => handleBrandClick(brand)}
+                  className={`group flex items-center gap-1.5 border rounded-xl px-3 py-2.5 hover:border-[#F97316]/40 hover:bg-orange-50/40 hover:shadow-sm transition-all text-xs font-medium ${
+                    isActive
+                      ? 'bg-orange-50 border-[#F97316]/60 text-[#F97316] shadow-sm'
+                      : 'bg-[#F8FAFC] border-[#E2E8F0] text-[#334155]'
+                  }`}
+                >
+                  {brand}
+                  {isActive && <X size={10} />}
+                </button>
+              )
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* ── Toggle (masqué si alwaysOpen) ── */}
+      {!alwaysOpen && (
+        <button
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          className="inline-flex items-center gap-2 border border-[#E2E8F0] text-[#64748B] text-sm px-4 py-2 rounded-lg hover:border-[#F97316]/40 hover:text-[#1E293B] transition-colors select-none"
+        >
+          <SlidersHorizontal size={14} />
+          Filtrer
+          {nbFiltresActifs > 0 && (
+            <span className="ml-0.5 bg-[#F97316] text-white text-xs font-bold w-4 h-4 rounded-full flex items-center justify-center">
+              {nbFiltresActifs}
+            </span>
+          )}
+        </button>
+      )}
+
+      {/* ── Formulaire filtres ── */}
       {isOpen && (
         <form
           onSubmit={handleSubmit}
-          className="mt-3 p-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl flex flex-wrap items-end gap-4"
+          className={`p-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl flex flex-wrap items-end gap-4${!alwaysOpen ? ' mt-3' : ''}`}
         >
           {/* Marque */}
           {!hideBrand && (
@@ -190,14 +216,14 @@ export default function ProductFilters({
                 className="inline-flex items-center gap-1.5 text-sm text-[#64748B] hover:text-[#1E293B] px-3 py-2 rounded-lg border border-[#E2E8F0] hover:border-slate-300 transition-colors bg-white"
               >
                 <X size={13} />
-                Effacer
+                Effacer tout
               </button>
             )}
           </div>
         </form>
       )}
 
-      {/* Active filter badges */}
+      {/* ── Badges filtres actifs ── */}
       {hasFilters && (
         <div className="mt-2 flex flex-wrap gap-2">
           {marque && (
