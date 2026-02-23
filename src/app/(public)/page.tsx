@@ -219,7 +219,7 @@ export default async function AccueilPage() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5">
             {[
               { href: '/categories/gaming/pc-gaming',                label: 'PC Gaming',         icon: '🎮' },
-              { href: '/categories/informatique/ordinateur-portable', label: 'PC Portable',       icon: '💻' },
+              { href: '/categories/informatique/pc-portable',          label: 'PC Portable',       icon: '💻' },
               { href: '/categories/gaming/composants-gaming',         label: 'Composants Gaming', icon: '⚡' },
               { href: '/categories/informatique/pc-bureau',           label: 'PC Bureau',         icon: '🖥️' },
             ].map(({ href, label, icon }) => (
