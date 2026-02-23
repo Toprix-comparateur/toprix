@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# Pages de recherche (résultats dynamiques, non indexables)
+Disallow: /rechercher/
+
+# Paramètres de filtres et pagination (éviter le duplicate content)
+Disallow: /*?page=
+Disallow: /*?marque=
+Disallow: /*?prix_min=
+Disallow: /*?prix_max=
+Disallow: /*?en_promo=
+Disallow: /*?boutique=
+Disallow: /*?en_stock=
+Disallow: /*?tri=
+Disallow: /*?q=
+
+Sitemap: https://toprix.tn/sitemap.xml
