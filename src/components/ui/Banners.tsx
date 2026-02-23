@@ -37,32 +37,32 @@ export function BannerStats() {
 
 const CAT_BANNERS = [
   {
-    href: '/categories/ordinateurs-portables',
-    label: 'PC Bureau',
-    sub: 'Ordinateurs de bureau performants',
-    img: '/banners/pc-bureau.webp',
-    tag: 'bg-slate-100 text-slate-700',
-  },
-  {
-    href: '/categories/gaming',
+    href: '/categories/gaming/pc-gaming',
     label: 'PC Gaming',
     sub: 'Setup gamer & accessoires',
     img: '/banners/pc-gaming.webp',
     tag: 'bg-purple-50 text-purple-700',
   },
   {
-    href: '/categories/ordinateurs-portables',
-    label: 'Laptops',
+    href: '/categories/informatique/pc-portable',
+    label: 'PC Portable',
     sub: 'Ordinateurs portables & ultrabooks',
     img: '/banners/laptop.webp',
     tag: 'bg-blue-50 text-blue-700',
   },
   {
-    href: '/categories/informatique',
-    label: 'Composants PC',
+    href: '/categories/gaming/composants-gaming',
+    label: 'Composants Gaming',
     sub: 'Processeurs, RAM, GPU & stockage',
     img: '/banners/composants-pc.webp',
     tag: 'bg-orange-50 text-orange-700',
+  },
+  {
+    href: '/categories/informatique/pc-bureau',
+    label: 'PC Bureau',
+    sub: 'Ordinateurs de bureau performants',
+    img: '/banners/pc-bureau.webp',
+    tag: 'bg-slate-100 text-slate-700',
   },
 ]
 

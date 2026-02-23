@@ -206,39 +206,6 @@ export default async function AccueilPage() {
         </div>
       </section>
 
-      {/* ──────────────────── CATÉGORIES PHARES ──────────────────────────────── */}
-      <section className="py-8 sm:py-10 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto">
-          <SectionHeader
-            eyebrow="Explorer"
-            title="Catégories phares"
-            icon={TrendingUp}
-            href="/categories"
-            linkLabel="Toutes les catégories"
-          />
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5">
-            {[
-              { href: '/categories/gaming/pc-gaming',                label: 'PC Gaming',         icon: '🎮' },
-              { href: '/categories/informatique/pc-portable',          label: 'PC Portable',       icon: '💻' },
-              { href: '/categories/gaming/composants-gaming',         label: 'Composants Gaming', icon: '⚡' },
-              { href: '/categories/informatique/pc-bureau',           label: 'PC Bureau',         icon: '🖥️' },
-            ].map(({ href, label, icon }) => (
-              <Link
-                key={href}
-                href={href}
-                className="group flex items-center gap-3 bg-white border border-[#E2E8F0] rounded-2xl px-4 py-3.5 hover:border-[#F97316]/40 hover:shadow-md transition-all"
-              >
-                <span className="text-2xl shrink-0">{icon}</span>
-                <span className="font-heading font-semibold text-[#0F172A] text-sm leading-tight">
-                  {label}
-                </span>
-                <ArrowRight size={14} className="ml-auto text-[#CBD5E1] group-hover:text-[#F97316] shrink-0 transition-colors" />
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ─────────────────────── CAMPAIGN TEASERS ────────────────────────────── */}
       <CampagneTeasers />
 
