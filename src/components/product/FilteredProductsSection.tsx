@@ -150,21 +150,28 @@ export default function FilteredProductsSection({
     <div className="py-6 sm:py-8">
 
       {/* ── Barre mobile : bouton filtres + tri ── */}
-      <div className="lg:hidden flex items-center justify-between mb-4 gap-3">
+      <div className="lg:hidden flex items-center gap-2 mb-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-1.5">
         <button
           type="button"
           onClick={() => setSidebarOpen(true)}
-          className="inline-flex items-center gap-2 border border-[#E2E8F0] text-[#64748B] text-sm px-4 py-2 rounded-xl hover:border-[#F97316]/40 hover:text-[#1E293B] transition-colors"
+          className={`flex-1 inline-flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+            nbActifs > 0
+              ? 'bg-[#F97316] text-white shadow-sm'
+              : 'text-[#64748B] hover:bg-white hover:text-[#1E293B] hover:shadow-sm'
+          }`}
         >
           <SlidersHorizontal size={14} />
           Filtres
           {nbActifs > 0 && (
-            <span className="bg-[#F97316] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+            <span className="bg-white/25 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
               {nbActifs}
             </span>
           )}
         </button>
-        <SortSelect value={filters.tri} onChange={(v) => handleFilterChange({ ...filters, tri: v })} />
+        <div className="w-px h-7 bg-[#E2E8F0] shrink-0" />
+        <div className="flex-1 flex justify-center">
+          <SortSelect value={filters.tri} onChange={(v) => handleFilterChange({ ...filters, tri: v })} />
+        </div>
       </div>
 
       <div className="flex gap-6 items-start">
@@ -179,12 +186,13 @@ export default function FilteredProductsSection({
           isOpen={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
           nbActifs={nbActifs}
+          totalResults={meta?.total_items ?? products.length}
         />
 
-        {/* ── Overlay mobile ── */}
+        {/* ── Overlay mobile (bottom sheet) ── */}
         {sidebarOpen && (
           <div
-            className="fixed inset-0 bg-black/40 z-30 lg:hidden"
+            className="fixed inset-0 bg-black/50 z-30 lg:hidden backdrop-blur-[2px]"
             onClick={() => setSidebarOpen(false)}
           />
         )}
