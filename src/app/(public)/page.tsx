@@ -88,10 +88,10 @@ export default async function AccueilPage() {
   ])
 
   const promos      = promosRes.status      === 'fulfilled' ? promosRes.value.data                    : []
-  const smartphones = smartphonesRes.status === 'fulfilled' ? smartphonesRes.value.data.slice(0, 10)  : []
-  const electro     = electroRes.status     === 'fulfilled' ? electroRes.value.data.slice(0, 10)      : []
-  const tvs         = tvRes.status          === 'fulfilled' ? tvRes.value.data.slice(0, 10)           : []
-  const laptops     = laptopsRes.status     === 'fulfilled' ? laptopsRes.value.data.slice(0, 10)      : []
+  const smartphones = smartphonesRes.status === 'fulfilled' ? smartphonesRes.value.data.slice(0, 20)  : []
+  const electro     = electroRes.status     === 'fulfilled' ? electroRes.value.data.slice(0, 20)      : []
+  const tvs         = tvRes.status          === 'fulfilled' ? tvRes.value.data.slice(0, 20)           : []
+  const laptops     = laptopsRes.status     === 'fulfilled' ? laptopsRes.value.data.slice(0, 20)      : []
 
   // Tendances = 8 premiers produits en promo
   // Top promos = 8 suivants (produits 9-16)
