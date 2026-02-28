@@ -7,12 +7,16 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   async rewrites() {
-    return [
-      {
-        source: "/backend/:path*",
-        destination: `${API_BACKEND}/:path*/`,
-      },
-    ];
+    return {
+      beforeFiles: [
+        {
+          source: "/backend/:path*",
+          destination: `${API_BACKEND}/:path*/`,
+        },
+      ],
+      afterFiles: [],
+      fallback: [],
+    };
   },
 };
 
