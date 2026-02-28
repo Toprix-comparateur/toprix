@@ -81,10 +81,10 @@ export default async function AccueilPage() {
   // Chargement parallèle — 5 appels simultanés
   const [promosRes, smartphonesRes, electroRes, tvRes, laptopsRes] = await Promise.allSettled([
     getProduits({ en_promo: true }),
-    getProduits({ categorie: 'telephonie' }),
+    getProduits({ categorie: 'telephonie/smartphone' }),
     getProduits({ categorie: 'electromenager' }),
-    getProduits({ categorie: 'tv-et-son' }),
-    getProduits({ categorie: 'informatique' }),
+    getProduits({ categorie: 'tv-et-son/televiseur' }),
+    getProduits({ categorie: 'informatique/ordinateur-portable' }),
   ])
 
   const promos      = promosRes.status      === 'fulfilled' ? promosRes.value.data                    : []
