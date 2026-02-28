@@ -1,6 +1,11 @@
 // Configuration de l'API backend Django
 
-export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1'
+// SSR → appel direct au backend (serveur → serveur, pas de CORS)
+// CSR → proxy via Next.js rewrite /backend/* (même domaine, pas de CORS)
+const SERVER_API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1'
+const CLIENT_API_URL = '/backend'
+
+export const API_URL = typeof window === 'undefined' ? SERVER_API_URL : CLIENT_API_URL
 
 export const API_TIMEOUT = 10000
 
