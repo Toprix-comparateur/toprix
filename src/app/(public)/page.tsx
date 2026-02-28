@@ -264,7 +264,7 @@ export default async function AccueilPage() {
                   <Image src="/banners/cat-moniteurs.webp" alt="TV" fill className="object-cover" sizes="112px" />
                 </div>
                 <Link
-                  href="/categories/tv-et-son"
+                  href="/categories/tv-et-son/televiseur"
                   className="inline-flex items-center gap-2 border border-white/20 hover:border-[#F97316] hover:text-[#F97316] text-white/70 text-xs font-semibold px-5 py-2.5 rounded-xl transition-all"
                 >
                   Voir tout <ArrowRight size={12} />
@@ -286,7 +286,7 @@ export default async function AccueilPage() {
           {/* CTA mobile */}
           <div className="sm:hidden mt-6 px-4 flex justify-center">
             <Link
-              href="/categories/tv-et-son"
+              href="/categories/tv-et-son/televiseur"
               className="inline-flex items-center gap-2 bg-[#F97316] hover:bg-[#EA6C0A] text-white text-xs font-semibold px-6 py-2.5 rounded-xl transition-colors"
             >
               Voir tous les téléviseurs <ArrowRight size={12} />
@@ -321,7 +321,7 @@ export default async function AccueilPage() {
                   <Image src="/banners/cat-laptops.webp" alt="Laptops" fill className="object-cover" sizes="112px" />
                 </div>
                 <Link
-                  href="/categories/informatique"
+                  href="/categories/informatique/ordinateur-portable"
                   className="inline-flex items-center gap-2 border border-[#3B82F6]/30 hover:border-[#3B82F6] hover:text-[#3B82F6] text-slate-500 text-xs font-semibold px-5 py-2.5 rounded-xl transition-all"
                 >
                   Voir tout <ArrowRight size={12} />
@@ -343,7 +343,7 @@ export default async function AccueilPage() {
           {/* CTA mobile */}
           <div className="sm:hidden mt-6 px-4 flex justify-center">
             <Link
-              href="/categories/informatique"
+              href="/categories/informatique/ordinateur-portable"
               className="inline-flex items-center gap-2 bg-[#3B82F6] hover:bg-[#2563EB] text-white text-xs font-semibold px-6 py-2.5 rounded-xl transition-colors"
             >
               Voir tous les laptops <ArrowRight size={12} />
@@ -361,7 +361,7 @@ export default async function AccueilPage() {
               eyebrow="Catégorie"
               title="Smartphones"
               icon={Smartphone}
-              href="/categories/telephonie"
+              href="/categories/telephonie/smartphone?tri=prix_desc"
               linkLabel="Voir tous"
             />
             <CarouselProduits produits={smartphones} />
