@@ -91,8 +91,8 @@ export default function FilteredProductsSection({
       })
       setProducts(result.data)
       setMeta(result.meta ?? null)
-    } catch {
-      // Garde les produits actuels en cas d'erreur
+    } catch (err) {
+      console.error('[Toprix] Erreur fetch produits:', err)
     } finally {
       setLoading(false)
     }
