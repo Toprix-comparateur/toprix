@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  // Rewrite de secours (le proxy principal est /api/proxy/[...path])
   async rewrites() {
     return {
       beforeFiles: [
