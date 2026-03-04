@@ -69,3 +69,16 @@ h1,h2,h3,h4,h5,h6 {
 .animate-marquee:hover {
   animation-play-state: paused;
 }
+
+/* ─── Empêcher AdSense auto-ads de bloquer la grille produits ─── */
+.products-grid-zone {
+  position: relative;
+  z-index: 1;
+}
+.products-grid-zone ins.adsbygoogle {
+  display: none !important;
+}
+.products-grid-zone iframe[id^="google_ads"],
+.products-grid-zone iframe[id^="aswift"] {
+  display: none !important;
+}

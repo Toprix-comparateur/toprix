@@ -147,7 +147,7 @@ export default function FilteredProductsSection({
   const buildPageUrl = (p: number) => buildUrl(filters, p, fixedQ)
 
   return (
-    <div className="py-6 sm:py-8">
+    <div className="py-6 sm:py-8 products-grid-zone">
 
       {/* ── Barre mobile : bouton filtres + tri ── */}
       <div className="lg:hidden flex items-center gap-2 mb-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-1.5">
