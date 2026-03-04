@@ -37,7 +37,7 @@ export default function CarteProduit({ produit, className, compact }: CarteProdu
       className={`group flex flex-col bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden hover:border-[#F97316]/40 hover:shadow-lg hover:shadow-orange-100/30 transition-all${className ? ` ${className}` : ''}`}
     >
       {/* Image — aspect-ratio responsive */}
-      <div className={`relative w-full bg-white overflow-hidden ${compact ? 'aspect-[3/2]' : 'aspect-[4/3]'}`}>
+      <div className={`relative w-full bg-white overflow-hidden ${compact ? 'aspect-square' : 'aspect-[4/3]'}`}>
         {produit.image ? (
           <Image
             src={produit.image}
@@ -63,18 +63,18 @@ export default function CarteProduit({ produit, className, compact }: CarteProdu
           <p className="text-[#F97316] text-[10px] font-semibold uppercase tracking-wide truncate">
             {produit.marque}
           </p>
-          {!compact && produit.boutique && (
+          {produit.boutique && (
             <span className={`flex items-center px-1.5 py-0.5 rounded-full border ${storeClass} shrink-0`}>
               {STORE_LOGOS[storeKey] ? (
                 <Image
                   src={STORE_LOGOS[storeKey]}
                   alt={produit.boutique}
-                  width={52}
-                  height={16}
-                  className="object-contain h-3.5 sm:h-4 w-auto"
+                  width={compact ? 40 : 52}
+                  height={compact ? 12 : 16}
+                  className={`object-contain w-auto ${compact ? 'h-2.5' : 'h-3.5 sm:h-4'}`}
                 />
               ) : (
-                <span className="text-xs font-semibold">{produit.boutique}</span>
+                <span className={`font-semibold ${compact ? 'text-[9px]' : 'text-xs'}`}>{produit.boutique}</span>
               )}
             </span>
           )}
@@ -95,17 +95,17 @@ export default function CarteProduit({ produit, className, compact }: CarteProdu
         <div className={`flex items-center justify-between border-t border-[#E2E8F0] ${compact ? 'mt-1 pt-1' : 'mt-2.5 pt-2.5'}`}>
           {produit.prix_min ? (
             <div>
-              {!compact && hasOldPrice && (
-                <p className="text-[10px] text-[#94A3B8] line-through leading-none mb-0.5">
+              {hasOldPrice && (
+                <p className={`text-[#94A3B8] line-through leading-none mb-0.5 ${compact ? 'text-[9px]' : 'text-[10px]'}`}>
                   {produit.prix_max} DT
                 </p>
               )}
               <p className={`font-heading text-[#F97316] font-bold leading-none ${compact ? 'text-xs' : 'text-base sm:text-lg'}`}>
                 {produit.prix_min} <span className={compact ? 'text-[10px]' : 'text-sm'}>DT</span>
               </p>
-              {!compact && hasDiscount && (
-                <p className="text-[10px] text-green-600 font-semibold mt-0.5">
-                  Économie {produit.discount} DT
+              {hasDiscount && (
+                <p className={`text-green-600 font-semibold mt-0.5 ${compact ? 'text-[9px]' : 'text-[10px]'}`}>
+                  -{pourcent > 0 ? `${pourcent}%` : `${produit.discount} DT`}
                 </p>
               )}
             </div>
