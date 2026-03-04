@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter, Space_Grotesk } from 'next/font/google'
 import Script from 'next/script'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import AdSenseScript from '@/components/ads/AdSenseScript'
 import './globals.css'
 
 const inter = Inter({
@@ -96,13 +97,8 @@ gtag('config','${GA4_ID}');`}
         {children}
         <SpeedInsights />
 
-        {/* ── 4. Google AdSense ── chargement différé */}
-        <Script
-          async
-          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_ID}`}
-          crossOrigin="anonymous"
-          strategy="lazyOnload"
-        />
+        {/* ── 4. Google AdSense ── désactivé sur /rechercher */}
+        <AdSenseScript />
       </body>
     </html>
   )
