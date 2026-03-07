@@ -34,53 +34,53 @@ export default function CarteProduit({ produit, className, compact }: CarteProdu
   return (
     <Link
       href={href}
-      className={`group flex flex-col bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#F97316]/40 hover:shadow-lg hover:shadow-orange-100/30 transition-all ${compact ? 'rounded-xl' : 'rounded-2xl'}${className ? ` ${className}` : ''}`}
+      className={`group flex flex-col bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden hover:border-[#F97316]/40 hover:shadow-lg hover:shadow-orange-100/30 transition-all${className ? ` ${className}` : ''}`}
     >
       {/* Image — aspect-ratio responsive */}
-      <div className={`relative w-full bg-white overflow-hidden ${compact ? 'aspect-[4/3]' : 'aspect-[4/3]'}`}>
+      <div className={`relative w-full bg-white overflow-hidden ${compact ? 'aspect-square' : 'aspect-[4/3]'}`}>
         {produit.image ? (
           <Image
             src={produit.image}
             alt={produit.nom}
             fill
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            className={`object-contain group-hover:scale-105 transition-transform duration-300 ${compact ? 'p-1.5' : 'p-3'}`}
+            className={`object-contain group-hover:scale-105 transition-transform duration-300 ${compact ? 'p-2' : 'p-3'}`}
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center text-4xl opacity-20">⚙️</div>
         )}
         {hasDiscount && (
-          <span className={`absolute top-1.5 left-1.5 bg-[#F97316] text-white font-bold rounded-md shadow-sm ${compact ? 'text-[9px] px-1.5 py-px' : 'text-xs px-2 py-0.5'}`}>
+          <span className="absolute top-2 left-2 bg-[#F97316] text-white text-xs font-bold px-2 py-0.5 rounded-md shadow-sm">
             -{pourcent > 0 ? `${pourcent}%` : `${produit.discount} DT`}
           </span>
         )}
       </div>
 
       {/* Contenu */}
-      <div className={`flex flex-col flex-1 ${compact ? 'px-1.5 py-1' : 'p-3 sm:p-4'}`}>
+      <div className={`flex flex-col flex-1 ${compact ? 'p-1.5' : 'p-3 sm:p-4'}`}>
         {/* Marque + Store */}
-        <div className="flex items-center justify-between mb-0.5 gap-1">
-          <p className={`text-[#F97316] font-semibold uppercase tracking-wide truncate ${compact ? 'text-[8px]' : 'text-[10px]'}`}>
+        <div className="flex items-center justify-between mb-0.5 gap-2">
+          <p className="text-[#F97316] text-[10px] font-semibold uppercase tracking-wide truncate">
             {produit.marque}
           </p>
           {produit.boutique && (
-            <span className={`flex items-center rounded-full border ${storeClass} shrink-0 ${compact ? 'px-1 py-px' : 'px-1.5 py-0.5'}`}>
+            <span className={`flex items-center px-1.5 py-0.5 rounded-full border ${storeClass} shrink-0`}>
               {STORE_LOGOS[storeKey] ? (
                 <Image
                   src={STORE_LOGOS[storeKey]}
                   alt={produit.boutique}
-                  width={compact ? 32 : 52}
-                  height={compact ? 10 : 16}
-                  className={`object-contain w-auto ${compact ? 'h-2' : 'h-3.5 sm:h-4'}`}
+                  width={compact ? 40 : 52}
+                  height={compact ? 12 : 16}
+                  className={`object-contain w-auto ${compact ? 'h-2.5' : 'h-3.5 sm:h-4'}`}
                 />
               ) : (
-                <span className={`font-semibold ${compact ? 'text-[8px]' : 'text-xs'}`}>{produit.boutique}</span>
+                <span className={`font-semibold ${compact ? 'text-[9px]' : 'text-xs'}`}>{produit.boutique}</span>
               )}
             </span>
           )}
         </div>
 
-        <p className={`font-heading font-semibold text-[#0F172A] leading-snug flex-1 ${compact ? 'text-[9px] line-clamp-1' : 'text-xs sm:text-sm line-clamp-2'}`}>
+        <p className={`font-heading font-semibold text-[#0F172A] leading-snug line-clamp-2 flex-1 ${compact ? 'text-[10px]' : 'text-xs sm:text-sm'}`}>
           {produit.nom}
         </p>
 
@@ -92,19 +92,19 @@ export default function CarteProduit({ produit, className, compact }: CarteProdu
         )}
 
         {/* Prix */}
-        <div className={`flex items-center justify-between border-t border-[#E2E8F0] ${compact ? 'mt-0.5 pt-0.5' : 'mt-2.5 pt-2.5'}`}>
+        <div className={`flex items-center justify-between border-t border-[#E2E8F0] ${compact ? 'mt-1 pt-1' : 'mt-2.5 pt-2.5'}`}>
           {produit.prix_min ? (
             <div>
               {hasOldPrice && (
-                <p className={`text-[#94A3B8] line-through leading-none mb-0.5 ${compact ? 'text-[8px]' : 'text-[10px]'}`}>
+                <p className={`text-[#94A3B8] line-through leading-none mb-0.5 ${compact ? 'text-[9px]' : 'text-[10px]'}`}>
                   {produit.prix_max} DT
                 </p>
               )}
-              <p className={`font-heading text-[#F97316] font-bold leading-none ${compact ? 'text-[11px]' : 'text-base sm:text-lg'}`}>
-                {produit.prix_min} <span className={compact ? 'text-[9px]' : 'text-sm'}>DT</span>
+              <p className={`font-heading text-[#F97316] font-bold leading-none ${compact ? 'text-xs' : 'text-base sm:text-lg'}`}>
+                {produit.prix_min} <span className={compact ? 'text-[10px]' : 'text-sm'}>DT</span>
               </p>
               {hasDiscount && (
-                <p className={`text-green-600 font-semibold mt-0.5 ${compact ? 'text-[8px]' : 'text-[10px]'}`}>
+                <p className={`text-green-600 font-semibold mt-0.5 ${compact ? 'text-[9px]' : 'text-[10px]'}`}>
                   -{pourcent > 0 ? `${pourcent}%` : `${produit.discount} DT`}
                 </p>
               )}
