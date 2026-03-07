@@ -99,12 +99,17 @@ export default async function MarqueDetailPage({ params, searchParams }: Props) 
           </div>
 
           {/* Titre marque */}
-          <h1 className="font-heading text-white text-2xl md:text-3xl font-bold">
-            Produits {marque.nom} en Tunisie
-          </h1>
-          <p className="mt-2 text-slate-400 text-sm leading-relaxed max-w-2xl">
-            Découvrez {nbResultats > 0 ? `${nbResultats} produit${nbResultats > 1 ? 's' : ''}` : 'tous les produits'} {marque.nom} disponibles en Tunisie. Comparez les prix entre Mytek, Tunisianet et Spacenet.
-          </p>
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-[#F97316]/10 border border-[#F97316]/20 flex items-center justify-center text-xl shrink-0">
+              📦
+            </div>
+            <div>
+              <h1 className="font-heading text-white text-2xl md:text-3xl font-bold">{marque.nom}</h1>
+              <p className="text-slate-400 text-sm">
+                {nbResultats > 0 ? `${nbResultats} produit${nbResultats > 1 ? 's' : ''}` : marque.nombre_produits !== undefined ? `${marque.nombre_produits} produit(s) référencé(s)` : ''}
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
