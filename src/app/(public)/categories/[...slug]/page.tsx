@@ -3,7 +3,7 @@ import { getCategorieDetail } from '@/lib/api/categories'
 import { getProduits } from '@/lib/api/produits'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { ChevronRight, LayoutGrid } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
 import FilteredProductsSection from '@/components/product/FilteredProductsSection'
 
 export const dynamic = 'force-dynamic'
@@ -117,15 +117,12 @@ export default async function CategorieDetailPage({ params, searchParams }: Prop
             <ChevronRight size={12} />
             <span className="text-slate-300">{categorie.nom}</span>
           </nav>
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-[#F97316]/10 border border-[#F97316]/20 flex items-center justify-center shrink-0">
-              <LayoutGrid size={20} className="text-[#F97316]" />
-            </div>
-            <div>
-              <h1 className="font-heading text-white text-2xl md:text-3xl font-bold">{categorie.nom}</h1>
-              <p className="text-slate-400 text-sm">{meta?.total_items ?? 0} produit(s) disponible(s)</p>
-            </div>
-          </div>
+          <h1 className="font-heading text-white text-2xl md:text-3xl font-bold">
+            {categorie.nom} au meilleur prix en Tunisie
+          </h1>
+          <p className="mt-2 text-slate-400 text-sm leading-relaxed max-w-2xl">
+            Comparez les prix <span className="text-white font-medium">{categorie.nom}</span> entre les principales boutiques en ligne tunisiennes. Trouvez la meilleure offre parmi {(meta?.total_items ?? 0) > 0 ? `${meta?.total_items} produit${(meta?.total_items ?? 0) > 1 ? 's' : ''}` : 'les produits'} disponibles.
+          </p>
         </div>
       </section>
 

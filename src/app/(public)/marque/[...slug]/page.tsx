@@ -99,11 +99,11 @@ export default async function MarqueDetailPage({ params, searchParams }: Props) 
           </div>
 
           {/* Titre marque */}
-          <h1 className="font-heading text-slate-300 text-2xl md:text-3xl font-bold">
+          <h1 className="font-heading text-white text-2xl md:text-3xl font-bold">
             Produits {marque.nom} au meilleur prix en Tunisie
           </h1>
-          <p className="mt-2 text-slate-300 text-sm leading-relaxed max-w-2xl">
-            Comparez les prix {marque.nom} entre les principales boutiques en ligne tunisiennes. Trouvez la meilleure offre parmi {nbResultats > 0 ? `${nbResultats} produit${nbResultats > 1 ? 's' : ''}` : 'les produits'} disponibles.
+          <p className="mt-2 text-slate-400 text-sm leading-relaxed max-w-2xl">
+            Comparez les prix <span className="text-white font-medium">{marque.nom}</span> entre les principales boutiques en ligne tunisiennes. Trouvez la meilleure offre parmi {nbResultats > 0 ? `${nbResultats} produit${nbResultats > 1 ? 's' : ''}` : 'les produits'} disponibles.
           </p>
         </div>
       </section>
