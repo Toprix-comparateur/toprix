@@ -118,10 +118,10 @@ export default async function CategorieDetailPage({ params, searchParams }: Prop
             <span className="text-slate-300">{categorie.nom}</span>
           </nav>
           <h1 className="text-2xl md:text-3xl font-bold" style={{ color: '#F1F5F9' }}>
-            {categorie.nom} – au meilleur prix en Tunisie
+            {categorie.nom} : les bons plans de {new Date().toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })}
           </h1>
           <p className="mt-2 text-slate-400 text-sm leading-relaxed max-w-2xl">
-            Comparez les prix <span className="text-white font-medium">{categorie.nom}</span> entre les principales boutiques en ligne tunisiennes. Trouvez la meilleure offre parmi {(meta?.total_items ?? 0) > 0 ? `${meta?.total_items} produit${(meta?.total_items ?? 0) > 1 ? 's' : ''}` : 'les produits'} disponibles.
+            Comparez les prix de la catégorie <span className="text-white font-medium">{categorie.nom}</span> entre les principales boutiques en ligne tunisiennes. {(meta?.total_items ?? 0) > 0 ? `${meta?.total_items} produit${(meta?.total_items ?? 0) > 1 ? 's' : ''}` : 'Des produits'} à découvrir.
           </p>
         </div>
       </section>
