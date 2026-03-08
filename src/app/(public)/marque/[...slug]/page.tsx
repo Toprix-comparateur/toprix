@@ -25,7 +25,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const name = slug.join('/')
   try {
-    const marque = await getMarque(name)
+    const res = await getMarque(name)
+    const marque = (res as any).marque ?? res
     const title = `${marque.nom.toUpperCase()} – Produits au meilleur prix en Tunisie`
     const description = `Découvrez tous les produits ${marque.nom} en Tunisie. Comparez les prix sur Mytek, Tunisianet et Spacenet pour trouver les meilleures offres.`
     return {
@@ -52,10 +53,14 @@ export default async function MarqueDetailPage({ params, searchParams }: Props) 
     en_stock = '',
   } = await searchParams
 
-  let marque = null
+  let marque: any = null
   let produits = null
 
-  try { marque = await getMarque(name) } catch { notFound() }
+  try {
+    const res = await getMarque(name)
+    // L'API retourne { data, meta, marque: { slug, nom } }
+    marque = (res as any).marque ?? res
+  } catch { notFound() }
   try {
     produits = await getProduits({
       marque: name,
