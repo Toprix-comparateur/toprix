@@ -104,7 +104,7 @@ export default async function MarqueDetailPage({ params, searchParams }: Props) 
           </div>
 
           {/* Titre marque */}
-          <h1 className="font-heading text-[#F1F5F9] text-2xl md:text-3xl font-bold">
+          <h1 className="text-2xl md:text-3xl font-bold" style={{ color: '#F1F5F9' }}>
             Produits {marque.nom} – au meilleur prix en Tunisie
           </h1>
           <p className="mt-2 text-slate-400 text-sm leading-relaxed max-w-2xl">
