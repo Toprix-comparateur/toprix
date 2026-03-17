@@ -99,6 +99,19 @@ gtag('config','${GA4_ID}');`}
 
         {/* ── 4. Google AdSense ── désactivé sur /rechercher */}
         <AdSenseScript />
+
+        {/* ── 5. Tawk.to Live Chat ── */}
+        <Script id="tawk-to" strategy="lazyOnload">
+          {`var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/69b9467bc4b5991c3637f57b/1jjtrmkdt';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();`}
+        </Script>
       </body>
     </html>
   )
