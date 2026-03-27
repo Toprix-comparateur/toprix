@@ -27,7 +27,7 @@ export default function Header() {
           </span>
           <span className="text-emerald-400/60 text-xs">·</span>
           <span className="font-semibold" style={{ fontFamily: 'serif', letterSpacing: '0.05em' }}>
-            عيد الفطر مبارك
+            عيد فطر مبارك
           </span>
           <span className="text-base leading-none">🌙</span>
           <span className="opacity-60 text-[10px]">✦</span>
