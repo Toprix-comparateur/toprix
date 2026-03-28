@@ -37,7 +37,7 @@ export default function CarteProduit({ produit, className, compact }: CarteProdu
       className={`group flex flex-col bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden hover:border-[#F97316]/40 hover:shadow-lg hover:shadow-orange-100/30 transition-all${className ? ` ${className}` : ''}`}
     >
       {/* Image — aspect-ratio responsive */}
-      <div className={`relative w-full bg-white overflow-hidden ${compact ? 'aspect-square' : 'aspect-[4/3]'}`}>
+      <div className={`relative w-full bg-white overflow-hidden ${compact ? 'h-28' : 'aspect-[4/3]'}`}>
         {produit.image ? (
           <Image
             src={produit.image}
