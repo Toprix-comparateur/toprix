@@ -4,22 +4,22 @@ import { ArrowRight } from 'lucide-react'
 
 const TEASERS = [
   {
-    titre: 'Offres Ramadan',
-    sous_titre: "Jusqu'à -40% sur tous les produits high-tech",
+    titre: 'Offres été 2026',
+    sous_titre: "Les meilleures promos électroménager de l'été",
     cta: 'Voir les offres',
-    href: '/rechercher?en_promo=1',
+    href: '/categories/electromenager?en_promo=1&tri=prix_desc',
     overlay: 'linear-gradient(135deg, rgba(249,115,22,0.75), rgba(194,65,12,0.85))',
     img: '/banners/ramadan.webp',
-    badge: 'Promo exclusive',
+    badge: 'Offres été 2026',
   },
   {
-    titre: 'Nouvelles arrivées',
-    sous_titre: 'Smartphones & Laptops 2026 déjà disponibles',
+    titre: 'Aïd Al-Adha 2026',
+    sous_titre: 'Offres spéciales petit électro et cuisine pour la fête',
     cta: 'Découvrir',
-    href: '/categories/smartphones',
+    href: '/categories/electromenager/petit-electro-cuisine?en_promo=1',
     overlay: 'linear-gradient(135deg, rgba(59,130,246,0.75), rgba(29,78,216,0.85))',
     img: '/banners/nouvel-arrivage.webp',
-    badge: 'Nouveautés',
+    badge: 'Aïd Al-Adha 2026',
   },
 ]
 

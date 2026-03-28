@@ -283,20 +283,25 @@ export default async function ProduitDetailPage({ params }: Props) {
                   {produit.offres.map((offre, i) => {
                     const logoKey = offre.boutique.toLowerCase()
                     const logo = STORE_LOGOS[logoKey]
+                    const storeRowClass = STORE_COLORS[logoKey] ?? 'bg-slate-50 text-slate-500 border-slate-100'
                     return (
                       <div
                         key={offre.boutique}
-                        className={`grid grid-cols-3 items-center px-4 py-3 text-sm ${i === 0 ? 'bg-orange-50/40' : ''} ${i < produit.offres!.length - 1 ? 'border-b border-[#E2E8F0]' : ''}`}
+                        className={`grid grid-cols-3 items-center px-4 py-4 text-sm ${i === 0 ? 'bg-orange-50/40' : ''} ${i < produit.offres!.length - 1 ? 'border-b border-[#E2E8F0]' : ''}`}
                       >
-                        <div className="flex flex-col gap-0.5">
-                          {logo ? (
-                            <Image src={logo} alt={offre.boutique} width={70} height={20}
-                              style={{ height: '18px', width: 'auto' }}
-                              className="object-contain"
-                            />
-                          ) : (
-                            <span className="font-medium text-[#1E293B]">{offre.boutique}</span>
-                          )}
+                        {/* Boutique : logo + nom + stock */}
+                        <div className="flex flex-col gap-1">
+                          <div className="flex items-center gap-2">
+                            {logo ? (
+                              <Image src={logo} alt={offre.boutique} width={50} height={14}
+                                style={{ height: '14px', width: 'auto' }}
+                                className="object-contain"
+                              />
+                            ) : null}
+                            <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full border ${storeRowClass}`}>
+                              {offre.boutique}
+                            </span>
+                          </div>
                           {offre.stock && (
                             <p className="text-xs text-[#64748B] flex items-center gap-1">
                               {offre.stock === 'En stock'
@@ -305,14 +310,18 @@ export default async function ProduitDetailPage({ params }: Props) {
                             </p>
                           )}
                         </div>
+
+                        {/* Prix */}
                         <div className="text-center">
-                          <span className={`font-bold ${i === 0 ? 'text-[#F97316]' : 'text-[#1E293B]'}`}>
+                          <span className={`text-lg font-bold ${i === 0 ? 'text-[#F97316]' : 'text-[#1E293B]'}`}>
                             {offre.prix} DT
                           </span>
                           {i === 0 && produit.offres!.length > 1 && (
                             <p className="text-[10px] text-[#F97316] font-medium">✓ Meilleur prix</p>
                           )}
                         </div>
+
+                        {/* Bouton */}
                         <div className="flex justify-end">
                           <a
                             href={offre.url}

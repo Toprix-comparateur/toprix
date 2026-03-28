@@ -264,7 +264,7 @@ export default async function AccueilPage() {
                   <Image src="/banners/cat-moniteurs.webp" alt="TV" fill className="object-cover" sizes="112px" />
                 </div>
                 <Link
-                  href="/categories/tv-et-son/televiseur"
+                  href="/categories/tv-et-son/televiseur?tri=prix_desc"
                   className="inline-flex items-center gap-2 border border-white/20 hover:border-[#F97316] hover:text-[#F97316] text-white/70 text-xs font-semibold px-5 py-2.5 rounded-xl transition-all"
                 >
                   Voir tout <ArrowRight size={12} />
@@ -286,7 +286,7 @@ export default async function AccueilPage() {
           {/* CTA mobile */}
           <div className="sm:hidden mt-6 px-4 flex justify-center">
             <Link
-              href="/categories/tv-et-son/televiseur"
+              href="/categories/tv-et-son/televiseur?tri=prix_desc"
               className="inline-flex items-center gap-2 bg-[#F97316] hover:bg-[#EA6C0A] text-white text-xs font-semibold px-6 py-2.5 rounded-xl transition-colors"
             >
               Voir tous les téléviseurs <ArrowRight size={12} />

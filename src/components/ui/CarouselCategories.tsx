@@ -7,7 +7,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 const CATEGORIES = [
   {
-    href: '/categories/telephonie',
+    href: '/categories/telephonie/smartphone?tri=prix_desc',
     label: 'Téléphonie',
     img: '/banners/cat-smartphones.webp',
   },

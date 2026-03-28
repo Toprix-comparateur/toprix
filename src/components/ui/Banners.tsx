@@ -44,7 +44,7 @@ const CAT_BANNERS = [
     tag: 'bg-purple-50 text-purple-700',
   },
   {
-    href: '/categories/informatique/pc-portable',
+    href: '/categories/informatique/pc-portable?tri=prix_desc',
     label: 'PC Portable',
     sub: 'Ordinateurs portables & ultrabooks',
     img: '/banners/laptop.webp',
@@ -58,7 +58,7 @@ const CAT_BANNERS = [
     tag: 'bg-orange-50 text-orange-700',
   },
   {
-    href: '/categories/informatique/pc-bureau',
+    href: '/categories/informatique/pc-bureau?tri=prix_desc',
     label: 'PC Bureau',
     sub: 'Ordinateurs de bureau performants',
     img: '/banners/pc-bureau.webp',

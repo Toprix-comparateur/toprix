@@ -22,7 +22,7 @@ const SLIDES = [
     titre: 'Derniers smartphones',
     sousTitre: 'Comparez Galaxy, iPhone et plus — tous les stores',
     cta: 'Comparer maintenant',
-    href: '/categories/telephonie',
+    href: '/categories/telephonie/smartphone?tri=prix_desc',
     bg: 'from-[#0c1a2e] to-[#1a2f4a]',
     accent: '#F97316',
   },

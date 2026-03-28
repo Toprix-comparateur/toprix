@@ -4,7 +4,7 @@ import { ArrowRight } from 'lucide-react'
 
 const SCOPE_ITEMS = [
   {
-    href: '/categories/telephonie',
+    href: '/categories/telephonie/smartphone?tri=prix_desc',
     label: 'Smartphones',
     sousTitre: 'Toutes les marques',
     img: '/banners/cat-smartphones.webp',
