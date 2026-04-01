@@ -115,9 +115,24 @@ export default async function ProduitDetailPage({ params }: Props) {
     })),
   }
 
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://toprix.tn' },
+      ...(produit.categorie ? [
+        { '@type': 'ListItem', position: 2, name: produit.categorie_nom || produit.categorie, item: `https://toprix.tn/categories/${produit.categorie}` },
+        { '@type': 'ListItem', position: 3, name: produit.nom, item: `https://toprix.tn/produit/${slug}` },
+      ] : [
+        { '@type': 'ListItem', position: 2, name: produit.nom, item: `https://toprix.tn/produit/${slug}` },
+      ]),
+    ],
+  }
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
     <div>
       {/* Breadcrumb */}
       <section className="bg-[#0F172A] py-5 px-4">

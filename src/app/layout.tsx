@@ -59,9 +59,44 @@ export const metadata: Metadata = {
   },
 }
 
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Toprix',
+  url: 'https://toprix.tn',
+  logo: 'https://toprix.tn/web-app-manifest-512x512.png',
+  description: 'Comparateur de prix high-tech en Tunisie. Comparez les prix sur Mytek, Tunisianet et Spacenet.',
+  foundingDate: '2024',
+  areaServed: { '@type': 'Country', name: 'Tunisia' },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'customer support',
+    email: 'contact@toprix.tn',
+    availableLanguage: ['French', 'Arabic'],
+  },
+  sameAs: [],
+}
+
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Toprix',
+  url: 'https://toprix.tn',
+  description: 'Comparateur de prix high-tech en Tunisie',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: 'https://toprix.tn/rechercher?q={search_term_string}',
+    'query-input': 'required name=search_term_string',
+  },
+}
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" className={`${inter.variable} ${spaceGrotesk.variable}`}>
+      {/* ── 0. JSON-LD Organization + WebSite ── */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
+
       {/* ── 1. Google Tag Manager ── dans <head>, le plus haut possible */}
       <Script id="gtm-head" strategy="beforeInteractive">
         {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

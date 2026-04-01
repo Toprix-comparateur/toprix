@@ -22,13 +22,21 @@ interface Props {
   }>
 }
 
+const slugToLabel = (s: string) =>
+  s.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const fullSlug = slug.join('/')
+  const isSubcat = slug.length >= 2
   try {
     const { categorie } = await getCategorieDetail(fullSlug)
-    const title = `${categorie.nom} – Produits au meilleur prix en Tunisie`
-    const description = `Découvrez tous les produits ${categorie.nom} en Tunisie. Comparez les prix sur Mytek, Tunisianet et Spacenet pour trouver les meilleures offres.`
+    const title = isSubcat
+      ? `${slugToLabel(slug[slug.length - 1])} – ${categorie.nom} au meilleur prix en Tunisie`
+      : `${categorie.nom} – Produits au meilleur prix en Tunisie`
+    const description = isSubcat
+      ? `Découvrez les meilleurs ${slugToLabel(slug[slug.length - 1])} en Tunisie. Comparez les prix ${categorie.nom} sur Mytek, Tunisianet et Spacenet et trouvez la meilleure offre.`
+      : `Découvrez tous les produits ${categorie.nom} en Tunisie. Comparez les prix sur Mytek, Tunisianet et Spacenet pour trouver les meilleures offres.`
     return {
       title,
       description,
@@ -93,7 +101,32 @@ export default async function CategorieDetailPage({ params, searchParams }: Prop
 
   if (!categorie) notFound()
 
+  const breadcrumbItems = [
+    { name: 'Accueil', url: 'https://toprix.tn' },
+    { name: 'Catégories', url: 'https://toprix.tn/categories' },
+    ...(isSubcat
+      ? [
+          { name: slugToLabel(slug[0]), url: `https://toprix.tn/categories/${slug[0]}` },
+          { name: categorie.nom, url: `https://toprix.tn/categories/${fullSlug}` },
+        ]
+      : [{ name: categorie.nom, url: `https://toprix.tn/categories/${fullSlug}` }]
+    ),
+  ]
+
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbItems.map((item, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: item.name,
+      item: item.url,
+    })),
+  }
+
   return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
     <div>
       {/* Breadcrumb hero */}
       <section className="bg-[#0F172A] py-8 px-4 relative overflow-hidden">
@@ -172,5 +205,6 @@ export default async function CategorieDetailPage({ params, searchParams }: Prop
         />
       </div>
     </div>
+    </>
   )
 }
