@@ -304,7 +304,7 @@ export default function FilteredProductsSection({
                     currentPage={page}
                     totalPages={meta.total_pages}
                     buildUrl={buildPageUrl}
-                    onPageChange={setPage}
+                    onPageChange={(p) => { setPage(p); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
                   />
                 )}
               </>
