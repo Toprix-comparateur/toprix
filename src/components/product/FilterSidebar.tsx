@@ -125,7 +125,7 @@ export default function FilterSidebar({
         : 'translate-y-full',
       /* ── Desktop lg+ : sidebar statique sticky ── */
       'lg:static lg:translate-y-0 lg:shadow-none lg:z-auto lg:flex lg:flex-col',
-      'lg:w-56 xl:w-60 lg:max-h-[calc(100vh-5rem)] lg:sticky lg:top-20',
+      'lg:w-56 xl:w-60 lg:h-[calc(100vh-5rem)] lg:max-h-[calc(100vh-5rem)] lg:sticky lg:top-20',
       'lg:rounded-2xl lg:border lg:border-[#E2E8F0] lg:overflow-hidden',
     ].join(' ')}
     >
@@ -165,7 +165,7 @@ export default function FilterSidebar({
       </div>
 
       {/* ── Contenu scrollable ── */}
-      <div className="flex-1 overflow-y-auto overscroll-contain">
+      <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain">
 
         {/* Boutique */}
         <Section title="Boutique">
