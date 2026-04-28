@@ -5,6 +5,8 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
 import FilteredProductsSection from '@/components/product/FilteredProductsSection'
+import FAQSection from '@/components/ui/FAQSection'
+import { getFAQsForCategory, buildFaqJsonLd } from '@/lib/faq-utils'
 
 export const dynamic = 'force-dynamic'
 
@@ -124,9 +126,13 @@ export default async function CategorieDetailPage({ params, searchParams }: Prop
     })),
   }
 
+  const faqs = getFAQsForCategory(slug)
+  const faqJsonLd = buildFaqJsonLd(faqs)
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
     <div>
       {/* Breadcrumb hero */}
       <section className="bg-[#0F172A] py-8 px-4 relative overflow-hidden">
@@ -203,6 +209,8 @@ export default async function CategorieDetailPage({ params, searchParams }: Prop
           hideCategorie={true}
           hideBrand={false}
         />
+
+        <FAQSection faqs={faqs} />
       </div>
     </div>
     </>

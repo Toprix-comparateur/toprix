@@ -5,6 +5,8 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import FilteredProductsSection from '@/components/product/FilteredProductsSection'
+import FAQSection from '@/components/ui/FAQSection'
+import { getFAQsForBrand, buildFaqJsonLd } from '@/lib/faq-utils'
 
 export const dynamic = 'force-dynamic'
 
@@ -77,8 +79,12 @@ export default async function MarqueDetailPage({ params, searchParams }: Props) 
   if (!marque) notFound()
 
   const nbResultats = produits?.meta?.total_items ?? produits?.data.length ?? 0
+  const faqs = getFAQsForBrand(marque.nom)
+  const faqJsonLd = buildFaqJsonLd(faqs)
 
   return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
     <div>
       {/* Hero marque */}
       <section className="bg-[#0F172A] py-8 px-4 relative overflow-hidden">
@@ -129,7 +135,10 @@ export default async function MarqueDetailPage({ params, searchParams }: Props) 
           hideBrand={true}
           hideCategorie={false}
         />
+
+        <FAQSection faqs={faqs} />
       </div>
     </div>
+    </>
   )
 }
