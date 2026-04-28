@@ -19,21 +19,21 @@ export const FAQ_SMARTPHONES: FAQ[] = [
 ]
 
 export const FAQ_LAPTOPS: FAQ[] = [
-  { q: "Quel est le prix d'un laptop HP en Tunisie en 2026 ?", r: "De 1 400 TND (HP 15 basique) à 5 000+ TND (HP Envy, HP Spectre). La gamme HP 255 G10 (2 000–2 500 TND) est très populaire pour le travail." },
-  { q: "Quel laptop acheter en Tunisie pour moins de 2 000 TND ?", r: "Lenovo IdeaPad 3, HP 15 et Acer Aspire 3 offrent de bonnes performances bureautiques avec processeurs Intel Core i5 ou AMD Ryzen 5. Disponibles chez les 3 boutiques." },
-  { q: "MacBook disponible en Tunisie ?", r: "Oui, chez Mytek et Tunisianet. MacBook Air M2 entre 4 500 et 5 500 TND, MacBook Air M3 entre 5 500 et 6 500 TND." },
-  { q: "Quel laptop Lenovo pour le travail en Tunisie ?", r: "ThinkPad L14/L15 (3 000–4 000 TND) pour la robustesse professionnelle. IdeaPad 3 ou 5 (1 800–2 800 TND) pour la bureautique quotidienne." },
-  { q: "Meilleur laptop gaming en Tunisie pour moins de 5 000 TND ?", r: "Lenovo LOQ 15 (RTX 4050, 144Hz) et HP Victus 15 sont les meilleures options. Disponibles chez Mytek et Spacenet." },
-  { q: "Prix d'un laptop Dell en Tunisie ?", r: "De 2 000 TND (Inspiron 15) à 7 000+ TND (Dell XPS 15). Le Dell Inspiron 3520 (2 200–2 800 TND) est parmi les plus vendus." },
+  { q: "Quel laptop acheter en Tunisie pour moins de 2 000 TND ?", r: "Les gammes IdeaPad, Aspire et VivoBook en Core i5 / Ryzen 5 8 Go SSD offrent d'excellentes performances bureautiques. Disponibles chez les 3 boutiques." },
   { q: "8 Go de RAM suffisent pour un laptop en Tunisie en 2026 ?", r: "Pour bureautique et études oui. Pour montage vidéo ou développement, 16 Go sont recommandés. La plupart des laptops vendus en Tunisie proposent 8 à 16 Go en standard." },
+  { q: "Un SSD fait vraiment la différence sur un laptop ?", r: "Oui, 4 à 5 fois plus rapide qu'un HDD au démarrage. En 2026, tous les nouveaux laptops vendus en Tunisie ont un SSD NVMe — évitez les modèles encore équipés de HDD." },
+  { q: "Quel laptop pour le travail en Tunisie ?", r: "Les gammes ThinkPad (3 000–4 000 TND) offrent la robustesse professionnelle. Les IdeaPad et VivoBook (1 800–2 800 TND) conviennent parfaitement à la bureautique quotidienne." },
+  { q: "Meilleur laptop gaming en Tunisie pour moins de 5 000 TND ?", r: "Les laptops RTX 4050 avec écran 144Hz sont les meilleures options dans ce budget. Disponibles chez Mytek et Spacenet, comparez les offres sur Toprix." },
+  { q: "Laptop Intel ou AMD en Tunisie, lequel choisir ?", r: "AMD Ryzen offre un meilleur rapport performance/prix pour la bureautique. Intel Core est préféré pour la compatibilité logicielle. Les deux sont disponibles dans des fourchettes similaires." },
+  { q: "Quel laptop haut de gamme choisir en Tunisie ?", r: "Pour la création (design, photo, vidéo), un processeur i7/Ryzen 7 + 16 Go RAM + GPU dédié est recommandé. Budget 3 500–6 000 TND. Comparez les prix sur Toprix." },
   { q: "Prix d'un écran PC en Tunisie ?", r: "De 500 TND (24\" Full HD basique) à 2 500+ TND (27\" 4K ou gaming 144Hz). Marques disponibles : Samsung, LG, Philips, AOC." },
   { q: "Asus ou Lenovo pour un laptop en Tunisie ?", r: "Lenovo domine en entreprise (ThinkPad). Asus gagne en popularité avec VivoBook et TUF Gaming. Les deux ont un bon SAV via leurs distributeurs officiels." },
-  { q: "Un SSD fait vraiment la différence sur un laptop ?", r: "Oui, 4 à 5 fois plus rapide qu'un HDD au démarrage. En 2026, tous les nouveaux laptops vendus en Tunisie ont un SSD NVMe — évitez les modèles encore équipés de HDD." },
-  { q: "Prix d'une imprimante HP en Tunisie ?", r: "HP DeskJet basique dès 250 TND, HP Smart Tank (réservoir rechargeable) 500–900 TND, multifonction laser 800–1 500 TND." },
-  { q: "Laptop Intel ou AMD en Tunisie, lequel choisir ?", r: "AMD Ryzen offre un meilleur rapport performance/prix pour la bureautique. Intel Core est préféré pour la compatibilité logicielle. Les deux sont disponibles dans des fourchettes similaires." },
-  { q: "Lenovo ou HP, quelle marque de laptop choisir ?", r: "HP est souvent moins cher à configuration égale avec un SAV large. Lenovo offre un meilleur clavier et plus de robustesse. Comparez sur Toprix pour le même budget." },
+  { q: "Quelle marque de laptop offre le meilleur SAV en Tunisie ?", r: "Les grandes marques (Lenovo, Asus, Acer) ont des centres de service agréés dans les principales villes. La proximité d'un SAV officiel est un critère important à considérer à l'achat." },
+  { q: "Prix d'une imprimante en Tunisie ?", r: "Jet d'encre basique dès 250 TND. Réservoir rechargeable (Tank) 500–900 TND — économique sur le long terme. Multifonction laser 800–1 500 TND pour un usage bureau intensif." },
+  { q: "Laptop Intel ou AMD en Tunisie, lequel choisir en 2026 ?", r: "AMD Ryzen 5/7 offre un excellent rapport performance/watt pour les portables. Intel Core Ultra gagne en autonomie sur les nouvelles générations. Comparez les specs sur Toprix." },
+  { q: "Quel est le meilleur rapport qualité-prix laptop en Tunisie ?", r: "Les gammes milieu de gamme (1 800–2 800 TND) avec Ryzen 5 / Core i5, 16 Go RAM et SSD 512 Go offrent le meilleur compromis. Comparez les prix des boutiques sur Toprix." },
   { q: "Prix d'une clé USB ou disque dur externe en Tunisie ?", r: "Clé USB 64 Go : 30–70 TND. Disque dur externe 1 To : 150–250 TND. SSD externe 1 To : 280–450 TND." },
-  { q: "Quel laptop pour un étudiant en architecture ou médecine en Tunisie ?", r: "Architecture (3D) : Core i7 + 16 Go RAM + GPU dédié, 3 500–5 000 TND. Médecine (bureautique) : IdeaPad 5 ou HP 15 Core i5 à 2 000–2 500 TND suffit." },
+  { q: "Quel laptop pour un étudiant en Tunisie ?", r: "Pour les études, un laptop Core i5 / Ryzen 5, 8–16 Go RAM, SSD 256–512 Go à 1 800–2 500 TND est idéal. Pour l'architecture ou ingénierie, prévoir 3 500–5 000 TND avec GPU dédié." },
 ]
 
 export const FAQ_TV: FAQ[] = [

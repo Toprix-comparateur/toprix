@@ -58,7 +58,8 @@ export function getFAQsForCategory(slug: string[]): FAQ[] {
 
 /**
  * Retourne 3 FAQs pour une page marque.
- * Priorité aux FAQs mentionnant la marque, complétées par des génériques.
+ * Priorité aux FAQs mentionnant la marque, complétées par FAQ_ACHAT_LIGNE
+ * (neutre, sans mention d'autres marques concurrentes).
  */
 export function getFAQsForBrand(brandName: string): FAQ[] {
   const lower = brandName.toLowerCase()
@@ -66,8 +67,12 @@ export function getFAQsForBrand(brandName: string): FAQ[] {
     f => f.q.toLowerCase().includes(lower) || f.r.toLowerCase().includes(lower)
   )
   if (mentioning.length >= 3) return mentioning.slice(0, 3)
-  const rest = FAQ_MARQUES.filter(f => !mentioning.includes(f))
-  return [...mentioning, ...rest].slice(0, 3)
+
+  // Compléter avec des FAQs génériques (achat en ligne) sans mention de marques tierces
+  const needed = 3 - mentioning.length
+  const hashIdx = strHash(brandName) % Math.floor(FAQ_ACHAT_LIGNE.length / 3)
+  const fill = FAQ_ACHAT_LIGNE.slice(hashIdx * 3, hashIdx * 3 + needed)
+  return [...mentioning, ...fill]
 }
 
 /** Construit le JSON-LD FAQPage à partir d'une liste de FAQs */

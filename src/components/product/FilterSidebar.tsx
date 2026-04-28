@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useLayoutEffect } from 'react'
 import { X, ChevronDown, SlidersHorizontal, Tag, Package, ArrowUpDown } from 'lucide-react'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -101,13 +101,14 @@ export default function FilterSidebar({
 }: FilterSidebarProps) {
   const [brandSearch, setBrandSearch] = useState('')
   const scrollRef = useRef<HTMLDivElement>(null)
+  const brandListRef = useRef<HTMLDivElement>(null)
   const savedScroll = useRef(0)
+  const savedBrandScroll = useRef(0)
 
-  // Restaurer la position de scroll quand availableBrands change (après fetch)
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = savedScroll.current
-    }
+  // Restaurer les positions de scroll avant le paint (useLayoutEffect = synchrone)
+  useLayoutEffect(() => {
+    if (scrollRef.current) scrollRef.current.scrollTop = savedScroll.current
+    if (brandListRef.current) brandListRef.current.scrollTop = savedBrandScroll.current
   }, [availableBrands])
 
   const filteredBrands = brandSearch.trim()
@@ -177,7 +178,7 @@ export default function FilterSidebar({
       <div
         ref={scrollRef}
         onScroll={() => { savedScroll.current = scrollRef.current?.scrollTop ?? 0 }}
-        className="flex-1 min-h-0 overflow-y-auto overscroll-contain"
+        className="flex-1 min-h-0 overflow-y-auto overscroll-contain scroll-auto"
       >
 
         {/* Boutique */}
@@ -233,7 +234,11 @@ export default function FilterSidebar({
                 className="w-full border border-[#E2E8F0] rounded-lg px-3 py-1.5 text-xs text-[#1E293B] outline-none focus:border-[#F97316] bg-white mb-3 transition-colors"
               />
             )}
-            <div className="flex flex-col gap-1 max-h-48 overflow-y-auto pr-1">
+            <div
+              ref={brandListRef}
+              onScroll={() => { savedBrandScroll.current = brandListRef.current?.scrollTop ?? 0 }}
+              className="flex flex-col gap-1 max-h-48 overflow-y-auto pr-1"
+            >
               {filteredBrands.map((brand) => {
                 const isChecked = filters.marques.includes(brand)
                 return (
@@ -340,7 +345,7 @@ function RadioItem({ label, checked, name, value, onChange, dot, prefixIcon }: {
   prefixIcon?: React.ReactNode
 }) {
   return (
-    <label className="flex items-center gap-2.5 cursor-pointer group py-0.5">
+    <label className="flex items-center gap-2.5 cursor-pointer group py-0.5" onMouseDown={(e) => e.preventDefault()}>
       <span className={`w-4 h-4 rounded-full border-2 flex-shrink-0 transition-colors ${
         checked ? `${dot} border-transparent` : 'border-[#CBD5E1] group-hover:border-[#94A3B8]'
       }`}>
@@ -367,7 +372,7 @@ function CheckItem({ label, checked, onChange, icon, color = 'orange' }: {
   const activeColor = color === 'green' ? 'bg-[#22C55E] border-[#22C55E]' : 'bg-[#F97316] border-[#F97316]'
   const hoverBorder = color === 'green' ? 'group-hover:border-[#22C55E]/50' : 'group-hover:border-[#F97316]/50'
   return (
-    <label className="flex items-center gap-2.5 cursor-pointer group py-0.5">
+    <label className="flex items-center gap-2.5 cursor-pointer group py-0.5" onMouseDown={(e) => e.preventDefault()}>
       <span className={`w-4 h-4 rounded border-2 flex-shrink-0 transition-colors flex items-center justify-center ${
         checked ? activeColor : `border-[#CBD5E1] ${hoverBorder}`
       }`}>

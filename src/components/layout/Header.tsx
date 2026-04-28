@@ -17,22 +17,6 @@ export default function Header() {
   return (
     <header className="bg-[#0F172A] sticky top-0 z-50 border-b border-white/5">
 
-      {/* ── Bandeau Aïd ─────────────────────────────────────────────── */}
-      <div className="bg-gradient-to-r from-emerald-900/30 via-emerald-700/20 to-emerald-900/30 border-b border-emerald-400/15">
-        <div className="flex items-center justify-center gap-3 py-1.5 text-emerald-300 text-xs font-medium tracking-wide">
-          <span className="opacity-60 text-[10px]">✦</span>
-          <span className="text-base leading-none">🌙</span>
-          <span className="font-bold tracking-widest text-emerald-200" style={{ fontVariant: 'small-caps' }}>
-            Eid Fitr Mubarak 2026
-          </span>
-          <span className="text-emerald-400/60 text-xs">·</span>
-          <span className="font-semibold" style={{ fontFamily: 'serif', letterSpacing: '0.05em' }}>
-            عيد فطر مبارك
-          </span>
-          <span className="text-base leading-none">🌙</span>
-          <span className="opacity-60 text-[10px]">✦</span>
-        </div>
-      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
