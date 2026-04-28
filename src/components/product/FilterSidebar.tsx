@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { X, ChevronDown, SlidersHorizontal, Tag, Package, ArrowUpDown } from 'lucide-react'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -100,6 +100,15 @@ export default function FilterSidebar({
   totalResults,
 }: FilterSidebarProps) {
   const [brandSearch, setBrandSearch] = useState('')
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const savedScroll = useRef(0)
+
+  // Restaurer la position de scroll quand availableBrands change (après fetch)
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = savedScroll.current
+    }
+  }, [availableBrands])
 
   const filteredBrands = brandSearch.trim()
     ? availableBrands.filter(b => b.toLowerCase().includes(brandSearch.toLowerCase()))
@@ -165,7 +174,11 @@ export default function FilterSidebar({
       </div>
 
       {/* ── Contenu scrollable ── */}
-      <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain">
+      <div
+        ref={scrollRef}
+        onScroll={() => { savedScroll.current = scrollRef.current?.scrollTop ?? 0 }}
+        className="flex-1 min-h-0 overflow-y-auto overscroll-contain"
+      >
 
         {/* Boutique */}
         <Section title="Boutique">
@@ -339,7 +352,7 @@ function RadioItem({ label, checked, name, value, onChange, dot, prefixIcon }: {
         {prefixIcon}
         {label}
       </span>
-      <input type="radio" name={name} value={value} checked={checked} onChange={onChange} className="sr-only" />
+      <input type="radio" name={name} value={value} checked={checked} onChange={onChange} className="sr-only" tabIndex={-1} />
     </label>
   )
 }
@@ -372,7 +385,7 @@ function CheckItem({ label, checked, onChange, icon, color = 'orange' }: {
       </span>
       <input type="checkbox" checked={checked}
         onChange={(e) => (onChange as (v: boolean) => void)(e.target.checked)}
-        className="sr-only" />
+        className="sr-only" tabIndex={-1} />
     </label>
   )
 }
