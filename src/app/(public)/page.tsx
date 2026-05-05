@@ -78,20 +78,22 @@ function SectionHeader({
 }
 
 export default async function AccueilPage() {
-  // Chargement parallèle — 5 appels simultanés
-  const [promosRes, smartphonesRes, electroRes, tvRes, laptopsRes] = await Promise.allSettled([
+  // Chargement parallèle — 6 appels simultanés
+  const [promosRes, smartphonesRes, electroRes, tvRes, laptopsRes, climaRes] = await Promise.allSettled([
     getProduits({ en_promo: true }),
     getProduits({ categorie: 'telephonie/smartphone' }),
     getProduits({ categorie: 'electromenager' }),
     getProduits({ categorie: 'tv-et-son/televiseur' }),
     getProduits({ categorie: 'informatique/ordinateur-portable' }),
+    getProduits({ categorie: 'electromenager/climatisation' }),
   ])
 
-  const promos      = promosRes.status      === 'fulfilled' ? promosRes.value.data                    : []
-  const smartphones = smartphonesRes.status === 'fulfilled' ? smartphonesRes.value.data.slice(0, 20)  : []
-  const electro     = electroRes.status     === 'fulfilled' ? electroRes.value.data.slice(0, 20)      : []
-  const tvs         = tvRes.status          === 'fulfilled' ? tvRes.value.data.slice(0, 20)           : []
-  const laptops     = laptopsRes.status     === 'fulfilled' ? laptopsRes.value.data.slice(0, 20)      : []
+  const promos       = promosRes.status      === 'fulfilled' ? promosRes.value.data                    : []
+  const smartphones  = smartphonesRes.status === 'fulfilled' ? smartphonesRes.value.data.slice(0, 20)  : []
+  const electro      = electroRes.status     === 'fulfilled' ? electroRes.value.data.slice(0, 20)      : []
+  const tvs          = tvRes.status          === 'fulfilled' ? tvRes.value.data.slice(0, 20)           : []
+  const laptops      = laptopsRes.status     === 'fulfilled' ? laptopsRes.value.data.slice(0, 20)      : []
+  const climatiseurs = climaRes.status       === 'fulfilled' ? climaRes.value.data.slice(0, 20)        : []
 
   // Tendances = 8 premiers produits en promo
   // Top promos = 8 suivants (produits 9-16)
@@ -388,6 +390,46 @@ export default async function AccueilPage() {
               linkLabel="Voir tout"
             />
             <CarouselProduits produits={electro} />
+          </div>
+        </section>
+      )}
+
+      {/* ══════════════════════════ CLIMATISATION ═══════════════════════════════ */}
+      {climatiseurs.length > 0 && (
+        <section className="bg-[#EFF6FF] py-12 sm:py-16 border-t-4 border-[#38BDF8]">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-6 sm:mb-8">
+            <div className="flex items-end justify-between">
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-0.5 bg-[#38BDF8]" />
+                  <span className="text-[#0EA5E9] text-[10px] font-bold uppercase tracking-[0.2em]">Catégorie</span>
+                </div>
+                <h2 className="font-heading text-[#0F172A] text-3xl sm:text-4xl">Climatiseurs</h2>
+                <p className="text-slate-500 text-sm">Split · Inverter · Monobloc · Multi-split</p>
+              </div>
+              <Link
+                href="/categories/electromenager/climatisation"
+                className="hidden sm:inline-flex items-center gap-2 border border-[#38BDF8]/50 hover:border-[#0EA5E9] hover:text-[#0EA5E9] text-slate-500 text-xs font-semibold px-5 py-2.5 rounded-xl transition-all"
+              >
+                Voir tout <ArrowRight size={12} />
+              </Link>
+            </div>
+            <div className="mt-6 h-px bg-gradient-to-r from-[#38BDF8]/50 via-blue-100 to-transparent" />
+          </div>
+
+          <div className="px-4 sm:px-6">
+            <div className="max-w-7xl mx-auto">
+              <CarouselEdito produits={climatiseurs} />
+            </div>
+          </div>
+
+          <div className="sm:hidden mt-6 px-4 flex justify-center">
+            <Link
+              href="/categories/electromenager/climatisation"
+              className="inline-flex items-center gap-2 bg-[#0EA5E9] hover:bg-[#0284C7] text-white text-xs font-semibold px-6 py-2.5 rounded-xl transition-colors"
+            >
+              Voir tous les climatiseurs <ArrowRight size={12} />
+            </Link>
           </div>
         </section>
       )}
