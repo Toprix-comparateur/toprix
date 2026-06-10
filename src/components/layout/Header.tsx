@@ -15,12 +15,6 @@ export default function Header() {
   const [open, setOpen] = useState(false)
 
   return (
-    <>
-    {/* ── Bannière Aïd al-Adha ────────────────────────────────────────────── */}
-    <div className="bg-gradient-to-r from-emerald-800 via-emerald-700 to-emerald-800 text-white text-center text-xs sm:text-sm py-2 px-4 font-medium tracking-wide">
-      🌙 عيد أضحى مبارك — Aïd al-Adha Moubarak 🐑✨
-    </div>
-
     <header className="bg-[#0F172A] sticky top-0 z-50 border-b border-white/5">
 
 
@@ -106,6 +100,5 @@ export default function Header() {
       )}
 
     </header>
-    </>
   )
 }
