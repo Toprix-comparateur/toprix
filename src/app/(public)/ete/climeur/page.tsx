@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getProduits } from '@/lib/api/produits'
+import CarouselEdito from '@/components/ui/CarouselEdito'
 import CarouselProduits from '@/components/ui/CarouselProduits'
-import { ArrowRight, Droplets, Zap } from 'lucide-react'
+import { ArrowRight, Droplets, Tag, Zap, CheckCircle2 } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
@@ -16,6 +17,20 @@ export const metadata: Metadata = {
     type: 'website',
   },
 }
+
+const GUIDE = [
+  { icon: '💧', titre: 'Évaporatif', desc: 'Refroidit par évaporation d\'eau. Silencieux, économique. Idéal pour pièces sèches.' },
+  { icon: '🔌', titre: 'Sans installation', desc: 'Pas de travaux, pas de technicien. Branchez et allumez — prêt en 30 secondes.' },
+  { icon: '🚶', titre: 'Portatif', desc: 'Sur roulettes ou compact. Déplacez-le de chambre en chambre selon vos besoins.' },
+  { icon: '💸', titre: 'Économique', desc: 'Consomme 5 à 10× moins qu\'un climatiseur split. Idéal pour un usage ponctuel.' },
+]
+
+const TYPES = [
+  { label: 'Climeur évaporatif', q: 'climeur evaporatif' },
+  { label: 'Climeur portatif', q: 'climeur portatif' },
+  { label: 'Climeur mobile', q: 'climeur mobile' },
+  { label: 'Refroidisseur d\'air', q: 'refroidisseur air' },
+]
 
 const FAQ = [
   {
@@ -38,148 +53,197 @@ export default async function ClimeurPage() {
     getProduits({ q: 'climeur', en_promo: true }),
   ])
 
-  const produits = produitsRes.status === 'fulfilled' ? produitsRes.value.data : []
-  const promos   = promosRes.status   === 'fulfilled' ? promosRes.value.data  : []
+  const produits = produitsRes.status === 'fulfilled' ? produitsRes.value.data.slice(0, 20) : []
+  const promos   = promosRes.status   === 'fulfilled' ? promosRes.value.data.slice(0, 16)  : []
 
   const faqJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: FAQ.map(({ q, r }) => ({
-      '@type': 'Question',
-      name: q,
-      acceptedAnswer: { '@type': 'Answer', text: r },
-    })),
-  }
-
-  const breadcrumbJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://toprix.tn' },
-      { '@type': 'ListItem', position: 2, name: 'Été 2026', item: 'https://toprix.tn/ete/climeur' },
-      { '@type': 'ListItem', position: 3, name: 'Climeurs mobiles', item: 'https://toprix.tn/ete/climeur' },
-    ],
+    '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: FAQ.map(({ q, r }) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: r } })),
   }
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
-      {/* ── Hero ────────────────────────────────────────────────────────────── */}
-      <section className="relative bg-gradient-to-br from-[#064E3B] via-[#065F46] to-[#0F172A] overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-[0.05]"
-          style={{
-            backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)',
-            backgroundSize: '50px 50px',
-          }}
-        />
-        <div className="absolute -top-20 right-0 w-72 h-72 bg-[#34D399] rounded-full blur-[120px] opacity-20 pointer-events-none" />
+      {/* ══════════════ HERO ══════════════════════════════════════════════════ */}
+      <section className="relative bg-[#0F172A] overflow-hidden min-h-[420px] flex flex-col justify-center">
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white text-xs font-semibold px-3 py-1.5 rounded-full mb-5 uppercase tracking-wide">
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-950 via-[#0F172A] to-[#0F172A]" />
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#34D399] via-[#10B981] to-[#6EE7B7]" />
+        <div className="absolute -top-20 right-0 w-[400px] h-[400px] bg-[#10B981] rounded-full blur-[150px] opacity-10 pointer-events-none" />
+
+        <div className="absolute right-4 sm:right-16 top-1/2 -translate-y-1/2 text-[120px] sm:text-[180px] opacity-10 select-none pointer-events-none leading-none">
+          💦
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 w-full">
+          <div className="max-w-xl">
+            <div className="inline-flex items-center gap-2 bg-[#10B981]/20 border border-[#34D399]/30 text-[#6EE7B7] text-xs font-bold px-3 py-1.5 rounded-full mb-6 uppercase tracking-widest">
               <Droplets size={11} /> Été 2026
             </div>
-            <h1 className="font-heading text-white text-3xl sm:text-5xl font-bold leading-tight mb-4">
-              Climeurs mobiles<br />
-              <span className="text-[#6EE7B7]">au meilleur prix</span>
+
+            <h1 className="font-heading text-white text-4xl sm:text-6xl font-extrabold leading-[1.05] mb-5">
+              Clim&shy;eurs<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#34D399] to-[#6EE7B7]">
+                meilleurs prix
+              </span>
             </h1>
-            <p className="text-emerald-200 text-base sm:text-lg mb-8 leading-relaxed">
-              Portatif · Évaporatif · Sans installation — comparez les offres chez Mytek, Tunisianet et Spacenet.
+
+            <p className="text-slate-400 text-base sm:text-lg mb-8 leading-relaxed">
+              Portatif · Évaporatif · Sans installation<br className="hidden sm:block" />
+              Comparez en temps réel chez Mytek, Tunisianet et Spacenet.
             </p>
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href="/rechercher?q=climeur"
-                className="inline-flex items-center gap-2 bg-white text-[#065F46] font-semibold text-sm px-5 py-2.5 rounded-xl hover:bg-emerald-50 transition-colors"
-              >
-                Voir tous les climeurs <ArrowRight size={14} />
+
+            <div className="flex flex-wrap gap-3 mb-10">
+              <Link href="/rechercher?q=climeur"
+                className="inline-flex items-center gap-2 bg-[#10B981] hover:bg-[#059669] text-white font-bold text-sm px-6 py-3 rounded-xl transition-colors shadow-lg shadow-[#10B981]/25">
+                Voir tous les climeurs <ArrowRight size={15} />
               </Link>
-              <Link
-                href="/ete/climatiseurs"
-                className="inline-flex items-center gap-2 border border-white/30 text-white text-sm font-medium px-5 py-2.5 rounded-xl hover:bg-white/10 transition-colors"
-              >
-                Voir les climatiseurs
+              <Link href="/rechercher?q=climeur&en_promo=1"
+                className="inline-flex items-center gap-2 border border-white/20 hover:border-[#34D399] text-slate-300 hover:text-white text-sm font-medium px-5 py-3 rounded-xl transition-all">
+                <Tag size={13} /> Promotions
               </Link>
+            </div>
+
+            <div className="flex flex-wrap gap-6">
+              {[
+                { val: '19+', label: 'Modèles' },
+                { val: '3', label: 'Boutiques' },
+                { val: '200–600', label: 'TND' },
+              ].map(({ val, label }) => (
+                <div key={label}>
+                  <p className="font-heading text-white text-2xl font-bold">{val}</p>
+                  <p className="text-slate-500 text-xs">{label}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Avantages */}
-        <div className="relative border-t border-white/10 bg-white/[0.04]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap gap-6">
-            {['Sans installation', 'Économique', 'Portatif', 'Réservoir d\'eau'].map((label) => (
-              <span key={label} className="flex items-center gap-1.5 text-white/70 text-sm">
-                <Zap size={10} className="text-[#6EE7B7]" /> {label}
-              </span>
+      {/* ══════════════ GUIDE ACHAT ═══════════════════════════════════════════ */}
+      <section className="border-b border-[#E2E8F0] bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+          <p className="text-[#10B981] text-xs font-bold uppercase tracking-widest mb-4">Guide d&apos;achat</p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {GUIDE.map(({ icon, titre, desc }) => (
+              <div key={titre} className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-4 hover:border-[#A7F3D0] hover:bg-[#ECFDF5] transition-all">
+                <div className="text-2xl mb-2">{icon}</div>
+                <p className="font-semibold text-[#0F172A] text-sm mb-1">{titre}</p>
+                <p className="text-[#64748B] text-xs leading-relaxed">{desc}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-14">
 
-        {/* ── Promos ───────────────────────────────────────────────────────── */}
         {promos.length > 0 && (
           <section>
-            <div className="flex items-end justify-between mb-5">
-              <div>
-                <p className="text-[#F97316] text-xs font-semibold uppercase tracking-widest mb-1">Offres spéciales</p>
-                <h2 className="font-heading text-[#0F172A] text-2xl">Climeurs en promotion</h2>
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <span className="w-1 h-8 bg-[#F97316] rounded-full" />
+                <div>
+                  <p className="text-[#F97316] text-[10px] font-bold uppercase tracking-widest">Offres limitées</p>
+                  <h2 className="font-heading text-[#0F172A] text-xl sm:text-2xl">Climeurs en promotion</h2>
+                </div>
               </div>
-              <Link href="/rechercher?q=climeur&en_promo=1" className="text-sm text-slate-500 hover:text-[#F97316] flex items-center gap-1 transition-colors">
-                Voir tout <ArrowRight size={13} />
+              <Link href="/rechercher?q=climeur&en_promo=1"
+                className="hidden sm:flex items-center gap-1 text-sm text-slate-500 hover:text-[#F97316] transition-colors">
+                Tout voir <ArrowRight size={13} />
               </Link>
             </div>
-            <CarouselProduits produits={promos} />
+            <CarouselEdito produits={promos} />
           </section>
         )}
 
-        {/* ── Tous les climeurs ─────────────────────────────────────────────── */}
         {produits.length > 0 && (
           <section>
-            <div className="flex items-end justify-between mb-5">
-              <div>
-                <p className="text-emerald-600 text-xs font-semibold uppercase tracking-widest mb-1">Catalogue</p>
-                <h2 className="font-heading text-[#0F172A] text-2xl">Tous les climeurs mobiles</h2>
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <span className="w-1 h-8 bg-[#10B981] rounded-full" />
+                <div>
+                  <p className="text-[#10B981] text-[10px] font-bold uppercase tracking-widest">Catalogue complet</p>
+                  <h2 className="font-heading text-[#0F172A] text-xl sm:text-2xl">Tous les climeurs mobiles</h2>
+                </div>
               </div>
-              <Link href="/rechercher?q=climeur" className="text-sm text-slate-500 hover:text-[#F97316] flex items-center gap-1 transition-colors">
-                Voir tout <ArrowRight size={13} />
+              <Link href="/rechercher?q=climeur"
+                className="hidden sm:flex items-center gap-1 text-sm text-slate-500 hover:text-[#10B981] transition-colors">
+                Tout voir <ArrowRight size={13} />
               </Link>
             </div>
             <CarouselProduits produits={produits} />
           </section>
         )}
 
-        {/* ── Liens saisonniers ────────────────────────────────────────────── */}
-        <section className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Link href="/ete/climatiseurs" className="group flex items-center justify-between bg-[#F0F9FF] border border-[#BAE6FD] rounded-2xl p-5 hover:border-[#0EA5E9] transition-all">
-            <div>
-              <p className="text-xs text-[#0EA5E9] font-semibold uppercase tracking-wide mb-1">Voir aussi</p>
-              <p className="font-heading text-[#0F172A] text-lg">Climatiseurs</p>
-              <p className="text-slate-500 text-sm">Split · Inverter · Chaud/Froid</p>
-            </div>
-            <ArrowRight size={18} className="text-[#0EA5E9] group-hover:translate-x-1 transition-transform" />
-          </Link>
-          <Link href="/ete/ventilateurs" className="group flex items-center justify-between bg-[#F0F9FF] border border-[#BAE6FD] rounded-2xl p-5 hover:border-[#38BDF8] transition-all">
-            <div>
-              <p className="text-xs text-[#38BDF8] font-semibold uppercase tracking-wide mb-1">Voir aussi</p>
-              <p className="font-heading text-[#0F172A] text-lg">Ventilateurs</p>
-              <p className="text-slate-500 text-sm">Sur pied · Mural · De table</p>
-            </div>
-            <ArrowRight size={18} className="text-[#38BDF8] group-hover:translate-x-1 transition-transform" />
-          </Link>
+        {/* Types */}
+        <section>
+          <p className="text-slate-400 text-xs font-semibold uppercase tracking-widest mb-3">Par type</p>
+          <div className="flex flex-wrap gap-2">
+            {TYPES.map(({ label, q }) => (
+              <Link key={label} href={`/rechercher?q=${encodeURIComponent(q)}`}
+                className="px-4 py-2 bg-white border border-[#E2E8F0] rounded-xl text-sm font-medium text-[#475569] hover:border-[#10B981] hover:text-[#059669] hover:bg-[#ECFDF5] transition-all shadow-sm">
+                {label}
+              </Link>
+            ))}
+          </div>
         </section>
 
-        {/* ── FAQ ──────────────────────────────────────────────────────────── */}
-        <section className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 sm:p-8">
-          <h2 className="font-heading text-[#0F172A] text-xl mb-6">Questions fréquentes — Climeurs mobiles</h2>
-          <div className="space-y-4">
+        {/* Banner CTA */}
+        <section className="relative bg-gradient-to-r from-emerald-950 to-[#0F172A] rounded-3xl overflow-hidden p-8 sm:p-10">
+          <div className="absolute right-6 top-1/2 -translate-y-1/2 text-7xl opacity-20 select-none">💧</div>
+          <p className="text-[#6EE7B7] text-xs font-bold uppercase tracking-widest mb-2">Comparez maintenant</p>
+          <h3 className="font-heading text-white text-2xl sm:text-3xl mb-4">Trouvez le meilleur climeur<br />au meilleur prix</h3>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/rechercher?q=climeur&tri=prix_asc"
+              className="inline-flex items-center gap-2 bg-[#10B981] hover:bg-[#059669] text-white text-sm font-bold px-5 py-2.5 rounded-xl transition-colors">
+              <Zap size={13} /> Prix croissant
+            </Link>
+            <Link href="/rechercher?q=climeur&en_stock=1"
+              className="inline-flex items-center gap-2 border border-white/20 text-white text-sm font-medium px-5 py-2.5 rounded-xl hover:bg-white/10 transition-colors">
+              <CheckCircle2 size={13} /> En stock
+            </Link>
+          </div>
+        </section>
+
+        {/* Liens saisonniers */}
+        <section>
+          <p className="text-slate-400 text-xs font-semibold uppercase tracking-widest mb-4">Voir aussi</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Link href="/ete/climatiseurs"
+              className="group relative overflow-hidden flex items-center justify-between bg-gradient-to-r from-[#0C4A6E] to-[#0F172A] border border-white/10 rounded-2xl p-6 hover:border-[#38BDF8]/50 transition-all">
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 text-5xl opacity-15 select-none">❄️</div>
+              <div>
+                <p className="text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1">Été 2026</p>
+                <p className="font-heading text-white text-lg">Climatiseurs</p>
+                <p className="text-slate-400 text-sm">Split · Inverter · Chaud/Froid</p>
+              </div>
+              <ArrowRight size={18} className="text-slate-500 group-hover:text-[#38BDF8] group-hover:translate-x-1 transition-all shrink-0" />
+            </Link>
+            <Link href="/ete/ventilateurs"
+              className="group relative overflow-hidden flex items-center justify-between bg-gradient-to-r from-[#1E3A5F] to-[#0F172A] border border-white/10 rounded-2xl p-6 hover:border-[#93C5FD]/50 transition-all">
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 text-5xl opacity-15 select-none">🌬️</div>
+              <div>
+                <p className="text-[#93C5FD] text-xs font-bold uppercase tracking-wide mb-1">Été 2026</p>
+                <p className="font-heading text-white text-lg">Ventilateurs</p>
+                <p className="text-slate-400 text-sm">Sur pied · Mural · Table · Portatif</p>
+              </div>
+              <ArrowRight size={18} className="text-slate-500 group-hover:text-[#93C5FD] group-hover:translate-x-1 transition-all shrink-0" />
+            </Link>
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section>
+          <p className="text-[#10B981] text-xs font-bold uppercase tracking-widest mb-4">FAQ</p>
+          <div className="divide-y divide-[#E2E8F0]">
             {FAQ.map(({ q, r }) => (
-              <div key={q} className="border-b border-[#E2E8F0] pb-4 last:border-0 last:pb-0">
-                <p className="font-semibold text-[#1E293B] text-sm mb-1">{q}</p>
-                <p className="text-[#64748B] text-sm leading-relaxed">{r}</p>
+              <div key={q} className="py-5">
+                <p className="font-semibold text-[#0F172A] text-sm sm:text-base mb-2 flex items-start gap-2">
+                  <span className="text-[#10B981] mt-0.5 shrink-0">Q.</span> {q}
+                </p>
+                <p className="text-[#64748B] text-sm leading-relaxed pl-5">{r}</p>
               </div>
             ))}
           </div>
