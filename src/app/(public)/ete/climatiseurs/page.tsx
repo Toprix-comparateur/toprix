@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getProduits } from '@/lib/api/produits'
 import CarteProduit from '@/components/product/CarteProduit'
-import { ArrowRight, CheckCircle2, Zap, ThermometerSun } from 'lucide-react'
+import { ArrowRight, CheckCircle2, Zap, ThermometerSun, X } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
@@ -24,15 +24,15 @@ const GUIDE = [
   { icon: '❄️', titre: 'Chaud/Froid', desc: 'Modèle réversible : climatise en été, chauffe en hiver. Deux appareils en un.' },
 ]
 
-const MARQUES = ['Gree', 'LG', 'Samsung', 'Coala', 'Sharp', 'Bosch', 'Tornado', 'Orient']
-
-const BTU = [
-  { label: '9 000 BTU', q: '9000 btu' },
-  { label: '12 000 BTU', q: '12000 btu' },
-  { label: '18 000 BTU', q: '18000 btu' },
-  { label: '24 000 BTU', q: '24000 btu' },
-  { label: '48 000 BTU', q: '48000 btu' },
+const BTU_OPTS = [
+  { label: '9 000 BTU', val: '9000' },
+  { label: '12 000 BTU', val: '12000' },
+  { label: '18 000 BTU', val: '18000' },
+  { label: '24 000 BTU', val: '24000' },
+  { label: '48 000 BTU', val: '48000' },
 ]
+
+const MARQUES = ['Gree', 'LG', 'Samsung', 'Coala', 'Sharp', 'Bosch', 'Tornado', 'Orient']
 
 const FAQ = [
   {
@@ -49,9 +49,25 @@ const FAQ = [
   },
 ]
 
-type Props = { searchParams: Promise<{ page?: string }> }
+type SP = { page?: string; btu?: string; marque?: string }
+type Props = { searchParams: Promise<SP> }
 
-function Pagination({ page, total }: { page: number; total: number }) {
+const BASE = '/ete/climatiseurs'
+
+function buildUrl(sp: SP, update: Partial<SP> & { reset?: boolean }): string {
+  if (update.reset) return BASE
+  const p: Record<string, string> = {}
+  const btu    = 'btu'    in update ? update.btu    : sp.btu
+  const marque = 'marque' in update ? update.marque : sp.marque
+  const page   = 'page'   in update ? update.page   : undefined // reset page on filter change
+  if (btu)    p.btu = btu
+  if (marque) p.marque = marque
+  if (page)   p.page = page
+  const qs = new URLSearchParams(p).toString()
+  return qs ? `${BASE}?${qs}` : BASE
+}
+
+function Pagination({ page, total, sp }: { page: number; total: number; sp: SP }) {
   if (total <= 1) return null
   const getPages = (): (number | '...')[] => {
     if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1)
@@ -62,26 +78,22 @@ function Pagination({ page, total }: { page: number; total: number }) {
   return (
     <div className="flex items-center justify-center gap-1.5 pt-10 flex-wrap">
       {page > 1 && (
-        <Link href={`/ete/climatiseurs?page=${page - 1}`}
-          className="px-3 py-2 border border-[#E2E8F0] rounded-lg text-sm text-slate-500 hover:border-[#0EA5E9] hover:text-[#0EA5E9] transition-colors">
-          ←
-        </Link>
+        <Link href={buildUrl(sp, { page: String(page - 1) })}
+          className="px-3 py-2 border border-[#E2E8F0] rounded-lg text-sm text-slate-500 hover:border-[#0EA5E9] hover:text-[#0EA5E9] transition-colors">←</Link>
       )}
       {getPages().map((p, i) =>
         p === '...' ? (
           <span key={`e${i}`} className="px-2 text-slate-400 text-sm">…</span>
         ) : (
-          <Link key={p} href={`/ete/climatiseurs?page=${p}`}
+          <Link key={p} href={buildUrl(sp, { page: String(p) })}
             className={`px-3 py-2 rounded-lg text-sm transition-colors ${p === page ? 'bg-[#0EA5E9] text-white font-bold' : 'border border-[#E2E8F0] text-slate-500 hover:border-[#0EA5E9] hover:text-[#0EA5E9]'}`}>
             {p}
           </Link>
         )
       )}
       {page < total && (
-        <Link href={`/ete/climatiseurs?page=${page + 1}`}
-          className="px-3 py-2 border border-[#E2E8F0] rounded-lg text-sm text-slate-500 hover:border-[#0EA5E9] hover:text-[#0EA5E9] transition-colors">
-          →
-        </Link>
+        <Link href={buildUrl(sp, { page: String(page + 1) })}
+          className="px-3 py-2 border border-[#E2E8F0] rounded-lg text-sm text-slate-500 hover:border-[#0EA5E9] hover:text-[#0EA5E9] transition-colors">→</Link>
       )}
     </div>
   )
@@ -89,15 +101,24 @@ function Pagination({ page, total }: { page: number; total: number }) {
 
 export default async function ClimatiseursPage({ searchParams }: Props) {
   const sp = await searchParams
-  const page = Math.max(1, Number(sp.page) || 1)
+  const page   = Math.max(1, Number(sp.page) || 1)
+  const btu    = sp.btu    || ''
+  const marque = sp.marque || ''
 
   const [produitsRes] = await Promise.allSettled([
-    getProduits({ categorie: 'electromenager/climatisation', page }),
+    getProduits({
+      categorie: 'electromenager/climatisation',
+      q:      btu    ? `${btu} btu` : undefined,
+      marque: marque || undefined,
+      page,
+    }),
   ])
 
-  const produits    = produitsRes.status === 'fulfilled' ? produitsRes.value.data : []
-  const totalPages  = produitsRes.status === 'fulfilled' ? (produitsRes.value.meta?.total_pages ?? 1) : 1
-  const totalItems  = produitsRes.status === 'fulfilled' ? (produitsRes.value.meta?.total_items ?? produits.length) : produits.length
+  const produits   = produitsRes.status === 'fulfilled' ? produitsRes.value.data : []
+  const totalPages = produitsRes.status === 'fulfilled' ? (produitsRes.value.meta?.total_pages ?? 1) : 1
+  const totalItems = produitsRes.status === 'fulfilled' ? (produitsRes.value.meta?.total_items ?? produits.length) : produits.length
+
+  const hasFilter = !!(btu || marque)
 
   const faqJsonLd = {
     '@context': 'https://schema.org', '@type': 'FAQPage',
@@ -125,24 +146,48 @@ export default async function ClimatiseursPage({ searchParams }: Props) {
 
       {/* ══════════════ FILTRES BTU + MARQUE ══════════════════════════════════ */}
       <section className="bg-white border-b border-[#E2E8F0]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 space-y-2.5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 space-y-2">
+          {/* Filtre BTU */}
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-[#64748B] text-[11px] font-bold uppercase tracking-widest w-14 shrink-0">BTU</span>
-            {BTU.map(({ label, q }) => (
-              <Link key={label} href={`/rechercher?q=${encodeURIComponent(q)}`}
-                className="px-3 py-1 bg-[#F0F9FF] border border-[#BAE6FD] rounded-full text-xs font-medium text-[#0284C7] hover:bg-[#0EA5E9] hover:text-white hover:border-[#0EA5E9] transition-all">
-                {label}
-              </Link>
-            ))}
+            {BTU_OPTS.map(({ label, val }) => {
+              const active = btu === val
+              return (
+                <Link key={val}
+                  href={buildUrl(sp, { btu: active ? undefined : val })}
+                  className={`px-3 py-1 rounded-full text-xs font-medium border transition-all ${
+                    active
+                      ? 'bg-[#0EA5E9] text-white border-[#0EA5E9]'
+                      : 'bg-[#F0F9FF] border-[#BAE6FD] text-[#0284C7] hover:bg-[#0EA5E9] hover:text-white hover:border-[#0EA5E9]'
+                  }`}>
+                  {label}
+                </Link>
+              )
+            })}
           </div>
+          {/* Filtre Marque */}
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-[#64748B] text-[11px] font-bold uppercase tracking-widest w-14 shrink-0">Marque</span>
-            {MARQUES.map((m) => (
-              <Link key={m} href={`/categories/electromenager/climatisation?marque=${m.toLowerCase()}`}
-                className="px-3 py-1 bg-[#F8FAFC] border border-[#E2E8F0] rounded-full text-xs font-medium text-[#475569] hover:bg-[#0EA5E9] hover:text-white hover:border-[#0EA5E9] transition-all">
-                {m}
+            {MARQUES.map((m) => {
+              const active = marque.toLowerCase() === m.toLowerCase()
+              return (
+                <Link key={m}
+                  href={buildUrl(sp, { marque: active ? undefined : m.toLowerCase() })}
+                  className={`px-3 py-1 rounded-full text-xs font-medium border transition-all ${
+                    active
+                      ? 'bg-[#0EA5E9] text-white border-[#0EA5E9]'
+                      : 'bg-[#F8FAFC] border-[#E2E8F0] text-[#475569] hover:bg-[#0EA5E9] hover:text-white hover:border-[#0EA5E9]'
+                  }`}>
+                  {m}
+                </Link>
+              )
+            })}
+            {hasFilter && (
+              <Link href={BASE}
+                className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium border border-red-200 bg-red-50 text-red-500 hover:bg-red-100 transition-all ml-1">
+                <X size={10} /> Effacer
               </Link>
-            ))}
+            )}
           </div>
         </div>
       </section>
@@ -173,15 +218,16 @@ export default async function ClimatiseursPage({ searchParams }: Props) {
               <div>
                 <p className="text-[#0EA5E9] text-[10px] font-bold uppercase tracking-widest">Catalogue</p>
                 <h2 className="font-heading text-[#0F172A] text-lg sm:text-xl">
-                  Tous les climatiseurs
+                  {hasFilter ? 'Résultats filtrés' : 'Tous les climatiseurs'}
                   {totalItems > 0 && <span className="text-slate-400 text-sm font-normal ml-2">({totalItems})</span>}
                 </h2>
               </div>
             </div>
-            <Link href="/categories/electromenager/climatisation"
-              className="hidden sm:flex items-center gap-1 text-sm text-slate-400 hover:text-[#0EA5E9] transition-colors">
-              Tout voir <ArrowRight size={13} />
-            </Link>
+            {hasFilter && (
+              <Link href={BASE} className="text-xs text-slate-400 hover:text-red-500 transition-colors flex items-center gap-1">
+                <X size={12} /> Réinitialiser
+              </Link>
+            )}
           </div>
 
           {produits.length > 0 ? (
@@ -191,10 +237,13 @@ export default async function ClimatiseursPage({ searchParams }: Props) {
                   <CarteProduit key={p.id} produit={p} compact />
                 ))}
               </div>
-              <Pagination page={page} total={totalPages} />
+              <Pagination page={page} total={totalPages} sp={sp} />
             </>
           ) : (
-            <p className="text-slate-400 text-sm py-10 text-center">Aucun produit trouvé.</p>
+            <div className="py-16 text-center">
+              <p className="text-slate-400 text-sm mb-3">Aucun produit trouvé pour ces filtres.</p>
+              <Link href={BASE} className="text-[#0EA5E9] text-sm hover:underline">Voir tous les climatiseurs</Link>
+            </div>
           )}
         </section>
 

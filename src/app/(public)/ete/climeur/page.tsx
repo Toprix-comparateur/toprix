@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getProduits } from '@/lib/api/produits'
 import CarteProduit from '@/components/product/CarteProduit'
-import { ArrowRight, CheckCircle2, Zap, Droplets } from 'lucide-react'
+import { ArrowRight, CheckCircle2, Zap, Droplets, X } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
@@ -41,9 +41,22 @@ const FAQ = [
   },
 ]
 
-type Props = { searchParams: Promise<{ page?: string }> }
+type SP = { page?: string; marque?: string }
+type Props = { searchParams: Promise<SP> }
 
-function Pagination({ page, total }: { page: number; total: number }) {
+const BASE = '/ete/climeur'
+
+function buildUrl(sp: SP, update: Partial<SP>): string {
+  const p: Record<string, string> = {}
+  const marque = 'marque' in update ? update.marque : sp.marque
+  const page   = 'page'   in update ? update.page   : undefined
+  if (marque) p.marque = marque
+  if (page)   p.page = page
+  const qs = new URLSearchParams(p).toString()
+  return qs ? `${BASE}?${qs}` : BASE
+}
+
+function Pagination({ page, total, sp }: { page: number; total: number; sp: SP }) {
   if (total <= 1) return null
   const getPages = (): (number | '...')[] => {
     if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1)
@@ -54,26 +67,22 @@ function Pagination({ page, total }: { page: number; total: number }) {
   return (
     <div className="flex items-center justify-center gap-1.5 pt-10 flex-wrap">
       {page > 1 && (
-        <Link href={`/ete/climeur?page=${page - 1}`}
-          className="px-3 py-2 border border-[#E2E8F0] rounded-lg text-sm text-slate-500 hover:border-[#10B981] hover:text-[#10B981] transition-colors">
-          ←
-        </Link>
+        <Link href={buildUrl(sp, { page: String(page - 1) })}
+          className="px-3 py-2 border border-[#E2E8F0] rounded-lg text-sm text-slate-500 hover:border-[#10B981] hover:text-[#10B981] transition-colors">←</Link>
       )}
       {getPages().map((p, i) =>
         p === '...' ? (
           <span key={`e${i}`} className="px-2 text-slate-400 text-sm">…</span>
         ) : (
-          <Link key={p} href={`/ete/climeur?page=${p}`}
+          <Link key={p} href={buildUrl(sp, { page: String(p) })}
             className={`px-3 py-2 rounded-lg text-sm transition-colors ${p === page ? 'bg-[#10B981] text-white font-bold' : 'border border-[#E2E8F0] text-slate-500 hover:border-[#10B981] hover:text-[#10B981]'}`}>
             {p}
           </Link>
         )
       )}
       {page < total && (
-        <Link href={`/ete/climeur?page=${page + 1}`}
-          className="px-3 py-2 border border-[#E2E8F0] rounded-lg text-sm text-slate-500 hover:border-[#10B981] hover:text-[#10B981] transition-colors">
-          →
-        </Link>
+        <Link href={buildUrl(sp, { page: String(page + 1) })}
+          className="px-3 py-2 border border-[#E2E8F0] rounded-lg text-sm text-slate-500 hover:border-[#10B981] hover:text-[#10B981] transition-colors">→</Link>
       )}
     </div>
   )
@@ -81,10 +90,11 @@ function Pagination({ page, total }: { page: number; total: number }) {
 
 export default async function ClimeurPage({ searchParams }: Props) {
   const sp = await searchParams
-  const page = Math.max(1, Number(sp.page) || 1)
+  const page   = Math.max(1, Number(sp.page) || 1)
+  const marque = sp.marque || ''
 
   const [produitsRes] = await Promise.allSettled([
-    getProduits({ q: 'climeur', page }),
+    getProduits({ q: 'climeur', marque: marque || undefined, page }),
   ])
 
   const produits   = produitsRes.status === 'fulfilled' ? produitsRes.value.data : []
@@ -119,12 +129,26 @@ export default async function ClimeurPage({ searchParams }: Props) {
       <section className="bg-white border-b border-[#E2E8F0]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center gap-2">
           <span className="text-[#64748B] text-[11px] font-bold uppercase tracking-widest w-14 shrink-0">Marque</span>
-          {MARQUES.map((m) => (
-            <Link key={m} href={`/rechercher?q=climeur+${encodeURIComponent(m.toLowerCase())}`}
-              className="px-3 py-1 bg-[#F8FAFC] border border-[#E2E8F0] rounded-full text-xs font-medium text-[#475569] hover:bg-[#10B981] hover:text-white hover:border-[#10B981] transition-all">
-              {m}
+          {MARQUES.map((m) => {
+            const active = marque.toLowerCase() === m.toLowerCase()
+            return (
+              <Link key={m}
+                href={buildUrl(sp, { marque: active ? undefined : m.toLowerCase() })}
+                className={`px-3 py-1 rounded-full text-xs font-medium border transition-all ${
+                  active
+                    ? 'bg-[#10B981] text-white border-[#10B981]'
+                    : 'bg-[#F8FAFC] border-[#E2E8F0] text-[#475569] hover:bg-[#10B981] hover:text-white hover:border-[#10B981]'
+                }`}>
+                {m}
+              </Link>
+            )
+          })}
+          {marque && (
+            <Link href={BASE}
+              className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium border border-red-200 bg-red-50 text-red-500 hover:bg-red-100 transition-all ml-1">
+              <X size={10} /> Effacer
             </Link>
-          ))}
+          )}
         </div>
       </section>
 
@@ -154,15 +178,16 @@ export default async function ClimeurPage({ searchParams }: Props) {
               <div>
                 <p className="text-[#10B981] text-[10px] font-bold uppercase tracking-widest">Catalogue</p>
                 <h2 className="font-heading text-[#0F172A] text-lg sm:text-xl">
-                  Tous les climeurs mobiles
+                  {marque ? `Climeurs ${marque.charAt(0).toUpperCase() + marque.slice(1)}` : 'Tous les climeurs mobiles'}
                   {totalItems > 0 && <span className="text-slate-400 text-sm font-normal ml-2">({totalItems})</span>}
                 </h2>
               </div>
             </div>
-            <Link href="/rechercher?q=climeur"
-              className="hidden sm:flex items-center gap-1 text-sm text-slate-400 hover:text-[#10B981] transition-colors">
-              Tout voir <ArrowRight size={13} />
-            </Link>
+            {marque && (
+              <Link href={BASE} className="text-xs text-slate-400 hover:text-red-500 transition-colors flex items-center gap-1">
+                <X size={12} /> Réinitialiser
+              </Link>
+            )}
           </div>
 
           {produits.length > 0 ? (
@@ -172,10 +197,13 @@ export default async function ClimeurPage({ searchParams }: Props) {
                   <CarteProduit key={p.id} produit={p} compact />
                 ))}
               </div>
-              <Pagination page={page} total={totalPages} />
+              <Pagination page={page} total={totalPages} sp={sp} />
             </>
           ) : (
-            <p className="text-slate-400 text-sm py-10 text-center">Aucun produit trouvé.</p>
+            <div className="py-16 text-center">
+              <p className="text-slate-400 text-sm mb-3">Aucun produit trouvé pour ce filtre.</p>
+              <Link href={BASE} className="text-[#10B981] text-sm hover:underline">Voir tous les climeurs</Link>
+            </div>
           )}
         </section>
 
