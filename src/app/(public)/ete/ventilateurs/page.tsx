@@ -68,7 +68,7 @@ export default async function VentilateursPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       {/* ══════════════ HERO ══════════════════════════════════════════════════ */}
-      <section className="relative bg-[#0F172A] overflow-hidden min-h-[420px] flex flex-col justify-center">
+      <section className="relative bg-[#0F172A] overflow-hidden min-h-[210px] flex flex-col justify-center">
 
         <div className="absolute inset-0 bg-gradient-to-br from-[#1E3A5F] via-[#0F172A] to-[#0F172A]" />
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#60A5FA] via-[#3B82F6] to-[#93C5FD]" />
@@ -78,7 +78,7 @@ export default async function VentilateursPage() {
           🌬️
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 w-full">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 w-full">
           <div className="max-w-xl">
             <div className="inline-flex items-center gap-2 bg-[#3B82F6]/20 border border-[#60A5FA]/30 text-[#93C5FD] text-xs font-bold px-3 py-1.5 rounded-full mb-6 uppercase tracking-widest">
               <Wind size={11} /> Été 2026

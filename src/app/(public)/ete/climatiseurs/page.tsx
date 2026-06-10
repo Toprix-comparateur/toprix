@@ -61,7 +61,7 @@ export default async function ClimatiseursPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       {/* ══════════════ HERO ══════════════════════════════════════════════════ */}
-      <section className="relative bg-[#0F172A] overflow-hidden min-h-[420px] flex flex-col justify-center">
+      <section className="relative bg-[#0F172A] overflow-hidden min-h-[210px] flex flex-col justify-center">
 
         {/* Fond animé */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#0C4A6E] via-[#0F172A] to-[#0F172A]" />
@@ -74,7 +74,7 @@ export default async function ClimatiseursPage() {
           ❄️
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 w-full">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 w-full">
           <div className="max-w-xl">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 bg-[#0EA5E9]/20 border border-[#38BDF8]/30 text-[#7DD3FC] text-xs font-bold px-3 py-1.5 rounded-full mb-6 uppercase tracking-widest">

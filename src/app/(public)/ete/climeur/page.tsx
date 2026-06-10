@@ -66,7 +66,7 @@ export default async function ClimeurPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       {/* ══════════════ HERO ══════════════════════════════════════════════════ */}
-      <section className="relative bg-[#0F172A] overflow-hidden min-h-[420px] flex flex-col justify-center">
+      <section className="relative bg-[#0F172A] overflow-hidden min-h-[210px] flex flex-col justify-center">
 
         <div className="absolute inset-0 bg-gradient-to-br from-emerald-950 via-[#0F172A] to-[#0F172A]" />
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#34D399] via-[#10B981] to-[#6EE7B7]" />
@@ -76,7 +76,7 @@ export default async function ClimeurPage() {
           💦
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 w-full">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 w-full">
           <div className="max-w-xl">
             <div className="inline-flex items-center gap-2 bg-[#10B981]/20 border border-[#34D399]/30 text-[#6EE7B7] text-xs font-bold px-3 py-1.5 rounded-full mb-6 uppercase tracking-widest">
               <Droplets size={11} /> Été 2026
