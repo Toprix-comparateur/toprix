@@ -1,9 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getProduits } from '@/lib/api/produits'
-import CarouselEdito from '@/components/ui/CarouselEdito'
-import CarouselProduits from '@/components/ui/CarouselProduits'
-import { ArrowRight, CheckCircle2, Zap, ThermometerSun, Wind, Tag } from 'lucide-react'
+import CarteProduit from '@/components/product/CarteProduit'
+import { ArrowRight, CheckCircle2, Zap, ThermometerSun } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
@@ -27,6 +26,14 @@ const GUIDE = [
 
 const MARQUES = ['Gree', 'LG', 'Samsung', 'Coala', 'Sharp', 'Bosch', 'Tornado', 'Orient']
 
+const BTU = [
+  { label: '9 000 BTU', q: '9000 btu' },
+  { label: '12 000 BTU', q: '12000 btu' },
+  { label: '18 000 BTU', q: '18000 btu' },
+  { label: '24 000 BTU', q: '24000 btu' },
+  { label: '48 000 BTU', q: '48000 btu' },
+]
+
 const FAQ = [
   {
     q: 'Quel climatiseur choisir en Tunisie ?',
@@ -42,14 +49,55 @@ const FAQ = [
   },
 ]
 
-export default async function ClimatiseursPage() {
-  const [produitsRes, promosRes] = await Promise.allSettled([
-    getProduits({ categorie: 'electromenager/climatisation' }),
-    getProduits({ categorie: 'electromenager/climatisation', en_promo: true }),
+type Props = { searchParams: Promise<{ page?: string }> }
+
+function Pagination({ page, total }: { page: number; total: number }) {
+  if (total <= 1) return null
+  const getPages = (): (number | '...')[] => {
+    if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1)
+    if (page <= 4) return [1, 2, 3, 4, 5, '...', total]
+    if (page >= total - 3) return [1, '...', total - 4, total - 3, total - 2, total - 1, total]
+    return [1, '...', page - 1, page, page + 1, '...', total]
+  }
+  return (
+    <div className="flex items-center justify-center gap-1.5 pt-10 flex-wrap">
+      {page > 1 && (
+        <Link href={`/ete/climatiseurs?page=${page - 1}`}
+          className="px-3 py-2 border border-[#E2E8F0] rounded-lg text-sm text-slate-500 hover:border-[#0EA5E9] hover:text-[#0EA5E9] transition-colors">
+          ←
+        </Link>
+      )}
+      {getPages().map((p, i) =>
+        p === '...' ? (
+          <span key={`e${i}`} className="px-2 text-slate-400 text-sm">…</span>
+        ) : (
+          <Link key={p} href={`/ete/climatiseurs?page=${p}`}
+            className={`px-3 py-2 rounded-lg text-sm transition-colors ${p === page ? 'bg-[#0EA5E9] text-white font-bold' : 'border border-[#E2E8F0] text-slate-500 hover:border-[#0EA5E9] hover:text-[#0EA5E9]'}`}>
+            {p}
+          </Link>
+        )
+      )}
+      {page < total && (
+        <Link href={`/ete/climatiseurs?page=${page + 1}`}
+          className="px-3 py-2 border border-[#E2E8F0] rounded-lg text-sm text-slate-500 hover:border-[#0EA5E9] hover:text-[#0EA5E9] transition-colors">
+          →
+        </Link>
+      )}
+    </div>
+  )
+}
+
+export default async function ClimatiseursPage({ searchParams }: Props) {
+  const sp = await searchParams
+  const page = Math.max(1, Number(sp.page) || 1)
+
+  const [produitsRes] = await Promise.allSettled([
+    getProduits({ categorie: 'electromenager/climatisation', page }),
   ])
 
-  const produits = produitsRes.status === 'fulfilled' ? produitsRes.value.data.slice(0, 20) : []
-  const promos   = promosRes.status   === 'fulfilled' ? promosRes.value.data.slice(0, 16)  : []
+  const produits    = produitsRes.status === 'fulfilled' ? produitsRes.value.data : []
+  const totalPages  = produitsRes.status === 'fulfilled' ? (produitsRes.value.meta?.total_pages ?? 1) : 1
+  const totalItems  = produitsRes.status === 'fulfilled' ? (produitsRes.value.meta?.total_items ?? produits.length) : produits.length
 
   const faqJsonLd = {
     '@context': 'https://schema.org', '@type': 'FAQPage',
@@ -60,95 +108,54 @@ export default async function ClimatiseursPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
-      {/* ══════════════ HERO ══════════════════════════════════════════════════ */}
-      <section className="relative bg-[#0F172A] overflow-hidden min-h-[210px] flex flex-col justify-center">
-
-        {/* Fond animé */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0C4A6E] via-[#0F172A] to-[#0F172A]" />
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#38BDF8] via-[#0EA5E9] to-[#7DD3FC]" />
-        <div className="absolute -top-32 -right-32 w-[500px] h-[500px] bg-[#0EA5E9] rounded-full blur-[160px] opacity-15 pointer-events-none" />
-        <div className="absolute -bottom-16 -left-16 w-64 h-64 bg-[#38BDF8] rounded-full blur-[100px] opacity-10 pointer-events-none" />
-
-        {/* Emoji décoratif */}
-        <div className="absolute right-4 sm:right-16 top-1/2 -translate-y-1/2 text-[120px] sm:text-[180px] opacity-10 select-none pointer-events-none leading-none">
-          ❄️
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 w-full">
-          <div className="max-w-xl">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 bg-[#0EA5E9]/20 border border-[#38BDF8]/30 text-[#7DD3FC] text-xs font-bold px-3 py-1.5 rounded-full mb-6 uppercase tracking-widest">
-              <ThermometerSun size={11} /> Sélection Été 2026
-            </div>
-
-            <h1 className="font-heading text-white text-4xl sm:text-6xl font-extrabold leading-[1.05] mb-5">
-              Clima&shy;tiseurs<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#38BDF8] to-[#7DD3FC]">
-                meilleurs prix
-              </span>
-            </h1>
-
-            <p className="text-slate-400 text-base sm:text-lg mb-8 leading-relaxed">
-              Split · Inverter · Chaud/Froid · Tropicalisé<br className="hidden sm:block" />
-              Comparez en temps réel chez Mytek, Tunisianet et Spacenet.
-            </p>
-
-            <div className="flex flex-wrap gap-3 mb-10">
-              <Link href="/categories/electromenager/climatisation"
-                className="inline-flex items-center gap-2 bg-[#0EA5E9] hover:bg-[#0284C7] text-white font-bold text-sm px-6 py-3 rounded-xl transition-colors shadow-lg shadow-[#0EA5E9]/25">
-                Voir tous les climatiseurs <ArrowRight size={15} />
-              </Link>
-              <Link href="/rechercher?q=climatiseur&en_promo=1"
-                className="inline-flex items-center gap-2 border border-white/20 hover:border-[#38BDF8] text-slate-300 hover:text-white text-sm font-medium px-5 py-3 rounded-xl transition-all">
-                <Tag size={13} /> Promotions
-              </Link>
-            </div>
-
-            {/* Stats */}
-            <div className="flex flex-wrap gap-6">
-              {[
-                { val: '116+', label: 'Modèles' },
-                { val: '3', label: 'Boutiques' },
-                { val: '800–3 500', label: 'TND' },
-              ].map(({ val, label }) => (
-                <div key={label}>
-                  <p className="font-heading text-white text-2xl font-bold">{val}</p>
-                  <p className="text-slate-500 text-xs">{label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+      {/* ══════════════ HERO COMPACT ══════════════════════════════════════════ */}
+      <section className="relative bg-[#0F172A] overflow-hidden min-h-[140px] flex flex-col justify-center">
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0C4A6E] to-[#0F172A]" />
+        <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#38BDF8] via-[#0EA5E9] to-[#7DD3FC]" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-5 w-full">
+          <span className="inline-flex items-center gap-1.5 text-[#7DD3FC] text-xs font-bold uppercase tracking-widest mb-2">
+            <ThermometerSun size={10} /> Été 2026
+          </span>
+          <h1 className="font-heading text-white text-2xl sm:text-3xl font-bold leading-tight">
+            Climatiseurs Tunisie — Meilleurs prix 2026
+          </h1>
+          <p className="text-slate-400 text-sm mt-1">Split · Inverter · Chaud/Froid — Mytek, Tunisianet, Spacenet</p>
         </div>
       </section>
 
-      {/* ══════════════ FILTRE BTU ════════════════════════════════════════════ */}
+      {/* ══════════════ FILTRES BTU + MARQUE ══════════════════════════════════ */}
       <section className="bg-white border-b border-[#E2E8F0]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center gap-2">
-          <span className="text-[#64748B] text-xs font-semibold uppercase tracking-widest mr-1">Puissance :</span>
-          {[
-            { label: '9 000 BTU', q: '9000 btu' },
-            { label: '12 000 BTU', q: '12000 btu' },
-            { label: '18 000 BTU', q: '18000 btu' },
-            { label: '24 000 BTU', q: '24000 btu' },
-            { label: '48 000 BTU', q: '48000 btu' },
-          ].map(({ label, q }) => (
-            <Link key={label} href={`/rechercher?q=${encodeURIComponent(q)}`}
-              className="px-4 py-1.5 bg-[#F0F9FF] border border-[#BAE6FD] rounded-full text-sm font-medium text-[#0284C7] hover:bg-[#0EA5E9] hover:text-white hover:border-[#0EA5E9] transition-all">
-              {label}
-            </Link>
-          ))}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 space-y-2.5">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-[#64748B] text-[11px] font-bold uppercase tracking-widest w-14 shrink-0">BTU</span>
+            {BTU.map(({ label, q }) => (
+              <Link key={label} href={`/rechercher?q=${encodeURIComponent(q)}`}
+                className="px-3 py-1 bg-[#F0F9FF] border border-[#BAE6FD] rounded-full text-xs font-medium text-[#0284C7] hover:bg-[#0EA5E9] hover:text-white hover:border-[#0EA5E9] transition-all">
+                {label}
+              </Link>
+            ))}
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-[#64748B] text-[11px] font-bold uppercase tracking-widest w-14 shrink-0">Marque</span>
+            {MARQUES.map((m) => (
+              <Link key={m} href={`/categories/electromenager/climatisation?marque=${m.toLowerCase()}`}
+                className="px-3 py-1 bg-[#F8FAFC] border border-[#E2E8F0] rounded-full text-xs font-medium text-[#475569] hover:bg-[#0EA5E9] hover:text-white hover:border-[#0EA5E9] transition-all">
+                {m}
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* ══════════════ GUIDE ACHAT ═══════════════════════════════════════════ */}
       <section className="border-b border-[#E2E8F0] bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
-          <p className="text-[#0EA5E9] text-xs font-bold uppercase tracking-widest mb-4">Guide d&apos;achat</p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+          <p className="text-[#0EA5E9] text-xs font-bold uppercase tracking-widest mb-3">Guide d&apos;achat</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {GUIDE.map(({ icon, titre, desc }) => (
-              <div key={titre} className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-4 hover:border-[#BAE6FD] hover:bg-[#F0F9FF] transition-all">
-                <div className="text-2xl mb-2">{icon}</div>
-                <p className="font-semibold text-[#0F172A] text-sm mb-1">{titre}</p>
+              <div key={titre} className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-3 hover:border-[#BAE6FD] hover:bg-[#F0F9FF] transition-all">
+                <div className="text-xl mb-1.5">{icon}</div>
+                <p className="font-semibold text-[#0F172A] text-xs mb-1">{titre}</p>
                 <p className="text-[#64748B] text-xs leading-relaxed">{desc}</p>
               </div>
             ))}
@@ -156,73 +163,53 @@ export default async function ClimatiseursPage() {
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-14">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-12">
 
-        {/* ══════════════ PROMOS ════════════════════════════════════════════════ */}
-        {promos.length > 0 && (
-          <section>
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-3">
-                <span className="w-1 h-8 bg-[#F97316] rounded-full" />
-                <div>
-                  <p className="text-[#F97316] text-[10px] font-bold uppercase tracking-widest">Offres limitées</p>
-                  <h2 className="font-heading text-[#0F172A] text-xl sm:text-2xl">Climatiseurs en promotion</h2>
-                </div>
-              </div>
-              <Link href="/rechercher?q=climatiseur&en_promo=1"
-                className="hidden sm:flex items-center gap-1 text-sm text-slate-500 hover:text-[#F97316] transition-colors">
-                Tout voir <ArrowRight size={13} />
-              </Link>
-            </div>
-            <CarouselEdito produits={promos} />
-          </section>
-        )}
-
-        {/* ══════════════ CATALOGUE ═════════════════════════════════════════════ */}
-        {produits.length > 0 && (
-          <section>
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-3">
-                <span className="w-1 h-8 bg-[#0EA5E9] rounded-full" />
-                <div>
-                  <p className="text-[#0EA5E9] text-[10px] font-bold uppercase tracking-widest">Catalogue complet</p>
-                  <h2 className="font-heading text-[#0F172A] text-xl sm:text-2xl">Tous les climatiseurs</h2>
-                </div>
-              </div>
-              <Link href="/categories/electromenager/climatisation"
-                className="hidden sm:flex items-center gap-1 text-sm text-slate-500 hover:text-[#0EA5E9] transition-colors">
-                Tout voir <ArrowRight size={13} />
-              </Link>
-            </div>
-            <CarouselProduits produits={produits} />
-          </section>
-        )}
-
-        {/* ══════════════ MARQUES ═══════════════════════════════════════════════ */}
+        {/* ══════════════ GRILLE PRODUITS ═══════════════════════════════════════ */}
         <section>
-          <p className="text-slate-400 text-xs font-semibold uppercase tracking-widest mb-3">Par marque</p>
-          <div className="flex flex-wrap gap-2">
-            {MARQUES.map((m) => (
-              <Link key={m} href={`/categories/electromenager/climatisation?marque=${m.toLowerCase()}`}
-                className="px-4 py-2 bg-white border border-[#E2E8F0] rounded-xl text-sm font-medium text-[#475569] hover:border-[#0EA5E9] hover:text-[#0284C7] hover:bg-[#F0F9FF] transition-all shadow-sm">
-                {m}
-              </Link>
-            ))}
+          <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center gap-3">
+              <span className="w-1 h-7 bg-[#0EA5E9] rounded-full" />
+              <div>
+                <p className="text-[#0EA5E9] text-[10px] font-bold uppercase tracking-widest">Catalogue</p>
+                <h2 className="font-heading text-[#0F172A] text-lg sm:text-xl">
+                  Tous les climatiseurs
+                  {totalItems > 0 && <span className="text-slate-400 text-sm font-normal ml-2">({totalItems})</span>}
+                </h2>
+              </div>
+            </div>
+            <Link href="/categories/electromenager/climatisation"
+              className="hidden sm:flex items-center gap-1 text-sm text-slate-400 hover:text-[#0EA5E9] transition-colors">
+              Tout voir <ArrowRight size={13} />
+            </Link>
           </div>
+
+          {produits.length > 0 ? (
+            <>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                {produits.map((p) => (
+                  <CarteProduit key={p.id} produit={p} compact />
+                ))}
+              </div>
+              <Pagination page={page} total={totalPages} />
+            </>
+          ) : (
+            <p className="text-slate-400 text-sm py-10 text-center">Aucun produit trouvé.</p>
+          )}
         </section>
 
         {/* ══════════════ BANNER CTA ════════════════════════════════════════════ */}
-        <section className="relative bg-gradient-to-r from-[#0C4A6E] to-[#0F172A] rounded-3xl overflow-hidden p-8 sm:p-10">
-          <div className="absolute right-6 top-1/2 -translate-y-1/2 text-7xl opacity-20 select-none">🧊</div>
+        <section className="relative bg-gradient-to-r from-[#0C4A6E] to-[#0F172A] rounded-2xl overflow-hidden p-6 sm:p-8">
+          <div className="absolute right-6 top-1/2 -translate-y-1/2 text-6xl opacity-20 select-none">🧊</div>
           <p className="text-[#7DD3FC] text-xs font-bold uppercase tracking-widest mb-2">Comparez maintenant</p>
-          <h3 className="font-heading text-white text-2xl sm:text-3xl mb-4">Trouvez le meilleur prix<br />en quelques secondes</h3>
+          <h3 className="font-heading text-white text-xl sm:text-2xl mb-4">Trouvez le meilleur prix en quelques secondes</h3>
           <div className="flex flex-wrap gap-3">
             <Link href="/categories/electromenager/climatisation?tri=prix_asc"
-              className="inline-flex items-center gap-2 bg-[#0EA5E9] hover:bg-[#0284C7] text-white text-sm font-bold px-5 py-2.5 rounded-xl transition-colors">
+              className="inline-flex items-center gap-2 bg-[#0EA5E9] hover:bg-[#0284C7] text-white text-sm font-bold px-5 py-2 rounded-xl transition-colors">
               <Zap size={13} /> Prix croissant
             </Link>
             <Link href="/categories/electromenager/climatisation?en_stock=1"
-              className="inline-flex items-center gap-2 border border-white/20 text-white text-sm font-medium px-5 py-2.5 rounded-xl hover:bg-white/10 transition-colors">
+              className="inline-flex items-center gap-2 border border-white/20 text-white text-sm font-medium px-5 py-2 rounded-xl hover:bg-white/10 transition-colors">
               <CheckCircle2 size={13} /> En stock
             </Link>
           </div>
@@ -230,10 +217,10 @@ export default async function ClimatiseursPage() {
 
         {/* ══════════════ LIENS SAISONNIERS ═════════════════════════════════════ */}
         <section>
-          <p className="text-slate-400 text-xs font-semibold uppercase tracking-widest mb-4">Voir aussi</p>
+          <p className="text-slate-400 text-xs font-semibold uppercase tracking-widest mb-3">Voir aussi</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Link href="/ete/ventilateurs"
-              className="group relative overflow-hidden flex items-center justify-between bg-gradient-to-r from-slate-800 to-[#0F172A] border border-white/10 rounded-2xl p-6 hover:border-[#38BDF8]/50 transition-all">
+              className="group relative overflow-hidden flex items-center justify-between bg-gradient-to-r from-slate-800 to-[#0F172A] border border-white/10 rounded-2xl p-5 hover:border-[#38BDF8]/50 transition-all">
               <div className="absolute right-4 top-1/2 -translate-y-1/2 text-5xl opacity-15 select-none">🌬️</div>
               <div>
                 <p className="text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1">Été 2026</p>
@@ -243,7 +230,7 @@ export default async function ClimatiseursPage() {
               <ArrowRight size={18} className="text-slate-500 group-hover:text-[#38BDF8] group-hover:translate-x-1 transition-all shrink-0" />
             </Link>
             <Link href="/ete/climeur"
-              className="group relative overflow-hidden flex items-center justify-between bg-gradient-to-r from-emerald-950 to-[#0F172A] border border-white/10 rounded-2xl p-6 hover:border-[#34D399]/50 transition-all">
+              className="group relative overflow-hidden flex items-center justify-between bg-gradient-to-r from-emerald-950 to-[#0F172A] border border-white/10 rounded-2xl p-5 hover:border-[#34D399]/50 transition-all">
               <div className="absolute right-4 top-1/2 -translate-y-1/2 text-5xl opacity-15 select-none">💦</div>
               <div>
                 <p className="text-[#34D399] text-xs font-bold uppercase tracking-wide mb-1">Été 2026</p>
