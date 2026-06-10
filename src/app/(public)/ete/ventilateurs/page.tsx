@@ -118,10 +118,12 @@ export default async function VentilateursPage({ searchParams }: Props) {
           <span className="inline-flex items-center gap-1.5 text-[#93C5FD] text-xs font-bold uppercase tracking-widest mb-2">
             <Wind size={10} /> Été 2026
           </span>
-          <h1 className="font-heading text-white text-2xl sm:text-3xl font-bold leading-tight">
+          <h1 className="font-heading text-2xl sm:text-3xl font-bold leading-tight" style={{ color: 'white' }}>
             Ventilateurs Tunisie — Meilleurs prix 2026
           </h1>
-          <p className="text-slate-400 text-sm mt-1">Sur pied · Mural · De table · Portatif — Mytek, Tunisianet, Spacenet</p>
+          <p className="text-sm mt-1.5" style={{ color: 'rgba(255,255,255,0.75)' }}>
+            Sur pied, mural, de table ou portatif — comparez plus de 180 modèles et filtrez par marque.
+          </p>
         </div>
       </section>
 

@@ -137,10 +137,12 @@ export default async function ClimatiseursPage({ searchParams }: Props) {
           <span className="inline-flex items-center gap-1.5 text-[#7DD3FC] text-xs font-bold uppercase tracking-widest mb-2">
             <ThermometerSun size={10} /> Été 2026
           </span>
-          <h1 className="font-heading text-white text-2xl sm:text-3xl font-bold leading-tight">
+          <h1 className="font-heading text-2xl sm:text-3xl font-bold leading-tight" style={{ color: 'white' }}>
             Climatiseurs Tunisie — Meilleurs prix 2026
           </h1>
-          <p className="text-slate-400 text-sm mt-1">Split · Inverter · Chaud/Froid — Mytek, Tunisianet, Spacenet</p>
+          <p className="text-sm mt-1.5" style={{ color: 'rgba(255,255,255,0.75)' }}>
+            Comparez les prix des climatiseurs Split, Inverter et Chaud/Froid en Tunisie — filtrez par puissance BTU et par marque.
+          </p>
         </div>
       </section>
 
