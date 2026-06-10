@@ -121,6 +121,25 @@ export default async function ClimatiseursPage() {
         </div>
       </section>
 
+      {/* ══════════════ FILTRE BTU ════════════════════════════════════════════ */}
+      <section className="bg-white border-b border-[#E2E8F0]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center gap-2">
+          <span className="text-[#64748B] text-xs font-semibold uppercase tracking-widest mr-1">Puissance :</span>
+          {[
+            { label: '9 000 BTU', q: '9000 btu' },
+            { label: '12 000 BTU', q: '12000 btu' },
+            { label: '18 000 BTU', q: '18000 btu' },
+            { label: '24 000 BTU', q: '24000 btu' },
+            { label: '48 000 BTU', q: '48000 btu' },
+          ].map(({ label, q }) => (
+            <Link key={label} href={`/rechercher?q=${encodeURIComponent(q)}`}
+              className="px-4 py-1.5 bg-[#F0F9FF] border border-[#BAE6FD] rounded-full text-sm font-medium text-[#0284C7] hover:bg-[#0EA5E9] hover:text-white hover:border-[#0EA5E9] transition-all">
+              {label}
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {/* ══════════════ GUIDE ACHAT ═══════════════════════════════════════════ */}
       <section className="border-b border-[#E2E8F0] bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
