@@ -434,6 +434,62 @@ export default async function AccueilPage() {
         </section>
       )}
 
+      {/* ══════════════════════ SÉLECTION ÉTÉ 2026 ══════════════════════════════ */}
+      <section className="py-10 sm:py-14 px-4 sm:px-6 bg-[#0F172A]">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <p className="text-[#F97316] text-xs font-semibold uppercase tracking-widest mb-1 flex items-center gap-1.5">
+                <Zap size={11} /> Sélection Été 2026
+              </p>
+              <h2 className="font-heading text-2xl md:text-3xl" style={{ color: 'white' }}>Climatisation &amp; Fraîcheur</h2>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+            {/* Climatiseurs */}
+            <Link href="/ete/climatiseurs"
+              className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#0C4A6E] to-[#1E293B] p-6 border border-white/10 hover:border-[#38BDF8]/50 transition-all">
+              <div className="absolute right-4 bottom-4 text-8xl opacity-10 select-none pointer-events-none">❄️</div>
+              <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#38BDF8] to-transparent" />
+              <span className="text-[#7DD3FC] text-[11px] font-bold uppercase tracking-widest mb-3 block">Climatiseurs</span>
+              <p className="font-heading text-xl font-bold mb-1" style={{ color: 'white' }}>116+ modèles</p>
+              <p className="text-slate-400 text-sm mb-5">Split · Inverter · 9 000 à 48 000 BTU</p>
+              <span className="inline-flex items-center gap-1.5 text-[#38BDF8] text-sm font-semibold group-hover:gap-3 transition-all">
+                Voir les prix <ArrowRight size={13} />
+              </span>
+            </Link>
+
+            {/* Ventilateurs */}
+            <Link href="/ete/ventilateurs"
+              className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1E3A5F] to-[#1E293B] p-6 border border-white/10 hover:border-[#93C5FD]/50 transition-all">
+              <div className="absolute right-4 bottom-4 text-8xl opacity-10 select-none pointer-events-none">🌬️</div>
+              <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#60A5FA] to-transparent" />
+              <span className="text-[#93C5FD] text-[11px] font-bold uppercase tracking-widest mb-3 block">Ventilateurs</span>
+              <p className="font-heading text-xl font-bold mb-1" style={{ color: 'white' }}>180+ modèles</p>
+              <p className="text-slate-400 text-sm mb-5">Sur pied · Mural · Table · Portatif</p>
+              <span className="inline-flex items-center gap-1.5 text-[#60A5FA] text-sm font-semibold group-hover:gap-3 transition-all">
+                Voir les prix <ArrowRight size={13} />
+              </span>
+            </Link>
+
+            {/* Climeur */}
+            <Link href="/ete/climeur"
+              className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-950 to-[#1E293B] p-6 border border-white/10 hover:border-[#34D399]/50 transition-all">
+              <div className="absolute right-4 bottom-4 text-8xl opacity-10 select-none pointer-events-none">💦</div>
+              <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#34D399] to-transparent" />
+              <span className="text-[#6EE7B7] text-[11px] font-bold uppercase tracking-widest mb-3 block">Climeurs mobiles</span>
+              <p className="font-heading text-xl font-bold mb-1" style={{ color: 'white' }}>19+ modèles</p>
+              <p className="text-slate-400 text-sm mb-5">Évaporatif · Portatif · Sans installation</p>
+              <span className="inline-flex items-center gap-1.5 text-[#34D399] text-sm font-semibold group-hover:gap-3 transition-all">
+                Voir les prix <ArrowRight size={13} />
+              </span>
+            </Link>
+
+          </div>
+        </div>
+      </section>
+
       {/* ──────────────────────── CATEGORY SCOPE ─────────────────────────────── */}
       <CategoryScope />
 
