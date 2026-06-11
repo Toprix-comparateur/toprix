@@ -58,7 +58,6 @@ export const PARENT_CATEGORIES = [
   { slug: 'energie',             nom: 'Énergie' },
   { slug: 'bureau-et-papeterie', nom: 'Bureau & Papeterie' },
   { slug: 'maison-et-mobilier',  nom: 'Maison & Mobilier' },
-  { slug: 'beaute-et-sante',     nom: 'Beauté & Santé' },
   { slug: 'sport-et-loisirs',    nom: 'Sport & Loisirs' },
   { slug: 'bebe-et-jouets',      nom: 'Bébé & Jouets' },
 ]

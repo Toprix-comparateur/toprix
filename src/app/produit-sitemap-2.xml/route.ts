@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 7200
 
 // Maison / electroménager / lifestyle : ~8 600 produits estimés
-const CATEGORIES = ['electromenager', 'maison-et-mobilier', 'beaute-et-sante', 'sport-et-loisirs']
+const CATEGORIES = ['electromenager', 'maison-et-mobilier', 'sport-et-loisirs']
 
 export async function GET() {
   const baseUrl = SITE_URL
