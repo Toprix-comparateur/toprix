@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { getProduits } from '@/lib/api/produits'
 import CarteProduit from '@/components/product/CarteProduit'
 import { ArrowRight, CheckCircle2, Zap, ThermometerSun } from 'lucide-react'
@@ -32,15 +33,15 @@ const BTU_LIENS = [
 ]
 
 const MARQUE_LIENS = [
-  { slug: 'gree',    label: 'Gree',    desc: 'Leader mondial',      emoji: '🌍' },
-  { slug: 'midea',   label: 'Midea',   desc: 'Qualité & fiabilité', emoji: '✅' },
-  { slug: 'saba',    label: 'SABA',    desc: 'Économique',          emoji: '💰' },
-  { slug: 'condor',  label: 'Condor',  desc: 'Robuste & populaire', emoji: '🦅' },
-  { slug: 'biolux',  label: 'Biolux',  desc: 'Marque tunisienne',   emoji: '🇹🇳' },
-  { slug: 'lg',      label: 'LG',      desc: 'Dual Inverter WiFi',  emoji: '📱' },
-  { slug: 'tcl',     label: 'TCL',     desc: 'Rapport qualité-prix',emoji: '🏆' },
-  { slug: 'samsung', label: 'Samsung', desc: 'WindFree & WiFi',     emoji: '⭐' },
-  { slug: 'cristor', label: 'Cristor', desc: 'Économique & fiable', emoji: '💎' },
+  { slug: 'gree',    label: 'Gree',    desc: 'Leader mondial'       },
+  { slug: 'midea',   label: 'Midea',   desc: 'Qualité & fiabilité'  },
+  { slug: 'saba',    label: 'SABA',    desc: 'Économique'           },
+  { slug: 'condor',  label: 'Condor',  desc: 'Robuste & populaire'  },
+  { slug: 'biolux',  label: 'Biolux',  desc: 'Marque tunisienne'    },
+  { slug: 'lg',      label: 'LG',      desc: 'Dual Inverter WiFi'   },
+  { slug: 'tcl',     label: 'TCL',     desc: 'Rapport qualité-prix' },
+  { slug: 'samsung', label: 'Samsung', desc: 'WindFree & WiFi'      },
+  { slug: 'cristor', label: 'Cristor', desc: 'Économique & fiable'  },
 ]
 
 const FAQ = [
@@ -191,10 +192,18 @@ export default async function ClimatiseursPage({ searchParams }: Props) {
             </div>
           </div>
           <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-2">
-            {MARQUE_LIENS.map(({ slug, label, desc, emoji }) => (
+            {MARQUE_LIENS.map(({ slug, label, desc }) => (
               <Link key={slug} href={`${BASE}/${slug}`}
                 className="group flex flex-col items-center text-center bg-white border border-[#E2E8F0] rounded-xl p-3 hover:border-[#0EA5E9] hover:shadow-sm transition-all">
-                <span className="text-xl mb-1.5">{emoji}</span>
+                <div className="w-14 h-14 flex items-center justify-center mb-1.5 rounded-lg overflow-hidden bg-[#F8FAFC] border border-[#E2E8F0] group-hover:border-[#BAE6FD] transition-colors">
+                  <Image
+                    src={`/marques/${slug}.png`}
+                    alt={`Logo ${label}`}
+                    width={56}
+                    height={56}
+                    className="object-contain p-1"
+                  />
+                </div>
                 <p className="font-bold text-[#0F172A] text-xs group-hover:text-[#0EA5E9] transition-colors">{label}</p>
                 <p className="text-[#94A3B8] text-[10px] mt-0.5 leading-tight">{desc}</p>
               </Link>
