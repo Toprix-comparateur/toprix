@@ -33,15 +33,15 @@ const BTU_LIENS = [
 ]
 
 const MARQUE_LIENS = [
-  { slug: 'gree',    label: 'Gree',    desc: 'Leader mondial'       },
-  { slug: 'midea',   label: 'Midea',   desc: 'Qualité & fiabilité'  },
-  { slug: 'saba',    label: 'SABA',    desc: 'Économique'           },
-  { slug: 'condor',  label: 'Condor',  desc: 'Robuste & populaire'  },
-  { slug: 'biolux',  label: 'Biolux',  desc: 'Marque tunisienne'    },
-  { slug: 'lg',      label: 'LG',      desc: 'Dual Inverter WiFi'   },
-  { slug: 'tcl',     label: 'TCL',     desc: 'Rapport qualité-prix' },
-  { slug: 'samsung', label: 'Samsung', desc: 'WindFree & WiFi'      },
-  { slug: 'cristor', label: 'Cristor', desc: 'Économique & fiable'  },
+  { slug: 'gree',    label: 'Gree',    desc: 'Leader mondial',       image: 'Gree'    },
+  { slug: 'midea',   label: 'Midea',   desc: 'Qualité & fiabilité',  image: 'Midea'   },
+  { slug: 'saba',    label: 'SABA',    desc: 'Économique',           image: 'Saba'    },
+  { slug: 'condor',  label: 'Condor',  desc: 'Robuste & populaire',  image: 'Condor'  },
+  { slug: 'biolux',  label: 'Biolux',  desc: 'Marque tunisienne',    image: 'Biolux'  },
+  { slug: 'lg',      label: 'LG',      desc: 'Dual Inverter WiFi',   image: 'LG'      },
+  { slug: 'tcl',     label: 'TCL',     desc: 'Rapport qualité-prix', image: 'TCL'     },
+  { slug: 'samsung', label: 'Samsung', desc: 'WindFree & WiFi',      image: 'Samsung' },
+  { slug: 'cristor', label: 'Cristor', desc: 'Économique & fiable',  image: 'Cristor' },
 ]
 
 const FAQ = [
@@ -192,12 +192,12 @@ export default async function ClimatiseursPage({ searchParams }: Props) {
             </div>
           </div>
           <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-2">
-            {MARQUE_LIENS.map(({ slug, label, desc }) => (
+            {MARQUE_LIENS.map(({ slug, label, desc, image }) => (
               <Link key={slug} href={`${BASE}/${slug}`}
                 className="group flex flex-col items-center text-center bg-white border border-[#E2E8F0] rounded-xl p-3 hover:border-[#0EA5E9] hover:shadow-sm transition-all">
                 <div className="w-16 h-16 flex items-center justify-center mb-1.5 rounded-lg overflow-hidden bg-[#F8FAFC] border border-[#E2E8F0] group-hover:border-[#BAE6FD] transition-colors">
                   <Image
-                    src={`/marques/${slug}.webp`}
+                    src={`/marques/${image}.webp`}
                     alt={`Logo ${label}`}
                     width={64}
                     height={64}
