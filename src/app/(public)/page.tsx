@@ -218,7 +218,7 @@ export default async function AccueilPage() {
               <h2 className="font-heading text-2xl md:text-3xl" style={{ color: 'white' }}>Climatisation &amp; Fraîcheur</h2>
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
 
             <Link href="/ete/climatiseurs"
               className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#0C4A6E] to-[#1E293B] p-6 border border-white/10 hover:border-[#38BDF8]/50 transition-all">
@@ -264,6 +264,18 @@ export default async function AccueilPage() {
               <p className="font-heading text-xl font-bold mb-1" style={{ color: 'white' }}>Fenêtre & Porte</p>
               <p className="text-slate-400 text-sm mb-5">Plissée · Magnétique · Lit · Camping</p>
               <span className="inline-flex items-center gap-1.5 text-[#FCD34D] text-sm font-semibold group-hover:gap-3 transition-all">
+                Voir les prix <ArrowRight size={13} />
+              </span>
+            </Link>
+
+            <Link href="/ete/desinsectiseur"
+              className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#4C1D95] to-[#1E293B] p-6 border border-white/10 hover:border-[#C4B5FD]/50 transition-all">
+              <div className="absolute right-4 bottom-4 text-8xl opacity-10 select-none pointer-events-none">⚡</div>
+              <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#A78BFA] to-transparent" />
+              <span className="text-[#C4B5FD] text-[11px] font-bold uppercase tracking-widest mb-3 block">Désinsectiseurs</span>
+              <p className="font-heading text-xl font-bold mb-1" style={{ color: 'white' }}>Lampe UV & Raquette</p>
+              <p className="text-slate-400 text-sm mb-5">Électrique · Ultrasons · Spray</p>
+              <span className="inline-flex items-center gap-1.5 text-[#A78BFA] text-sm font-semibold group-hover:gap-3 transition-all">
                 Voir les prix <ArrowRight size={13} />
               </span>
             </Link>
