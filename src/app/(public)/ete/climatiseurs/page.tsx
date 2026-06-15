@@ -195,12 +195,12 @@ export default async function ClimatiseursPage({ searchParams }: Props) {
             {MARQUE_LIENS.map(({ slug, label, desc }) => (
               <Link key={slug} href={`${BASE}/${slug}`}
                 className="group flex flex-col items-center text-center bg-white border border-[#E2E8F0] rounded-xl p-3 hover:border-[#0EA5E9] hover:shadow-sm transition-all">
-                <div className="w-14 h-14 flex items-center justify-center mb-1.5 rounded-lg overflow-hidden bg-[#F8FAFC] border border-[#E2E8F0] group-hover:border-[#BAE6FD] transition-colors">
+                <div className="w-16 h-16 flex items-center justify-center mb-1.5 rounded-lg overflow-hidden bg-[#F8FAFC] border border-[#E2E8F0] group-hover:border-[#BAE6FD] transition-colors">
                   <Image
-                    src={`/marques/${slug}.png`}
+                    src={`/marques/${slug}.webp`}
                     alt={`Logo ${label}`}
-                    width={56}
-                    height={56}
+                    width={64}
+                    height={64}
                     className="object-contain p-1"
                   />
                 </div>
