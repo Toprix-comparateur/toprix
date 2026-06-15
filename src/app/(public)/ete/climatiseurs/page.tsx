@@ -18,10 +18,10 @@ export const metadata: Metadata = {
 }
 
 const GUIDE = [
-  { icon: '📐', titre: 'Choisir la puissance', desc: '9 000 BTU jusqu\'à 15 m² · 12 000 BTU jusqu\'à 20 m² · 18 000 BTU jusqu\'à 30 m²' },
-  { icon: '⚡', titre: 'Inverter vs On/Off', desc: 'L\'Inverter consomme 30-50 % moins. Idéal pour un usage quotidien en Tunisie.' },
-  { icon: '🌡️', titre: 'Tropicalisé', desc: 'Indispensable en Tunisie pour fonctionner à 46°C extérieur sans panne.' },
-  { icon: '❄️', titre: 'Chaud/Froid', desc: 'Modèle réversible : climatise en été, chauffe en hiver. Deux appareils en un.' },
+  { icon: '📐', titre: 'Choisir la puissance', desc: '9 000 BTU → chambre jusqu\'à 12 m² · 12 000 BTU → salon 12-18 m² · 18 000 BTU → 18-25 m² · 24 000 BTU → 25-35 m²' },
+  { icon: '⚡', titre: 'Inverter vs On/Off', desc: 'L\'Inverter ajuste la puissance en continu et consomme 30 à 40 % moins qu\'un modèle On/Off. Rentabilisé en 2 à 3 saisons.' },
+  { icon: '🌡️', titre: 'Tropicalisé obligatoire', desc: 'Indispensable en Tunisie : les modèles tropicalisés fonctionnent jusqu\'à 46°C extérieur sans surchauffe ni panne.' },
+  { icon: '❄️', titre: 'Chaud/Froid réversible', desc: 'Climatise en été et chauffe en hiver avec la même unité. Remplace un chauffage électrique et économise sur la facture STEG.' },
 ]
 
 const BTU_LIENS = [
@@ -45,16 +45,24 @@ const MARQUE_LIENS = [
 
 const FAQ = [
   {
-    q: 'Quel climatiseur choisir en Tunisie ?',
-    r: 'Pour un usage résidentiel en Tunisie, privilégiez un modèle Inverter tropicalisé entre 9 000 et 18 000 BTU selon la superficie de la pièce. Les marques Gree, LG et Samsung offrent le meilleur rapport qualité/prix.',
+    q: 'Quel climatiseur choisir en Tunisie en 2026 ?',
+    r: 'Choisissez impérativement un modèle Inverter tropicalisé (fonctionnement jusqu\'à 46°C). Pour une chambre, un 9 000 BTU suffit (dès 859 DT). Pour un salon, un 12 000 BTU (999–1 460 DT) ou 18 000 BTU (1 599–2 120 DT). Les marques Gree, LG et Samsung offrent le meilleur rapport qualité/fiabilité.',
   },
   {
-    q: 'Quelle est la différence entre un climatiseur On/Off et Inverter ?',
-    r: 'Le climatiseur Inverter ajuste sa puissance en continu, ce qui le rend 30 à 50 % plus économique en énergie. Le modèle On/Off fonctionne à pleine puissance ou s\'arrête, consommant plus d\'électricité.',
+    q: 'Combien économise-t-on avec un climatiseur Inverter ?',
+    r: 'Un climatiseur Inverter consomme 30 à 40 % moins qu\'un modèle On/Off classique. Sur une saison de 4 mois à raison de 8h/jour, l\'économie représente plusieurs centaines de dinars. L\'Inverter se rentabilise en 2 à 3 saisons malgré son prix d\'achat plus élevé.',
   },
   {
-    q: 'Combien coûte un climatiseur en Tunisie ?',
-    r: 'Les prix varient de 800 TND pour un modèle entrée de gamme à plus de 3 000 TND pour un Inverter haute gamme. Comparez les offres en temps réel sur Toprix pour trouver le meilleur prix.',
+    q: 'Quelle puissance BTU pour mon appartement en Tunisie ?',
+    r: '9 000 BTU convient à une chambre jusqu\'à 12 m². 12 000 BTU pour un salon de 12 à 18 m². 18 000 BTU pour 18 à 25 m². 24 000 BTU pour plus de 25 m². Augmentez d\'un palier si la pièce est orientée plein sud, mal isolée ou sous combles.',
+  },
+  {
+    q: 'Faut-il un climatiseur tropicalisé en Tunisie ?',
+    r: 'Oui, c\'est indispensable. Un climatiseur standard est conçu pour fonctionner jusqu\'à 43°C. Les étés tunisiens dépassent régulièrement 46°C à l\'extérieur : un modèle non tropicalisé risque de tomber en panne ou de se mettre en sécurité au moment où vous en avez le plus besoin.',
+  },
+  {
+    q: 'Quelle est la différence entre un Split et un Multisplit ?',
+    r: 'Un Split comprend une unité intérieure et une unité extérieure, pour climatiser une seule pièce. Un Multisplit relie plusieurs unités intérieures (2 à 5) à une seule unité extérieure : idéal pour climatiser tout un appartement avec une installation unique et moins de perçage de murs.',
   },
 ]
 

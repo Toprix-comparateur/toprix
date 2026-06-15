@@ -18,10 +18,10 @@ export const metadata: Metadata = {
 }
 
 const GUIDE = [
-  { icon: '🪟', titre: 'Fenêtre', desc: 'Moustiquaire plissée, enroulable ou fixe. Protège sans obstruer la vue ni bloquer l\'air.' },
-  { icon: '🚪', titre: 'Porte', desc: 'Rideau magnétique ou cadre fixe. Passage libre des mains sans laisser entrer les insectes.' },
-  { icon: '🛏️', titre: 'Lit', desc: 'Baldaquin ou voile de lit. Protection totale la nuit, idéal bébés et enfants.' },
-  { icon: '⛺', titre: 'Camping', desc: 'Légère, compacte, facile à installer. Pour tente, hamac ou couchage en plein air.' },
+  { icon: '🪟', titre: 'Fenêtre enroulable', desc: 'La plus populaire en Tunisie. Cadre aluminium, coffre discret, s\'enroule verticalement ou horizontalement. Prix : 90–350 DT selon dimensions.' },
+  { icon: '🚪', titre: 'Porte magnétique', desc: 'Rideau aimantés qui se referment seuls après le passage. Sans perçage. Prix dès 30 DT. Idéal portes d\'entrée et balcons.' },
+  { icon: '🛏️', titre: 'Lit & Bébé', desc: 'Baldaquin ou voile suspendu. Certains modèles sont imprégnés de Deltaméthrine (recommandé OMS). Protection totale pour les nourrissons 0–6 mois.' },
+  { icon: '⛺', titre: 'Camping & Voyage', desc: 'Légère, pliable, s\'installe en 1 minute. Pour tente, hamac ou camping. Protection contre dengue, paludisme et moustiques tigres.' },
 ]
 
 const MARQUES = ['Silverline', 'Beorol', 'Polyscreen', 'Kinzo']
@@ -29,15 +29,23 @@ const MARQUES = ['Silverline', 'Beorol', 'Polyscreen', 'Kinzo']
 const FAQ = [
   {
     q: 'Quelle moustiquaire choisir pour une fenêtre en Tunisie ?',
-    r: 'Pour une fenêtre, préférez une moustiquaire plissée ou enroulable — elles s\'intègrent discrètement et permettent d\'ouvrir la fenêtre librement. Pour un usage fixe (petite fenêtre de salle de bain), un cadre en aluminium avec filet polyester est très économique.',
+    r: 'La moustiquaire enroulable en aluminium est la plus populaire : elle s\'intègre discrètement avec un coffre latéral ou supérieur et permet d\'ouvrir la fenêtre librement. Prix : 55–200 DT pour un modèle coulissant. Pour une petite fenêtre fixe, un cadre aluminium avec toile polyester suffit (dès 30 DT).',
   },
   {
-    q: 'Comment installer une moustiquaire de porte sans percer ?',
-    r: 'Les rideaux magnétiques se posent avec du velcro ou des vis légères. Les panneaux aimantés se referment seuls après le passage. Aucun perçage nécessaire pour la plupart des modèles magnétiques.',
+    q: 'Quel est le prix d\'une moustiquaire de porte en Tunisie ?',
+    r: 'Un rideau magnétique de porte coûte entre 30 et 80 DT (sans perçage). Une moustiquaire plissée pour porte-fenêtre revient à 115–200 DT. Un panneau coulissant en aluminium sur mesure coûte entre 100 et 180 DT. Faites faire un devis sur mesure pour les grandes dimensions.',
   },
   {
-    q: 'Quel est le prix d\'une moustiquaire en Tunisie ?',
-    r: 'Les moustiquaires de fenêtre basiques coûtent entre 20 et 80 TND. Les modèles plissés ou enroulables vont de 80 à 250 TND. Les rideaux magnétiques de porte sont entre 30 et 100 TND. Comparez sur Toprix pour le meilleur prix.',
+    q: 'Les moustiquaires protègent-elles contre la dengue et le paludisme ?',
+    r: 'Oui, surtout les modèles imprégnés de Deltaméthrine (recommandé par l\'OMS). Les moustiques vecteurs de dengue (Aedes albopictus) sont actifs le jour — une moustiquaire de fenêtre est donc utile 24h/24. Pour les nourrissons (0-6 mois), la moustiquaire de lit imprégnée est la protection la plus sûre (pas de répulsif cutané avant 6 mois).',
+  },
+  {
+    q: 'Comment entretenir une moustiquaire en Tunisie ?',
+    r: 'Nettoyez la toile une fois par an à l\'eau savonneuse douce — surtout avant la saison estivale (avril-mai). Vérifiez l\'état des joints de brosse (modèles coulissants) et remplacez-les si l\'étanchéité n\'est plus assurée. Les toiles en fibre de verre résistent mieux que le polyester à la poussière et aux lavages répétés.',
+  },
+  {
+    q: 'Quand les moustiques sont-ils actifs en Tunisie ?',
+    r: 'Les moustiques communs sont surtout actifs le soir et la nuit (avril à octobre). Le moustique tigre (Aedes albopictus), présent sur la côte tunisienne, pique en journée. Les périodes de prolifération maximale sont juin-juillet et septembre. Installez vos moustiquaires avant mai pour être protégé dès le début de la saison.',
   },
 ]
 

@@ -18,10 +18,10 @@ export const metadata: Metadata = {
 }
 
 const GUIDE = [
-  { icon: '🏠', titre: 'Sur pied', desc: 'Idéal pour salon ou chambre. Oscillation automatique, télécommande, jusqu\'à 3 vitesses.' },
-  { icon: '🔩', titre: 'Mural fixe', desc: 'Parfait pour cuisine, atelier ou salle de bain. Fixé au mur, libère l\'espace au sol.' },
-  { icon: '🖥️', titre: 'De table', desc: 'Compact et silencieux. Pour bureau, chambre ou nuit. Facile à déplacer.' },
-  { icon: '🔋', titre: 'Portatif', desc: 'Rechargeable USB, sans fil. À emporter partout : voiture, terrasse, bureau.' },
+  { icon: '🏠', titre: 'Sur pied', desc: 'Idéal pour salon ou chambre. Oscillation automatique, télécommande, 3 vitesses. Prix : 60–200 DT. Déplaçable sans installation.' },
+  { icon: '🔩', titre: 'Mural fixe', desc: 'Parfait pour cuisine, atelier ou salle de bain. Fixé au mur, libère l\'espace au sol. Idéal en hauteur pour un air diffus.' },
+  { icon: '🖥️', titre: 'De table', desc: 'Compact et silencieux. Pour bureau, chambre ou nuit. Prix dès 40 DT. Facile à déplacer d\'une pièce à l\'autre.' },
+  { icon: '🔋', titre: 'Portatif USB', desc: 'Rechargeable USB, sans fil. Autonomie 4–8h. À emporter partout : voiture, terrasse, voyage. Dès 25 DT.' },
 ]
 
 const MARQUES = ['Coala', 'Orient', 'Samsung', 'LG', 'Maji', 'Solstar', 'HGE']
@@ -29,15 +29,19 @@ const MARQUES = ['Coala', 'Orient', 'Samsung', 'LG', 'Maji', 'Solstar', 'HGE']
 const FAQ = [
   {
     q: 'Quel ventilateur choisir pour l\'été en Tunisie ?',
-    r: 'Pour une chambre ou un bureau, un ventilateur de table suffit. Pour un salon, préférez un modèle sur pied avec télécommande. Pour la cuisine ou une salle d\'eau, optez pour un ventilateur mural fixe.',
+    r: 'Pour une chambre ou un bureau, un ventilateur de table (dès 40 DT) suffit. Pour un salon, préférez un modèle sur pied avec oscillation et télécommande (60–200 DT). Pour la cuisine ou une salle d\'eau, optez pour un ventilateur mural fixe, plus hygiénique et gain de place.',
   },
   {
-    q: 'Quelle est la différence entre un ventilateur et un climatiseur ?',
-    r: 'Un ventilateur brasse l\'air sans le refroidir — il est moins coûteux (à l\'achat et à l\'usage) mais moins efficace par forte chaleur. Un climatiseur refroidit réellement l\'air mais consomme plus d\'énergie.',
+    q: 'Combien consomme un ventilateur par rapport à un climatiseur ?',
+    r: 'Un ventilateur consomme entre 40 et 75W, soit 2 à 5 DT par mois sur la facture STEG. Un climatiseur consomme 800 à 2 000W, soit 40 à 80 DT par mois. Le ventilateur est 15 à 20 fois moins cher à faire fonctionner, mais ne refroidit pas réellement l\'air — il améliore la sensation de fraîcheur.',
   },
   {
-    q: 'Quel est le prix d\'un ventilateur en Tunisie ?',
-    r: 'Les ventilateurs de table ou sur pied d\'entrée de gamme coûtent entre 40 et 150 TND. Les modèles haut de gamme avec télécommande et minuterie atteignent 300 TND. Comparez sur Toprix pour le meilleur prix.',
+    q: 'Quel est le prix d\'un ventilateur en Tunisie en 2026 ?',
+    r: 'Les ventilateurs de table d\'entrée de gamme débutent à 40 DT. Les modèles sur pied sont entre 60 et 200 DT. Les ventilateurs colonne ou avec ioniseur atteignent 250–350 DT. Les marques Coala, Orient et Maji sont les plus vendues en Tunisie. Comparez en temps réel sur Toprix.',
+  },
+  {
+    q: 'Un ventilateur est-il suffisant pendant l\'été tunisien ?',
+    r: 'Pour les nuits et les journées à moins de 35°C, un ventilateur suffit et consomme très peu. Au-delà de 38°C, l\'air chaud brassé apporte un confort limité. Dans ce cas, combinez avec un climeur évaporatif ou un climatiseur. Le ventilateur reste indispensable comme appoint même si vous avez un climatiseur.',
   },
 ]
 

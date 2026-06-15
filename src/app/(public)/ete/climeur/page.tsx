@@ -18,26 +18,34 @@ export const metadata: Metadata = {
 }
 
 const GUIDE = [
-  { icon: '💧', titre: 'Évaporatif', desc: 'Refroidit par évaporation d\'eau. Silencieux, économique. Idéal pour pièces sèches.' },
-  { icon: '🔌', titre: 'Sans installation', desc: 'Pas de travaux, pas de technicien. Branchez et allumez — prêt en 30 secondes.' },
-  { icon: '🚶', titre: 'Portatif', desc: 'Sur roulettes ou compact. Déplacez-le de chambre en chambre selon vos besoins.' },
-  { icon: '💸', titre: 'Économique', desc: 'Consomme 5 à 10× moins qu\'un climatiseur split. Idéal pour un usage ponctuel.' },
+  { icon: '💧', titre: 'Évaporation naturelle', desc: 'Le même principe que la brise marine : l\'eau s\'évapore et refroidit l\'air de 5 à 10°C. Silencieux, sans gaz réfrigérant.' },
+  { icon: '🔌', titre: 'Sans installation', desc: 'Pas de travaux ni de technicien. Remplissez le réservoir d\'eau, branchez et profitez — prêt en 30 secondes.' },
+  { icon: '🚶', titre: 'Portatif sur roulettes', desc: 'Déplacez-le de chambre en chambre. Les grands modèles (90L Westpoint) couvrent jusqu\'à 80 m².' },
+  { icon: '💸', titre: '10× moins qu\'un clim', desc: 'Un climeur consomme 60–350W contre 800–2000W pour un climatiseur split. Économie de 40 à 70 DT/mois sur la STEG.' },
 ]
 
 const MARQUES = ['Westpoint', 'Coala', 'Sharp', 'Tornado']
 
 const FAQ = [
   {
-    q: 'Qu\'est-ce qu\'un climeur mobile ?',
-    r: 'Un climeur (ou refroidisseur d\'air évaporatif) est un appareil portatif qui refroidit l\'air par évaporation d\'eau. Il ne nécessite pas d\'installation, consomme peu d\'énergie et est idéal pour les pièces sans climatisation fixe.',
+    q: 'Comment fonctionne un climeur évaporatif ?',
+    r: 'Le climeur aspire l\'air chaud, le fait passer à travers des panneaux humidifiés, puis souffle l\'air rafraîchi. L\'évaporation de l\'eau absorbe la chaleur et baisse la température de l\'air de 5 à 10°C — le même principe naturel que la brise au bord de la mer.',
   },
   {
-    q: 'Quelle est la différence entre un climeur et un climatiseur ?',
-    r: 'Le climeur utilise de l\'eau pour refroidir l\'air par évaporation — il est moins cher (à l\'achat et à l\'usage) mais moins puissant par forte humidité. Le climatiseur split est plus efficace mais nécessite une installation fixe.',
+    q: 'Un climeur est-il efficace en Tunisie ?',
+    r: 'Oui, dans les régions intérieures à air sec (Kairouan, Gafsa, Kasserine). En revanche, sur la côte (Tunis, Sfax, Sousse) où l\'humidité est élevée en été, l\'évaporation est réduite et l\'efficacité limitée. Dans ce cas, un climatiseur split reste la meilleure option.',
   },
   {
-    q: 'Quel est le prix d\'un climeur en Tunisie ?',
-    r: 'Les climeurs mobiles coûtent entre 200 et 600 TND selon la capacité du réservoir et la puissance. Comparez les prix en temps réel sur Toprix pour trouver la meilleure offre.',
+    q: 'Quelle est la différence entre un climeur Coala et un Westpoint ?',
+    r: 'Le Coala (6L, 1500 m³/h) est compact et silencieux, idéal pour une chambre ou un bureau. Le Westpoint grand modèle (90L, 8000-10000 m³/h, 350W) est conçu pour couvrir 60 à 80 m² — parfait pour un salon ou un espace ouvert.',
+  },
+  {
+    q: 'Combien consomme un climeur et quel est le prix de revient ?',
+    r: 'Un petit climeur Coala consomme environ 60-100W (comme une ampoule puissante), soit moins de 2 DT/mois. Un grand modèle Westpoint (350W) coûte environ 8-10 DT/mois contre 40-80 DT pour un climatiseur split. C\'est 10 à 15 fois moins cher à utiliser.',
+  },
+  {
+    q: 'Quel est le prix d\'un climeur en Tunisie en 2026 ?',
+    r: 'Les petits climeurs de table (6-10L) coûtent entre 150 et 300 DT. Les modèles moyens (15-30L) sont entre 300 et 500 DT. Les grands climeurs industriels (50-90L Westpoint) atteignent 600 à 1 200 DT. Comparez en temps réel sur Toprix.',
   },
 ]
 

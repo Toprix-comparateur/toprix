@@ -18,10 +18,10 @@ export const metadata: Metadata = {
 }
 
 const GUIDE = [
-  { icon: '💡', titre: 'Lampe UV', desc: 'Attire et électrocute les insectes volants. Silencieux, sans produits chimiques. Idéal pour terrasse ou cuisine.' },
-  { icon: '⚡', titre: 'Raquette électrique', desc: 'Pratique et efficace contre les moustiques. Rechargeable USB, portable partout dans la maison.' },
-  { icon: '🔊', titre: 'Ultrasons', desc: 'Repousse souris et insectes par ondes sonores. Sans danger pour humains et animaux domestiques.' },
-  { icon: '🌿', titre: 'Diffuseur / Spray', desc: 'Diffuse un insecticide en continu. Efficace en intérieur pour une protection durable.' },
+  { icon: '💡', titre: 'Lampe UV électrocutante', desc: 'Attire les insectes par lumière UV et les neutralise par grille électrique (3 800V). 6W → 10 m² · 16W → 40 m² · 2×20W pro → 430 m². Sans produits chimiques.' },
+  { icon: '⚡', titre: 'Raquette électrique', desc: 'Tue instantanément moustiques et mouches par contact. Rechargeable USB, léger (300g). Idéale pour usage ciblé dans la chambre ou le salon.' },
+  { icon: '🔊', titre: 'Ultrasons', desc: 'Émet des ondes sonores imperceptibles pour humains mais insupportables pour rongeurs et certains insectes. Sans chimie, sans odeur, plugged-in 24h/24.' },
+  { icon: '🌿', titre: 'Diffuseur électrique', desc: 'Diffuse en continu une tablette insecticide ou un liquide. Efficace contre moustiques dans 20 m². Préférez les formules sans allergènes pour les enfants.' },
 ]
 
 const MARQUES = ['Silverline', 'Geepas', 'Beorol', 'Kinzo']
@@ -29,15 +29,23 @@ const MARQUES = ['Silverline', 'Geepas', 'Beorol', 'Kinzo']
 const FAQ = [
   {
     q: 'Quel désinsectiseur choisir pour une maison en Tunisie ?',
-    r: 'Pour une terrasse ou un salon, une lampe UV électrocutante est la solution la plus efficace et écologique. Pour les chambres, un diffuseur électrique ou un répulseur à ultrasons est discret et silencieux. La raquette électrique est parfaite pour un usage ponctuel.',
+    r: 'Pour une terrasse ou un grand salon (40 m²+), choisissez une lampe UV de 16 à 20W — sans chimie et silencieuse. Pour une chambre, un diffuseur électrique à tablettes ou un répulseur à ultrasons est plus discret. La raquette électrique rechargeable est parfaite pour intervenir rapidement sur un moustique repéré.',
   },
   {
-    q: 'Les lampes UV anti-insectes sont-elles efficaces contre les moustiques ?',
-    r: 'Oui, les lampes UV attirent les insectes volants (moustiques, mouches) par leur lumière et les neutralisent. Elles sont plus efficaces en intérieur ou en extérieur proche de la maison. Pour un usage extérieur, choisissez un modèle avec une puissance d\'au moins 20W.',
+    q: 'Les lampes UV anti-insectes sont-elles vraiment efficaces contre les moustiques ?',
+    r: 'Les lampes UV attirent et éliminent efficacement mouches, phalènes et coléoptères. Pour les moustiques (surtout le moustique tigre), leur efficacité est plus limitée : ces insectes sont attirés par le CO₂ et la chaleur corporelle plus que par la lumière UV. Pour les moustiques, combinez lampe UV + répulsif cutané ou moustiquaire.',
   },
   {
-    q: 'Quel est le prix d\'un désinsectiseur en Tunisie ?',
-    r: 'Les raquettes électriques débutent à 15 TND. Les lampes UV anti-insectes vont de 40 à 150 TND selon la puissance. Les répulseurs à ultrasons coûtent entre 20 et 60 TND. Comparez sur Toprix pour le meilleur prix.',
+    q: 'Où placer une lampe UV désinsectiseur ?',
+    r: 'Placez la lampe en hauteur (1,5 à 2 m), à l\'intérieur, à l\'abri de la lumière directe du soleil (qui annule l\'attraction UV). Ne la placez pas directement au-dessus des plats ou des aliments. Allumez-la le soir avant l\'arrivée des insectes, et nettoyez le bac de récupération chaque semaine.',
+  },
+  {
+    q: 'Quel est le prix d\'un désinsectiseur en Tunisie en 2026 ?',
+    r: 'Les raquettes électriques USB débutent à 15–25 DT. Les lampes UV de 6W (prise murale) coûtent 20–50 DT, les modèles 16W entre 60 et 120 DT. Les désinsectiseurs professionnels 2×20W (430 m²) atteignent 200–400 DT. Comparez les prix en temps réel sur Toprix.',
+  },
+  {
+    q: 'Les répulseurs à ultrasons sont-ils sûrs pour les animaux de compagnie ?',
+    r: 'Les répulseurs à ultrasons pour insectes émettent des fréquences différentes de celles ciblant les rongeurs. Ils sont généralement sans effet sur chiens et chats. Cependant, évitez de les utiliser si vous avez des rongeurs domestiques (hamster, cochon d\'Inde) ou des oiseaux, qui peuvent être perturbés par certaines fréquences.',
   },
 ]
 
