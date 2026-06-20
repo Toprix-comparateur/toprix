@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { Search, Menu, X } from 'lucide-react'
+import { Search, Menu, X, FileText } from 'lucide-react'
 
 const LIENS_NAV = [
   { href: '/categories', label: 'Catégories' },
@@ -53,6 +53,15 @@ export default function Header() {
             </Link>
 
             <Link
+              href="/devis"
+              aria-label="Demander un devis"
+              className="flex items-center gap-2 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 rounded-lg px-3 py-2 text-sm transition-all"
+            >
+              <FileText size={15} strokeWidth={2} />
+              <span className="hidden sm:inline">Devis</span>
+            </Link>
+
+            <Link
               href="/ajouter"
               className="hidden sm:inline-flex bg-[#F97316] hover:bg-[#EA6C0A] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
             >
@@ -86,7 +95,15 @@ export default function Header() {
                 {label}
               </Link>
             ))}
-            <div className="pt-2 mt-1 border-t border-white/5">
+            <div className="pt-2 mt-1 border-t border-white/5 flex flex-col gap-2">
+              <Link
+                href="/devis"
+                onClick={() => setOpen(false)}
+                className="flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 text-sm font-medium px-4 py-2.5 rounded-lg transition-colors"
+              >
+                <FileText size={14} />
+                Demander un devis
+              </Link>
               <Link
                 href="/ajouter"
                 onClick={() => setOpen(false)}
