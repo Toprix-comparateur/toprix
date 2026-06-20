@@ -96,6 +96,9 @@ export default async function DevisPage({ searchParams }: Props) {
               <p className="text-sm text-[#92400E]">
                 Une copie de votre demande vous sera envoyée par email automatiquement.
               </p>
+              <p className="text-xs text-[#B45309] mt-2">
+                📬 Si vous ne recevez pas l&apos;email, pensez à vérifier votre dossier <strong>Spam / Courrier indésirable</strong>.
+              </p>
             </div>
           </div>
 
