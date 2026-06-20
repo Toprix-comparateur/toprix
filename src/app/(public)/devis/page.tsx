@@ -114,14 +114,14 @@ export default async function DevisPage({ searchParams }: Props) {
                       <User size={11} className="inline mr-1 opacity-60" />
                       Nom <span className="text-[#F97316]">*</span>
                     </label>
-                    <input type="text" name="nom" required className={INPUT} placeholder="Gharbi" />
+                    <input type="text" name="nom" required className={INPUT} placeholder="Votre nom" />
                   </div>
                   <div>
                     <label className={LABEL}>
                       <User size={11} className="inline mr-1 opacity-60" />
                       Prénom <span className="text-[#F97316]">*</span>
                     </label>
-                    <input type="text" name="prenom" required className={INPUT} placeholder="Ghassen" />
+                    <input type="text" name="prenom" required className={INPUT} placeholder="Votre prénom" />
                   </div>
                 </div>
 
