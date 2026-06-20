@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import PageHero from '@/components/ui/PageHero'
 import { FileText, Send, CheckCircle, Phone, Mail, Building2, User, Package } from 'lucide-react'
 import { transporter, CONTACT_EMAIL } from '@/lib/mail'
+import TableProduits from './_TableProduits'
 
 export const metadata: Metadata = {
   title: 'Demande de devis | Toprix',
@@ -11,18 +12,26 @@ export const metadata: Metadata = {
 
 async function envoyerDevis(formData: FormData) {
   'use server'
-  const nom       = formData.get('nom')?.toString().trim() ?? ''
-  const prenom    = formData.get('prenom')?.toString().trim() ?? ''
-  const entreprise= formData.get('entreprise')?.toString().trim() ?? ''
-  const tel       = formData.get('tel')?.toString().trim() ?? ''
-  const email     = formData.get('email')?.toString().trim() ?? ''
-  const produits  = formData.get('produits')?.toString().trim() ?? ''
+  const nom        = formData.get('nom')?.toString().trim() ?? ''
+  const prenom     = formData.get('prenom')?.toString().trim() ?? ''
+  const entreprise = formData.get('entreprise')?.toString().trim() ?? ''
+  const tel        = formData.get('tel')?.toString().trim() ?? ''
+  const email      = formData.get('email')?.toString().trim() ?? ''
 
-  if (nom && prenom && email && produits) {
+  const noms     = formData.getAll('produit').map(v => v.toString().trim())
+  const quantites= formData.getAll('quantite').map(v => v.toString().trim())
+
+  const lignesProduits = noms
+    .map((nom, i) => nom ? `  • ${nom} — ${quantites[i] || '1'} pcs` : '')
+    .filter(Boolean)
+    .join('\n')
+
+  if (nom && prenom && email && lignesProduits) {
     try {
       await transporter.sendMail({
         from: CONTACT_EMAIL,
         to: CONTACT_EMAIL,
+        cc: email,
         replyTo: email,
         subject: `Demande de devis — ${prenom} ${nom}${entreprise ? ` (${entreprise})` : ''}`,
         text: [
@@ -35,7 +44,7 @@ async function envoyerDevis(formData: FormData) {
           ``,
           `PRODUITS DEMANDÉS :`,
           `━━━━━━━━━━━━━━━━━━━━━━━━`,
-          produits,
+          lignesProduits,
         ].filter(Boolean).join('\n'),
       })
     } catch {}
@@ -67,9 +76,9 @@ export default async function DevisPage({ searchParams }: Props) {
           {/* Colonne info */}
           <div className="space-y-4">
             {[
-              { icon: FileText,  titre: 'Devis gratuit',   valeur: 'Sans engagement' },
-              { icon: Mail,      titre: 'Réponse',         valeur: 'Sous 24h' },
-              { icon: Phone,     titre: 'Ou par téléphone',valeur: '+216 XX XXX XXX' },
+              { icon: FileText,  titre: 'Devis gratuit',    valeur: 'Sans engagement' },
+              { icon: Mail,      titre: 'Réponse',          valeur: 'Sous 24h' },
+              { icon: Phone,     titre: 'Ou par téléphone', valeur: '+216 XX XXX XXX' },
             ].map(({ icon: Icon, titre, valeur }) => (
               <div key={titre} className="flex items-start gap-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-4">
                 <div className="w-9 h-9 rounded-xl bg-[#F97316]/10 flex items-center justify-center shrink-0">
@@ -84,8 +93,8 @@ export default async function DevisPage({ searchParams }: Props) {
 
             <div className="bg-[#FFF7ED] border border-[#FED7AA] rounded-2xl p-4 mt-4">
               <p className="text-xs font-semibold text-[#C2410C] uppercase tracking-wide mb-1">Bon à savoir</p>
-              <p className="text-sm text-[#7C3AED]/80 text-[#92400E]">
-                Précisez la quantité souhaitée pour chaque produit afin d&apos;obtenir un devis plus précis.
+              <p className="text-sm text-[#92400E]">
+                Une copie de votre demande vous sera envoyée par email automatiquement.
               </p>
             </div>
           </div>
@@ -98,7 +107,7 @@ export default async function DevisPage({ searchParams }: Props) {
                   <CheckCircle size={32} className="text-green-500" />
                 </div>
                 <p className="font-heading text-[#0F172A] text-xl font-semibold mb-1">Devis envoyé !</p>
-                <p className="text-[#64748B] text-sm mb-6">Nous vous répondrons sous 24h à l&apos;adresse indiquée.</p>
+                <p className="text-[#64748B] text-sm mb-6">Une copie a été envoyée à votre adresse email.</p>
                 <a href="/devis"
                   className="inline-flex items-center gap-2 bg-[#F97316] hover:bg-[#EA6C0A] text-white font-semibold px-5 py-2.5 rounded-xl transition-colors text-sm">
                   Nouvelle demande
@@ -152,20 +161,14 @@ export default async function DevisPage({ searchParams }: Props) {
                   </div>
                 </div>
 
-                {/* Liste des produits */}
+                {/* Table produits */}
                 <div>
                   <label className={LABEL}>
                     <Package size={11} className="inline mr-1 opacity-60" />
                     Liste des produits <span className="text-[#F97316]">*</span>
                   </label>
-                  <textarea
-                    name="produits"
-                    rows={6}
-                    required
-                    className={`${INPUT} resize-none`}
-                    placeholder={`Exemple :\n- Climatiseur Gree 12000 BTU Inverter × 5\n- Ventilateur sur pied Midea × 10\n- Réfrigérateur Samsung 350L × 2`}
-                  />
-                  <p className="text-[#94A3B8] text-xs mt-1">Indiquez le nom du produit et la quantité souhaitée.</p>
+                  <TableProduits />
+                  <p className="text-[#94A3B8] text-xs mt-1.5">Ajoutez autant de lignes que nécessaire.</p>
                 </div>
 
                 {/* Bouton */}
