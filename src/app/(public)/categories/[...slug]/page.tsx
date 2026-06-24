@@ -129,11 +129,11 @@ export default async function CategorieDetailPage({ params, searchParams }: Prop
   const faqs = getFAQsForCategory(slug)
   const faqJsonLd = buildFaqJsonLd(faqs)
 
-  // Filtrer les produits avec slug valide et unique pour le schema ItemList
+  // Filtrer les produits avec id unique pour le schema ItemList
   const produitsUniques = produits
-    .filter((p: any) => p.slug)
+    .filter((p: any) => p.id)
     .reduce((acc: any[], p: any) => {
-      if (!acc.some((x: any) => x.slug === p.slug)) acc.push(p)
+      if (!acc.some((x: any) => x.id === p.id)) acc.push(p)
       return acc
     }, [])
     .slice(0, 30)
@@ -149,7 +149,7 @@ export default async function CategorieDetailPage({ params, searchParams }: Prop
       item: {
         '@type': 'Product',
         name: p.nom,
-        url: `https://toprix.tn/produit/${p.slug}`,
+        url: `https://toprix.tn/produit/${p.id}`,
         ...(p.image ? { image: p.image } : {}),
         ...(p.prix_min != null ? {
           offers: {
