@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import PageHero from '@/components/ui/PageHero'
-import { FileText, Send, CheckCircle, Phone, Mail, Building2, User, Package } from 'lucide-react'
+import { FileText, CheckCircle, Phone, Mail, Building2, User, Package } from 'lucide-react'
 import { transporter, CONTACT_EMAIL } from '@/lib/mail'
 import TableProduits from './_TableProduits'
+import BoutonEnvoyer from './_BoutonEnvoyer'
 
 export const metadata: Metadata = {
   title: 'Demande de devis | Toprix',
@@ -176,11 +177,7 @@ export default async function DevisPage({ searchParams }: Props) {
 
                 {/* Bouton */}
                 <div className="pt-1">
-                  <button type="submit"
-                    className="inline-flex items-center gap-2 bg-[#F97316] hover:bg-[#EA6C0A] text-white font-semibold px-7 py-3 rounded-xl transition-colors text-sm shadow-sm shadow-[#F97316]/30">
-                    <Send size={14} />
-                    Envoyer la demande de devis
-                  </button>
+                  <BoutonEnvoyer />
                 </div>
 
               </form>
