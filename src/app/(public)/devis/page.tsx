@@ -78,8 +78,8 @@ export default async function DevisPage({ searchParams }: Props) {
           <div className="space-y-4">
             {[
               { icon: FileText,  titre: 'Devis gratuit',    valeur: 'Sans engagement' },
-              { icon: Mail,      titre: 'Réponse',          valeur: 'Sous 24h' },
-              { icon: Phone,     titre: 'Ou par téléphone', valeur: '+216 XX XXX XXX' },
+              { icon: Mail,      titre: 'Email',             valeur: 'contact@toprix.tn' },
+              { icon: Phone,     titre: 'Réponse',          valeur: 'Sous 24h' },
             ].map(({ icon: Icon, titre, valeur }) => (
               <div key={titre} className="flex items-start gap-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-4">
                 <div className="w-9 h-9 rounded-xl bg-[#F97316]/10 flex items-center justify-center shrink-0">

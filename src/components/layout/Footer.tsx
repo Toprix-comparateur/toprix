@@ -34,6 +34,9 @@ export default function Footer() {
             <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
               Le comparateur de produits high-tech en Tunisie. Comparez les prix parmi toutes les boutiques en quelques secondes.
             </p>
+            <a href="mailto:contact@toprix.tn" className="inline-flex items-center gap-1.5 text-slate-400 text-sm hover:text-[#F97316] transition-colors mt-3">
+              ✉ contact@toprix.tn
+            </a>
           </div>
 
           {/* Navigation */}

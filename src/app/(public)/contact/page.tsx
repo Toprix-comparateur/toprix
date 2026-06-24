@@ -52,6 +52,7 @@ export default async function ContactPage({ searchParams }: Props) {
           <div className="space-y-4">
             {[
               { icon: MessageSquare, titre: 'Réponse', valeur: 'Sous 12h' },
+              { icon: MessageSquare, titre: 'Email',   valeur: 'contact@toprix.tn' },
             ].map(({ icon: Icon, titre, valeur }) => (
               <div key={titre} className="flex items-start gap-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-4">
                 <div className="w-9 h-9 rounded-xl bg-[#F97316]/10 flex items-center justify-center shrink-0">
