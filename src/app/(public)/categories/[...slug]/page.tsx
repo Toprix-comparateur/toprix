@@ -129,10 +129,39 @@ export default async function CategorieDetailPage({ params, searchParams }: Prop
   const faqs = getFAQsForCategory(slug)
   const faqJsonLd = buildFaqJsonLd(faqs)
 
+  const itemListJsonLd = produits.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: categorie.nom,
+    numberOfItems: meta?.total_items ?? produits.length,
+    itemListElement: produits.slice(0, 30).map((p: any, i: number) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: {
+        '@type': 'Product',
+        name: p.nom,
+        url: `https://toprix.tn/produit/${p.slug}`,
+        ...(p.image ? { image: p.image } : {}),
+        ...(p.prix_min != null ? {
+          offers: {
+            '@type': 'AggregateOffer',
+            priceCurrency: 'TND',
+            lowPrice: p.prix_min,
+            ...(p.prix_max ? { highPrice: p.prix_max } : {}),
+            availability: 'https://schema.org/InStock',
+          },
+        } : {}),
+      },
+    })),
+  } : null
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      {itemListJsonLd && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }} />
+      )}
     <div>
       {/* Breadcrumb hero */}
       <section className="bg-[#0F172A] py-8 px-4 relative overflow-hidden">
