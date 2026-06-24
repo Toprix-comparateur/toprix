@@ -129,12 +129,21 @@ export default async function CategorieDetailPage({ params, searchParams }: Prop
   const faqs = getFAQsForCategory(slug)
   const faqJsonLd = buildFaqJsonLd(faqs)
 
-  const itemListJsonLd = produits.length > 0 ? {
+  // Filtrer les produits avec slug valide et unique pour le schema ItemList
+  const produitsUniques = produits
+    .filter((p: any) => p.slug)
+    .reduce((acc: any[], p: any) => {
+      if (!acc.some((x: any) => x.slug === p.slug)) acc.push(p)
+      return acc
+    }, [])
+    .slice(0, 30)
+
+  const itemListJsonLd = produitsUniques.length > 0 ? {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: categorie.nom,
     numberOfItems: meta?.total_items ?? produits.length,
-    itemListElement: produits.slice(0, 30).map((p: any, i: number) => ({
+    itemListElement: produitsUniques.map((p: any, i: number) => ({
       '@type': 'ListItem',
       position: i + 1,
       item: {
