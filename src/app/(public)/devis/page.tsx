@@ -4,7 +4,7 @@ import PageHero from '@/components/ui/PageHero'
 import { FileText, CheckCircle, Phone, Mail, Building2, User, Package } from 'lucide-react'
 import { transporter, CONTACT_EMAIL } from '@/lib/mail'
 import TableProduits from './_TableProduits'
-import BoutonEnvoyer from './_BoutonEnvoyer'
+import BoutonEnvoyer from '@/components/ui/BoutonEnvoyer'
 
 export const metadata: Metadata = {
   title: 'Demande de devis | Toprix',
@@ -177,7 +177,7 @@ export default async function DevisPage({ searchParams }: Props) {
 
                 {/* Bouton */}
                 <div className="pt-1">
-                  <BoutonEnvoyer />
+                  <BoutonEnvoyer label="Envoyer la demande de devis" />
                 </div>
 
               </form>

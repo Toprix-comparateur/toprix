@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import PageHero from '@/components/ui/PageHero'
-import { MessageSquare, Send, CheckCircle } from 'lucide-react'
+import { MessageSquare, CheckCircle } from 'lucide-react'
 import { transporter, CONTACT_EMAIL } from '@/lib/mail'
+import BoutonEnvoyer from '@/components/ui/BoutonEnvoyer'
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -103,11 +104,7 @@ export default async function ContactPage({ searchParams }: Props) {
                     className="w-full border border-[#E2E8F0] rounded-xl px-4 py-3 text-sm text-[#1E293B] placeholder:text-[#64748B] focus:outline-none focus:border-[#F97316] focus:ring-1 focus:ring-[#F97316]/20 transition-colors resize-none"
                     placeholder="Décrivez votre demande..." />
                 </div>
-                <button type="submit"
-                  className="inline-flex items-center gap-2 bg-[#F97316] hover:bg-[#EA6C0A] text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm">
-                  <Send size={14} />
-                  Envoyer le message
-                </button>
+                <BoutonEnvoyer label="Envoyer le message" />
               </form>
             )}
           </div>
