@@ -212,7 +212,7 @@ export default async function AccueilPage() {
         <div className="max-w-7xl mx-auto flex justify-center">
           <div className="relative w-full sm:w-1/2 group">
             {/* Badge sponsorisé */}
-            <span className="absolute top-3 left-3 z-10 bg-[#D4A574] text-[#1A1207] text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-lg shadow-[#D4A574]/30">
+            <span className="absolute -top-2 right-4 z-10 bg-[#D4A574] text-[#1A1207] text-[9px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full shadow-md">
               Sponsorisé
             </span>
             {/* Halo lumineux */}
