@@ -226,8 +226,8 @@ export default async function AccueilPage() {
               <Image
                 src="/banners/TECHNOTECH-Claude-Pro-banniere-1200x400.webp"
                 alt="Claude Pro - Abonnement officiel 85 DT/mois"
-                width={1200}
-                height={400}
+                width={720}
+                height={130}
                 className="w-full h-auto"
                 priority
               />
