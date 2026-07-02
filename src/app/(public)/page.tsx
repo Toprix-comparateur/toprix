@@ -210,21 +210,29 @@ export default async function AccueilPage() {
       {/* ══════════════ BANNER CLAUDE PRO ════════════════════════════════════════ */}
       <section className="py-6 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto flex justify-center">
-          <a
-            href="https://www.facebook.com/profile.php?id=61573154237841"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block rounded-2xl overflow-hidden hover:opacity-95 transition-opacity w-full sm:w-1/2"
-          >
-            <Image
-              src="/banners/TECHNOTECH-Claude-Pro-banniere-1200x400.webp"
-              alt="Claude Pro - Abonnement officiel 85 DT/mois"
-              width={1200}
-              height={400}
-              className="w-full h-auto"
-              priority
-            />
-          </a>
+          <div className="relative w-full sm:w-1/2 group">
+            {/* Badge sponsorisé */}
+            <span className="absolute top-3 left-3 z-10 bg-[#D4A574] text-[#1A1207] text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-lg shadow-[#D4A574]/30">
+              Sponsorisé
+            </span>
+            {/* Halo lumineux */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-[#D4A574]/20 via-[#F97316]/10 to-[#D4A574]/20 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            <a
+              href="https://www.facebook.com/profile.php?id=61573154237841"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative block rounded-2xl overflow-hidden border border-[#D4A574]/20 group-hover:border-[#D4A574]/50 shadow-lg group-hover:shadow-xl group-hover:shadow-[#D4A574]/10 transition-all duration-300 group-hover:scale-[1.01]"
+            >
+              <Image
+                src="/banners/TECHNOTECH-Claude-Pro-banniere-1200x400.webp"
+                alt="Claude Pro - Abonnement officiel 85 DT/mois"
+                width={1200}
+                height={400}
+                className="w-full h-auto"
+                priority
+              />
+            </a>
+          </div>
         </div>
       </section>
 
