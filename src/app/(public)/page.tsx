@@ -211,7 +211,9 @@ export default async function AccueilPage() {
       <section className="py-6 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           <a
-            href="/devis"
+            href="https://www.facebook.com/profile.php?id=61573154237841"
+            target="_blank"
+            rel="noopener noreferrer"
             className="group relative flex flex-col sm:flex-row items-center gap-6 bg-gradient-to-r from-[#1A1207] via-[#2C1E0F] to-[#1A1207] rounded-2xl p-6 sm:p-8 overflow-hidden border border-[#D4A574]/20 hover:border-[#D4A574]/50 transition-all"
           >
             {/* Halos */}
