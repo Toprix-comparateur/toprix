@@ -224,7 +224,7 @@ export default async function AccueilPage() {
               className="relative block rounded-2xl overflow-hidden border border-[#D4A574]/20 group-hover:border-[#D4A574]/50 shadow-lg group-hover:shadow-xl group-hover:shadow-[#D4A574]/10 transition-all duration-300 group-hover:scale-[1.01]"
             >
               <Image
-                src="/banners/TECHNOTECH-Claude-Pro-banniere-1200x400.webp"
+                src="/banners/TECHNOTECH-Claude-Pro-banniere-720x130.webp"
                 alt="Claude Pro - Abonnement officiel 85 DT/mois"
                 width={720}
                 height={130}
