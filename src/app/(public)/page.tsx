@@ -214,43 +214,16 @@ export default async function AccueilPage() {
             href="https://www.facebook.com/profile.php?id=61573154237841"
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative flex flex-col sm:flex-row items-center gap-6 bg-gradient-to-r from-[#1A1207] via-[#2C1E0F] to-[#1A1207] rounded-2xl p-6 sm:p-8 overflow-hidden border border-[#D4A574]/20 hover:border-[#D4A574]/50 transition-all"
+            className="block rounded-2xl overflow-hidden hover:opacity-95 transition-opacity"
           >
-            {/* Halos */}
-            <div className="absolute -top-20 -right-20 w-60 h-60 bg-[#D4A574] rounded-full blur-[100px] opacity-15 pointer-events-none" />
-            <div className="absolute bottom-0 -left-10 w-40 h-40 bg-[#D4A574] rounded-full blur-[80px] opacity-10 pointer-events-none" />
-
-            {/* Logo Claude */}
-            <div className="shrink-0 w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-[#D4A574] to-[#B8845C] rounded-2xl flex items-center justify-center shadow-lg shadow-[#D4A574]/20">
-              <span className="text-3xl sm:text-4xl">&#x2728;</span>
-            </div>
-
-            {/* Contenu */}
-            <div className="flex-1 text-center sm:text-left">
-              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 mb-1">
-                <p className="text-[#D4A574] text-xs font-bold uppercase tracking-widest">Offre exclusive</p>
-                <span className="hidden sm:block w-1 h-1 bg-[#D4A574]/50 rounded-full" />
-                <p className="text-[#D4A574]/70 text-xs">Version officielle</p>
-              </div>
-              <h3 className="font-heading text-white text-xl sm:text-2xl font-bold mb-1">
-                Claude Pro &mdash; Abonnement officiel
-              </h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                L&apos;IA la plus avancée pour le travail, la recherche et le code.
-                Accès illimité à Claude Opus, Sonnet et Haiku.
-              </p>
-            </div>
-
-            {/* Prix + CTA */}
-            <div className="shrink-0 flex flex-col items-center gap-2">
-              <div className="text-center">
-                <p className="font-heading text-white text-3xl sm:text-4xl font-bold">85 <span className="text-lg">DT</span></p>
-                <p className="text-[#D4A574]/70 text-xs">/mois</p>
-              </div>
-              <span className="inline-flex items-center gap-1.5 bg-[#D4A574] hover:bg-[#C49564] text-[#1A1207] text-xs font-bold px-5 py-2.5 rounded-xl transition-colors shadow-md shadow-[#D4A574]/20">
-                Commander <ArrowRight size={12} />
-              </span>
-            </div>
+            <Image
+              src="/banners/TECHNOTECH-Claude-Pro-banniere-1200x400.webp"
+              alt="Claude Pro - Abonnement officiel 85 DT/mois"
+              width={1200}
+              height={400}
+              className="w-full h-auto"
+              priority
+            />
           </a>
         </div>
       </section>
