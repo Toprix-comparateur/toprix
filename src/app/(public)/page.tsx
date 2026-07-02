@@ -209,12 +209,12 @@ export default async function AccueilPage() {
 
       {/* ══════════════ BANNER CLAUDE PRO ════════════════════════════════════════ */}
       <section className="py-6 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto flex justify-center">
           <a
             href="https://www.facebook.com/profile.php?id=61573154237841"
             target="_blank"
             rel="noopener noreferrer"
-            className="block rounded-2xl overflow-hidden hover:opacity-95 transition-opacity"
+            className="block rounded-2xl overflow-hidden hover:opacity-95 transition-opacity w-full sm:w-1/2"
           >
             <Image
               src="/banners/TECHNOTECH-Claude-Pro-banniere-1200x400.webp"
