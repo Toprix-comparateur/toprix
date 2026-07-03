@@ -97,19 +97,19 @@ export default async function AccueilPage() {
   const tvs          = tvRes.status          === 'fulfilled' ? tvRes.value.data.slice(0, 20)           : []
   const laptops      = laptopsRes.status     === 'fulfilled' ? laptopsRes.value.data.slice(0, 20)      : []
   const climatiseurs = climaRes.status       === 'fulfilled' ? climaRes.value.data.slice(0, 20)        : []
-  const ventilateurs = ventRes.status        === 'fulfilled' ? ventRes.value.data.slice(0, 4)          : []
-  const climeurs     = climeurRes.status     === 'fulfilled' ? climeurRes.value.data.slice(0, 2)       : []
-  const moustiquaires= moustRes.status       === 'fulfilled' ? moustRes.value.data.slice(0, 2)         : []
-  const desinsectiseurs = desinsRes.status   === 'fulfilled' ? desinsRes.value.data.slice(0, 2)        : []
+  const ventilateurs = ventRes.status        === 'fulfilled' ? ventRes.value.data.slice(0, 8)          : []
+  const climeurs     = climeurRes.status     === 'fulfilled' ? climeurRes.value.data.slice(0, 4)       : []
+  const moustiquaires= moustRes.status       === 'fulfilled' ? moustRes.value.data.slice(0, 4)         : []
+  const desinsectiseurs = desinsRes.status   === 'fulfilled' ? desinsRes.value.data.slice(0, 4)        : []
 
   // Tendances été = mix de produits de saison (climatiseurs + ventilateurs + climeurs + moustiquaires + désinsectiseurs)
   const tendances = [
-    ...climatiseurs.slice(0, 3),
-    ...ventilateurs.slice(0, 2),
-    ...climeurs.slice(0, 1),
-    ...moustiquaires.slice(0, 1),
-    ...desinsectiseurs.slice(0, 1),
-  ].slice(0, 8)
+    ...climatiseurs.slice(0, 6),
+    ...ventilateurs.slice(0, 4),
+    ...climeurs.slice(0, 3),
+    ...moustiquaires.slice(0, 3),
+    ...desinsectiseurs.slice(0, 4),
+  ].slice(0, 20)
   // Top promos = 8 premiers produits en promo
   const topPromos = promos.slice(0, 8)
 
