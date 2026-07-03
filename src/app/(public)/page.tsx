@@ -77,14 +77,18 @@ function SectionHeader({
 }
 
 export default async function AccueilPage() {
-  // Chargement parallèle — 6 appels simultanés
-  const [promosRes, smartphonesRes, electroRes, tvRes, laptopsRes, climaRes] = await Promise.allSettled([
+  // Chargement parallèle — 11 appels simultanés
+  const [promosRes, smartphonesRes, electroRes, tvRes, laptopsRes, climaRes, ventRes, climeurRes, moustRes, desinsRes] = await Promise.allSettled([
     getProduits({ en_promo: true }),
     getProduits({ categorie: 'telephonie/smartphone' }),
     getProduits({ categorie: 'electromenager' }),
     getProduits({ categorie: 'tv-et-son/televiseur' }),
     getProduits({ categorie: 'informatique/ordinateur-portable' }),
     getProduits({ categorie: 'electromenager/climatisation' }),
+    getProduits({ q: 'ventilateur' }),
+    getProduits({ q: 'climeur' }),
+    getProduits({ q: 'moustiquaire' }),
+    getProduits({ q: 'desinsectiseur' }),
   ])
 
   const promos       = promosRes.status      === 'fulfilled' ? promosRes.value.data                    : []
@@ -93,11 +97,21 @@ export default async function AccueilPage() {
   const tvs          = tvRes.status          === 'fulfilled' ? tvRes.value.data.slice(0, 20)           : []
   const laptops      = laptopsRes.status     === 'fulfilled' ? laptopsRes.value.data.slice(0, 20)      : []
   const climatiseurs = climaRes.status       === 'fulfilled' ? climaRes.value.data.slice(0, 20)        : []
+  const ventilateurs = ventRes.status        === 'fulfilled' ? ventRes.value.data.slice(0, 4)          : []
+  const climeurs     = climeurRes.status     === 'fulfilled' ? climeurRes.value.data.slice(0, 2)       : []
+  const moustiquaires= moustRes.status       === 'fulfilled' ? moustRes.value.data.slice(0, 2)         : []
+  const desinsectiseurs = desinsRes.status   === 'fulfilled' ? desinsRes.value.data.slice(0, 2)        : []
 
-  // Tendances = 8 premiers produits en promo
-  // Top promos = 8 suivants (produits 9-16)
-  const tendances = promos.slice(0, 8)
-  const topPromos = promos.slice(8, 16)
+  // Tendances été = mix de produits de saison (climatiseurs + ventilateurs + climeurs + moustiquaires + désinsectiseurs)
+  const tendances = [
+    ...climatiseurs.slice(0, 3),
+    ...ventilateurs.slice(0, 2),
+    ...climeurs.slice(0, 1),
+    ...moustiquaires.slice(0, 1),
+    ...desinsectiseurs.slice(0, 1),
+  ].slice(0, 8)
+  // Top promos = 8 premiers produits en promo
+  const topPromos = promos.slice(0, 8)
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -318,10 +332,10 @@ export default async function AccueilPage() {
         <section className="py-12 sm:py-16 px-4 sm:px-6">
           <div className="max-w-7xl mx-auto">
             <SectionHeader
-              eyebrow="En ce moment"
-              title="Tendances actuelles"
+              eyebrow="Produits de saison"
+              title="Indispensables de l'été"
               icon={TrendingUp}
-              href="/rechercher?en_promo=1"
+              href="/ete/climatiseurs"
               linkLabel="Tout voir"
             />
             <CarouselProduits produits={tendances} />
