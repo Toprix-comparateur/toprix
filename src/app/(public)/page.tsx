@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import {
   Search, Zap, ArrowRight, CheckCircle2,
-  TrendingUp, Tag, Smartphone, Home,
+  TrendingUp, Tag, Smartphone, Home, GraduationCap,
 } from 'lucide-react'
 import { getProduits } from '@/lib/api/produits'
 import CarouselProduits from '@/components/ui/CarouselProduits'
@@ -77,18 +77,18 @@ function SectionHeader({
 }
 
 export default async function AccueilPage() {
-  // Chargement parallèle — 11 appels simultanés
-  const [promosRes, smartphonesRes, electroRes, tvRes, laptopsRes, climaRes, ventRes, climeurRes, moustRes, desinsRes] = await Promise.allSettled([
+  // Chargement parallèle — 10 appels simultanés
+  const [promosRes, smartphonesRes, electroRes, tvRes, laptopsRes, climaRes, tabletteRes, imprimanteRes, stockageRes, bureauRes] = await Promise.allSettled([
     getProduits({ en_promo: true }),
     getProduits({ categorie: 'telephonie/smartphone' }),
     getProduits({ categorie: 'electromenager' }),
     getProduits({ categorie: 'tv-et-son/televiseur' }),
     getProduits({ categorie: 'informatique/ordinateur-portable' }),
     getProduits({ categorie: 'electromenager/climatisation' }),
-    getProduits({ q: 'ventilateur' }),
-    getProduits({ q: 'climeur' }),
-    getProduits({ q: 'moustiquaire' }),
-    getProduits({ q: 'desinsectiseur' }),
+    getProduits({ q: 'tablette' }),
+    getProduits({ q: 'imprimante' }),
+    getProduits({ q: 'clé usb' }),
+    getProduits({ categorie: 'bureau-et-papeterie' }),
   ])
 
   const promos       = promosRes.status      === 'fulfilled' ? promosRes.value.data                    : []
@@ -97,18 +97,18 @@ export default async function AccueilPage() {
   const tvs          = tvRes.status          === 'fulfilled' ? tvRes.value.data.slice(0, 20)           : []
   const laptops      = laptopsRes.status     === 'fulfilled' ? laptopsRes.value.data.slice(0, 20)      : []
   const climatiseurs = climaRes.status       === 'fulfilled' ? climaRes.value.data.slice(0, 20)        : []
-  const ventilateurs = ventRes.status        === 'fulfilled' ? ventRes.value.data.slice(0, 8)          : []
-  const climeurs     = climeurRes.status     === 'fulfilled' ? climeurRes.value.data.slice(0, 4)       : []
-  const moustiquaires= moustRes.status       === 'fulfilled' ? moustRes.value.data.slice(0, 4)         : []
-  const desinsectiseurs = desinsRes.status   === 'fulfilled' ? desinsRes.value.data.slice(0, 4)        : []
+  const tablettes    = tabletteRes.status    === 'fulfilled' ? tabletteRes.value.data.slice(0, 8)      : []
+  const imprimantes  = imprimanteRes.status  === 'fulfilled' ? imprimanteRes.value.data.slice(0, 6)    : []
+  const stockage     = stockageRes.status    === 'fulfilled' ? stockageRes.value.data.slice(0, 6)      : []
+  const fournitures  = bureauRes.status      === 'fulfilled' ? bureauRes.value.data.slice(0, 6)        : []
 
-  // Tendances été = mix de produits de saison (climatiseurs + ventilateurs + climeurs + moustiquaires + désinsectiseurs)
+  // Tendances rentrée = mix de produits de saison (laptops + tablettes + imprimantes + stockage + fournitures)
   const tendances = [
-    ...climatiseurs.slice(0, 6),
-    ...ventilateurs.slice(0, 4),
-    ...climeurs.slice(0, 3),
-    ...moustiquaires.slice(0, 3),
-    ...desinsectiseurs.slice(0, 4),
+    ...laptops.slice(0, 6),
+    ...tablettes.slice(0, 4),
+    ...imprimantes.slice(0, 3),
+    ...stockage.slice(0, 4),
+    ...fournitures.slice(0, 3),
   ].slice(0, 20)
   // Top promos = 8 premiers produits en promo
   const topPromos = promos.slice(0, 8)
@@ -250,75 +250,75 @@ export default async function AccueilPage() {
         </div>
       </section>
 
-      {/* ══════════════════════ SÉLECTION ÉTÉ 2026 ══════════════════════════════ */}
+      {/* ══════════════════════ TENDANCE BACK TO SCHOOL ═════════════════════════ */}
       <section className="py-10 sm:py-12 px-4 sm:px-6 bg-[#0F172A]">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-6">
             <div>
               <p className="text-[#F97316] text-xs font-semibold uppercase tracking-widest mb-1 flex items-center gap-1.5">
-                <Zap size={11} /> Sélection Été 2026
+                <GraduationCap size={12} /> Tendance Back to School
               </p>
-              <h2 className="font-heading text-2xl md:text-3xl" style={{ color: 'white' }}>Climatisation &amp; Fraîcheur</h2>
+              <h2 className="font-heading text-2xl md:text-3xl" style={{ color: 'white' }}>Rentrée 2026</h2>
             </div>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
 
-            <Link href="/ete/climatiseurs"
-              className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#0C4A6E] to-[#1E293B] p-6 border border-white/10 hover:border-[#38BDF8]/50 transition-all">
-              <div className="absolute right-4 bottom-4 text-8xl opacity-10 select-none pointer-events-none">❄️</div>
-              <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#38BDF8] to-transparent" />
-              <span className="text-[#7DD3FC] text-[11px] font-bold uppercase tracking-widest mb-3 block">Climatiseurs</span>
-              <p className="font-heading text-xl font-bold mb-1" style={{ color: 'white' }}>116+ modèles</p>
-              <p className="text-slate-400 text-sm mb-5">Split · Inverter · 9 000 à 48 000 BTU</p>
-              <span className="inline-flex items-center gap-1.5 text-[#38BDF8] text-sm font-semibold group-hover:gap-3 transition-all">
+            <Link href="/categories/informatique/ordinateur-portable"
+              className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#312E81] to-[#1E293B] p-6 border border-white/10 hover:border-[#818CF8]/50 transition-all">
+              <div className="absolute right-4 bottom-4 text-8xl opacity-10 select-none pointer-events-none">💻</div>
+              <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#818CF8] to-transparent" />
+              <span className="text-[#A5B4FC] text-[11px] font-bold uppercase tracking-widest mb-3 block">PC portables</span>
+              <p className="font-heading text-xl font-bold mb-1" style={{ color: 'white' }}>Études &amp; bureautique</p>
+              <p className="text-slate-400 text-sm mb-5">Core i5 · Ryzen 5 · SSD 512 Go</p>
+              <span className="inline-flex items-center gap-1.5 text-[#818CF8] text-sm font-semibold group-hover:gap-3 transition-all">
                 Voir les prix <ArrowRight size={13} />
               </span>
             </Link>
 
-            <Link href="/ete/ventilateurs"
-              className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1E3A5F] to-[#1E293B] p-6 border border-white/10 hover:border-[#93C5FD]/50 transition-all">
-              <div className="absolute right-4 bottom-4 text-8xl opacity-10 select-none pointer-events-none">🌬️</div>
-              <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#60A5FA] to-transparent" />
-              <span className="text-[#93C5FD] text-[11px] font-bold uppercase tracking-widest mb-3 block">Ventilateurs</span>
-              <p className="font-heading text-xl font-bold mb-1" style={{ color: 'white' }}>180+ modèles</p>
-              <p className="text-slate-400 text-sm mb-5">Sur pied · Mural · Table · Portatif</p>
-              <span className="inline-flex items-center gap-1.5 text-[#60A5FA] text-sm font-semibold group-hover:gap-3 transition-all">
-                Voir les prix <ArrowRight size={13} />
-              </span>
-            </Link>
-
-            <Link href="/ete/climeur"
-              className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-950 to-[#1E293B] p-6 border border-white/10 hover:border-[#34D399]/50 transition-all">
-              <div className="absolute right-4 bottom-4 text-8xl opacity-10 select-none pointer-events-none">💦</div>
-              <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#34D399] to-transparent" />
-              <span className="text-[#6EE7B7] text-[11px] font-bold uppercase tracking-widest mb-3 block">Climeurs mobiles</span>
-              <p className="font-heading text-xl font-bold mb-1" style={{ color: 'white' }}>19+ modèles</p>
-              <p className="text-slate-400 text-sm mb-5">Évaporatif · Portatif · Sans installation</p>
-              <span className="inline-flex items-center gap-1.5 text-[#34D399] text-sm font-semibold group-hover:gap-3 transition-all">
-                Voir les prix <ArrowRight size={13} />
-              </span>
-            </Link>
-
-            <Link href="/ete/moustiquaires"
-              className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#78350F] to-[#1E293B] p-6 border border-white/10 hover:border-[#FCD34D]/50 transition-all">
-              <div className="absolute right-4 bottom-4 text-8xl opacity-10 select-none pointer-events-none">🦟</div>
-              <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#FCD34D] to-transparent" />
-              <span className="text-[#FDE68A] text-[11px] font-bold uppercase tracking-widest mb-3 block">Moustiquaires</span>
-              <p className="font-heading text-xl font-bold mb-1" style={{ color: 'white' }}>Fenêtre & Porte</p>
-              <p className="text-slate-400 text-sm mb-5">Plissée · Magnétique · Lit · Camping</p>
-              <span className="inline-flex items-center gap-1.5 text-[#FCD34D] text-sm font-semibold group-hover:gap-3 transition-all">
-                Voir les prix <ArrowRight size={13} />
-              </span>
-            </Link>
-
-            <Link href="/ete/desinsectiseur"
-              className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#4C1D95] to-[#1E293B] p-6 border border-white/10 hover:border-[#C4B5FD]/50 transition-all">
-              <div className="absolute right-4 bottom-4 text-8xl opacity-10 select-none pointer-events-none">⚡</div>
+            <Link href="/rechercher?q=tablette&tri=prix_asc"
+              className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#4C1D95] to-[#1E293B] p-6 border border-white/10 hover:border-[#A78BFA]/50 transition-all">
+              <div className="absolute right-4 bottom-4 text-8xl opacity-10 select-none pointer-events-none">📱</div>
               <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#A78BFA] to-transparent" />
-              <span className="text-[#C4B5FD] text-[11px] font-bold uppercase tracking-widest mb-3 block">Désinsectiseurs</span>
-              <p className="font-heading text-xl font-bold mb-1" style={{ color: 'white' }}>Lampe UV & Raquette</p>
-              <p className="text-slate-400 text-sm mb-5">Électrique · Ultrasons · Spray</p>
+              <span className="text-[#C4B5FD] text-[11px] font-bold uppercase tracking-widest mb-3 block">Tablettes</span>
+              <p className="font-heading text-xl font-bold mb-1" style={{ color: 'white' }}>Cours &amp; prise de notes</p>
+              <p className="text-slate-400 text-sm mb-5">Android · iPad · Stylet · Clavier</p>
               <span className="inline-flex items-center gap-1.5 text-[#A78BFA] text-sm font-semibold group-hover:gap-3 transition-all">
+                Voir les prix <ArrowRight size={13} />
+              </span>
+            </Link>
+
+            <Link href="/rechercher?q=imprimante&tri=prix_asc"
+              className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#134E4A] to-[#1E293B] p-6 border border-white/10 hover:border-[#2DD4BF]/50 transition-all">
+              <div className="absolute right-4 bottom-4 text-8xl opacity-10 select-none pointer-events-none">🖨️</div>
+              <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#2DD4BF] to-transparent" />
+              <span className="text-[#5EEAD4] text-[11px] font-bold uppercase tracking-widest mb-3 block">Imprimantes</span>
+              <p className="font-heading text-xl font-bold mb-1" style={{ color: 'white' }}>Jet d&apos;encre &amp; laser</p>
+              <p className="text-slate-400 text-sm mb-5">Multifonction · Tank · Wi-Fi</p>
+              <span className="inline-flex items-center gap-1.5 text-[#2DD4BF] text-sm font-semibold group-hover:gap-3 transition-all">
+                Voir les prix <ArrowRight size={13} />
+              </span>
+            </Link>
+
+            <Link href="/rechercher?q=cl%C3%A9%20usb&tri=prix_asc"
+              className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#78350F] to-[#1E293B] p-6 border border-white/10 hover:border-[#FBBF24]/50 transition-all">
+              <div className="absolute right-4 bottom-4 text-8xl opacity-10 select-none pointer-events-none">💾</div>
+              <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#FBBF24] to-transparent" />
+              <span className="text-[#FDE68A] text-[11px] font-bold uppercase tracking-widest mb-3 block">Stockage</span>
+              <p className="font-heading text-xl font-bold mb-1" style={{ color: 'white' }}>Clés USB &amp; SSD</p>
+              <p className="text-slate-400 text-sm mb-5">64 Go à 2 To · USB-C · NVMe</p>
+              <span className="inline-flex items-center gap-1.5 text-[#FBBF24] text-sm font-semibold group-hover:gap-3 transition-all">
+                Voir les prix <ArrowRight size={13} />
+              </span>
+            </Link>
+
+            <Link href="/categories/bureau-et-papeterie"
+              className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#881337] to-[#1E293B] p-6 border border-white/10 hover:border-[#FB7185]/50 transition-all">
+              <div className="absolute right-4 bottom-4 text-8xl opacity-10 select-none pointer-events-none">🎒</div>
+              <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#FB7185] to-transparent" />
+              <span className="text-[#FDA4AF] text-[11px] font-bold uppercase tracking-widest mb-3 block">Fournitures</span>
+              <p className="font-heading text-xl font-bold mb-1" style={{ color: 'white' }}>Bureau &amp; papeterie</p>
+              <p className="text-slate-400 text-sm mb-5">Cartables · Calculatrices · Cahiers</p>
+              <span className="inline-flex items-center gap-1.5 text-[#FB7185] text-sm font-semibold group-hover:gap-3 transition-all">
                 Voir les prix <ArrowRight size={13} />
               </span>
             </Link>
@@ -333,9 +333,9 @@ export default async function AccueilPage() {
           <div className="max-w-7xl mx-auto">
             <SectionHeader
               eyebrow="Produits de saison"
-              title="Indispensables de l'été"
+              title="Indispensables de la rentrée"
               icon={TrendingUp}
-              href="/ete/climatiseurs"
+              href="/categories/informatique/ordinateur-portable"
               linkLabel="Tout voir"
             />
             <CarouselProduits produits={tendances} />
