@@ -5,6 +5,7 @@ import {
   TrendingUp, Tag, Smartphone, Home, GraduationCap,
 } from 'lucide-react'
 import { getProduits } from '@/lib/api/produits'
+import type { Produit } from '@/types'
 import CarouselProduits from '@/components/ui/CarouselProduits'
 import Image from 'next/image'
 import MarqueeMarques from '@/components/ui/MarqueeMarques'
@@ -77,8 +78,12 @@ function SectionHeader({
 }
 
 export default async function AccueilPage() {
-  // Chargement parallèle — 10 appels simultanés
-  const [promosRes, smartphonesRes, electroRes, tvRes, laptopsRes, climaRes, tabletteRes, imprimanteRes, stockageRes, bureauRes] = await Promise.allSettled([
+  // Chargement parallèle — 15 appels simultanés
+  const [
+    promosRes, smartphonesRes, electroRes, tvRes, laptopsRes, climaRes,
+    tabletteRes, imprimanteRes, stockageRes, bureauRes,
+    sacRes, cahierRes, styloRes, ramRes, papierRes,
+  ] = await Promise.allSettled([
     getProduits({ en_promo: true }),
     getProduits({ categorie: 'telephonie/smartphone' }),
     getProduits({ categorie: 'electromenager' }),
@@ -89,6 +94,11 @@ export default async function AccueilPage() {
     getProduits({ q: 'imprimante' }),
     getProduits({ q: 'clé usb' }),
     getProduits({ categorie: 'bureau-et-papeterie' }),
+    getProduits({ q: 'sac à dos' }),
+    getProduits({ q: 'cahier' }),
+    getProduits({ q: 'stylo' }),
+    getProduits({ q: 'ram' }),
+    getProduits({ q: 'papier' }),
   ])
 
   const promos       = promosRes.status      === 'fulfilled' ? promosRes.value.data                    : []
@@ -97,19 +107,38 @@ export default async function AccueilPage() {
   const tvs          = tvRes.status          === 'fulfilled' ? tvRes.value.data.slice(0, 20)           : []
   const laptops      = laptopsRes.status     === 'fulfilled' ? laptopsRes.value.data.slice(0, 20)      : []
   const climatiseurs = climaRes.status       === 'fulfilled' ? climaRes.value.data.slice(0, 20)        : []
-  const tablettes    = tabletteRes.status    === 'fulfilled' ? tabletteRes.value.data.slice(0, 8)      : []
+  const tablettes    = tabletteRes.status    === 'fulfilled' ? tabletteRes.value.data.slice(0, 6)      : []
   const imprimantes  = imprimanteRes.status  === 'fulfilled' ? imprimanteRes.value.data.slice(0, 6)    : []
   const stockage     = stockageRes.status    === 'fulfilled' ? stockageRes.value.data.slice(0, 6)      : []
   const fournitures  = bureauRes.status      === 'fulfilled' ? bureauRes.value.data.slice(0, 6)        : []
+  const sacs         = sacRes.status         === 'fulfilled' ? sacRes.value.data.slice(0, 6)           : []
+  const cahiers      = cahierRes.status      === 'fulfilled' ? cahierRes.value.data.slice(0, 6)        : []
+  const stylos       = styloRes.status       === 'fulfilled' ? styloRes.value.data.slice(0, 6)         : []
+  const rams         = ramRes.status         === 'fulfilled' ? ramRes.value.data.slice(0, 6)           : []
+  const papiers      = papierRes.status      === 'fulfilled' ? papierRes.value.data.slice(0, 6)        : []
 
-  // Tendances rentrée = mix de produits de saison (laptops + tablettes + imprimantes + stockage + fournitures)
-  const tendances = [
-    ...laptops.slice(0, 6),
-    ...tablettes.slice(0, 4),
-    ...imprimantes.slice(0, 3),
-    ...stockage.slice(0, 4),
-    ...fournitures.slice(0, 3),
-  ].slice(0, 20)
+  // Tendances rentrée — round-robin sur les familles back to school.
+  // Aucune famille ne monopolise le carrousel, et une famille vide (terme sans
+  // résultat dans le catalogue) ne laisse pas de trou : les autres comblent.
+  const TENDANCES_MAX = 24
+  const famillesRentree = [
+    laptops, tablettes, imprimantes, stockage, rams,
+    sacs, fournitures, cahiers, stylos, papiers,
+  ]
+  const tendances: Produit[] = []
+  const vus = new Set<string>()
+  const profondeurMax = Math.max(...famillesRentree.map(f => f.length))
+  for (let i = 0; i < profondeurMax && tendances.length < TENDANCES_MAX; i++) {
+    for (const famille of famillesRentree) {
+      if (tendances.length >= TENDANCES_MAX) break
+      const p = famille[i]
+      // Dédoublonnage : un même produit peut matcher plusieurs termes
+      if (p && !vus.has(p.id)) {
+        vus.add(p.id)
+        tendances.push(p)
+      }
+    }
+  }
   // Top promos = 8 premiers produits en promo
   const topPromos = promos.slice(0, 8)
 
@@ -317,7 +346,7 @@ export default async function AccueilPage() {
               <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#FB7185] to-transparent" />
               <span className="text-[#FDA4AF] text-[11px] font-bold uppercase tracking-widest mb-3 block">Fournitures</span>
               <p className="font-heading text-xl font-bold mb-1" style={{ color: 'white' }}>Bureau &amp; papeterie</p>
-              <p className="text-slate-400 text-sm mb-5">Cartables · Calculatrices · Cahiers</p>
+              <p className="text-slate-400 text-sm mb-5">Sacs à dos · Cahiers · Stylos · Papier</p>
               <span className="inline-flex items-center gap-1.5 text-[#FB7185] text-sm font-semibold group-hover:gap-3 transition-all">
                 Voir les prix <ArrowRight size={13} />
               </span>
