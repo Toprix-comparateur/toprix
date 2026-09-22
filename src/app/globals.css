@@ -70,15 +70,14 @@ h1,h2,h3,h4,h5,h6 {
   animation-play-state: paused;
 }
 
-/* ─── Empêcher AdSense auto-ads de bloquer la grille produits ─── */
+/* ─── Zone filtres + grille produits ───
+   Les règles qui masquaient ici les Auto Ads (display:none sur ins.adsbygoogle
+   et sur les iframes Google) ont été retirées : masquer une annonce enfreint
+   les règles AdSense, et cela provoquait le TagError « No slot size for
+   availableWidth=0 » en poussant sur un élément de largeur nulle.
+   Ces pages sont désormais exclues des Auto Ads et utilisent des blocs
+   manuels (voir src/lib/ads.ts). */
 .products-grid-zone {
   position: relative;
   z-index: 1;
-}
-.products-grid-zone ins.adsbygoogle {
-  display: none !important;
-}
-.products-grid-zone iframe[id^="google_ads"],
-.products-grid-zone iframe[id^="aswift"] {
-  display: none !important;
 }

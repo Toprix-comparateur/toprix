@@ -1,9 +1,7 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import Script from 'next/script'
-
-const ADSENSE_ID = 'ca-pub-8451378376537532'
+import { ADSENSE_CLIENT } from '@/lib/ads'
 
 // Pages où AdSense est désactivé
 const PAGES_SANS_ADS = ['/rechercher']
@@ -15,12 +13,14 @@ export default function AdSenseScript() {
     return null
   }
 
+  // Balise <script> native plutôt que next/script : React 19 la remonte seule
+  // dans le <head> et n'ajoute pas l'attribut data-nscript, qu'AdSense refuse
+  // (« AdSense head tag doesn't support data-nscript attribute »).
   return (
-    <Script
+    <script
       async
-      src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_ID}`}
+      src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
       crossOrigin="anonymous"
-      strategy="lazyOnload"
     />
   )
 }
