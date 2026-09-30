@@ -261,16 +261,16 @@ export default async function AccueilPage() {
             {/* Halo lumineux */}
             <div className="absolute -inset-1 bg-gradient-to-r from-[#D4A574]/20 via-[#F97316]/10 to-[#D4A574]/20 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
             <a
-              href="https://www.facebook.com/profile.php?id=61573154237841"
+              href="https://www.facebook.com/profile.php?id=61594263352905"
               target="_blank"
               rel="noopener noreferrer"
               className="relative block rounded-2xl overflow-hidden border border-[#D4A574]/20 group-hover:border-[#D4A574]/50 shadow-lg group-hover:shadow-xl group-hover:shadow-[#D4A574]/10 transition-all duration-300 group-hover:scale-[1.01]"
             >
               <Image
-                src="/banners/TECHNOTECH-Claude-Pro-banniere-720x130.webp"
-                alt="Claude Pro - Abonnement officiel 85 DT/mois"
-                width={720}
-                height={130}
+                src="/banners/TECHNOTECH-Claude-Official-banniere-1280x296.webp"
+                alt="Claude Official en Tunisie — abonnement 90 DT/mois, paiement en dinars"
+                width={1280}
+                height={296}
                 className="w-full h-auto"
                 priority
               />
