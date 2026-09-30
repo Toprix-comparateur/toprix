@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk } from 'next/font/google'
 import Script from 'next/script'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import AdSenseScript from '@/components/ads/AdSenseScript'
+import MessengerButton from '@/components/chat/MessengerButton'
 import './globals.css'
 
 const inter = Inter({
@@ -135,18 +136,8 @@ gtag('config','${GA4_ID}');`}
         {/* ── 4. Google AdSense ── désactivé sur /rechercher */}
         <AdSenseScript />
 
-        {/* ── 5. Tawk.to Live Chat ── */}
-        <Script id="tawk-to" strategy="lazyOnload">
-          {`var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/69b9467bc4b5991c3637f57b/1jjtrmkdt';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();`}
-        </Script>
+        {/* ── 5. Messenger ── remplace Tawk.to */}
+        <MessengerButton />
       </body>
     </html>
   )
